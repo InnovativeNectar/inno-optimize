@@ -1,0 +1,289 @@
+# inno-optimize Configuration
+# Place at .inno-optimize/config.yaml in your project root
+
+# Core Settings
+mode: hybrid                    # local | distributed | hybrid
+projectId: my-business-app
+memoryNamespace: inno-optimize
+
+# Analysis Engine
+analysis:
+  enabled: true
+  languages:                    # Languages to analyze
+    - typescript
+    - python
+    - go
+    - java
+    - rust
+  depth: deep                   # quick | deep
+  excludePatterns:
+    - "**/node_modules/**"
+    - "**/dist/**"
+    - "**/*.test.ts"
+    - "**/*.spec.ts"
+  incremental: true             # Enable incremental analysis
+  watchMode: true               # Watch for file changes
+
+# Architecture Scoring
+scoring:
+  weights:
+    maintainability: 0.35
+    scalability: 0.25
+    security: 0.25
+    performance: 0.15
+  thresholds:
+    maintainability: 70
+    scalability: 65
+    security: 80
+    performance: 60
+    overall: 70
+  profiles:
+    microservices:
+      maintainability: 0.30
+      scalability: 0.35
+      security: 0.20
+      performance: 0.15
+    monolith:
+      maintainability: 0.40
+      scalability: 0.15
+      security: 0.25
+      performance: 0.20
+    library:
+      maintainability: 0.45
+      scalability: 0.10
+      security: 0.20
+      performance: 0.25
+
+# ADR Automation
+adr:
+  enabled: true
+  autoGenerate: true
+  requiredForMerge: true
+  ciIntegration: true
+  statuses: [proposed, accepted, superseded, deprecated]
+  template: .inno-optimize/templates/adr-template.md
+  anchorToCode: true
+
+# Intelligence Layer
+intelligence:
+  enabled: true
+  memory:
+    workingCacheSize: 10000
+    workingCacheTTL: 300000
+    episodicRetentionDays: 30
+    semanticDimensions: 384
+    deepDimensions: 1536
+  hnsw:
+    M: 16
+    efConstruction: 200
+    efSearch: 100
+  quantization:
+    defaultLevel: pq8
+    levels:
+      fast: pq8
+      balanced: pq4
+      compressed: rabitq
+      minimal: binary
+  sona:
+    enabled: true
+    learningRate: 0.01
+    maxPatterns: 10000
+    modes:
+      - convergent
+      - divergent
+      - lateral
+      - systems
+      - critical
+  reasoningBank:
+    enabled: true
+    retrieveK: 10
+    judgeThreshold: 0.7
+    distillTimeout: 100
+    consolidateInterval: 3600000
+  ewc:
+    enabled: true
+    lambda: 10
+    onlineUpdates: true
+
+# Coordination Layer
+coordination:
+  enabled: true
+  swarm:
+    topology: hierarchical-mesh
+    maxAgents: 12
+    consensus: raft
+    antiDrift: true
+    persistent: true
+  pheromone:
+    enabled: true
+    alpha: 0.3
+    thetaMultiplier: 0.6
+    warmupSamples: 3
+    protectedRoles:
+      - coordinator
+      - queen
+      - security
+    minActiveAgents: 3
+  saga:
+    enabled: true
+    timeout: 300000
+    retryPolicy:
+      maxRetries: 3
+      backoff: exponential
+
+# Integration Layer
+integration:
+  mcp:
+    enabled: true
+    catalogUrl: https://catalog.inno-optimize.io
+    cacheTTL: 300
+    allowedServers:
+      - inno-optimize-core
+      - business-*
+      - github
+      - filesystem
+    requireApproval:
+      - write
+      - execute
+      - deploy
+      - payment_process
+    denyDestructive: true
+    rateLimits:
+      default: 100/min
+      business-payments: 10/min
+      business-orders: 50/min
+  tools:
+    routing:
+      defaultTier: 2
+      codemodRegistry: .inno-optimize/codemods
+      patternMemory: inno-optimize-patterns
+
+# Deployment
+deployment:
+  local:
+    database:
+      type: sqlite
+      path: .inno-optimize/agentdb.sqlite
+    hnsw:
+      inProcess: true
+    workers:
+      maxConcurrent: 3
+  distributed:
+    database:
+      type: agentdb-cluster
+      url: http://agentdb:8080
+    hnsw:
+      cluster: hnsw-0.hnsw,hnsw-1.hnsw,hnsw-2.hnsw
+    messageBus:
+      type: nats
+      url: nats://nats:4222
+    workers:
+      maxConcurrent: 50
+      autoScale: true
+  hybrid:
+    localAnalysis: true
+    localExecution: true
+    remoteIntelligence:
+      endpoint: https://intelligence.inno-optimize.io
+    remoteHNSW:
+      endpoint: https://hnsw.inno-optimize.io
+    remoteCoordination:
+      endpoint: wss://coordination.inno-optimize.io
+    syncInterval: 300
+    conflictResolution: semantic_merge
+
+# Security
+security:
+  authentication:
+    type: jwt
+    issuer: inno-optimize
+    audience: inno-optimize-api
+  authorization:
+    type: capability-based
+    defaultDeny: true
+  mcp:
+    allowDestructiveTools: false
+    allowedServers:
+      - inno-optimize-core
+      - business-operations
+      - github
+      - filesystem
+    deniedCapabilities:
+      - shell_exec
+      - file_delete
+      - network_raw
+    requireApproval:
+      - write
+      - execute
+      - deploy
+  audit:
+    enabled: true
+    logAllChanges: true
+    immutableLog: true
+
+# Observability
+observability:
+  metrics:
+    enabled: true
+    port: 9090
+    path: /metrics
+  logging:
+    level: info
+    format: json
+    destination: stdout
+  tracing:
+    enabled: true
+    sampler: probabilistic
+    rate: 0.1
+  alerts:
+    rules:
+      - name: ArchitectureScoreDegraded
+        expr: architecture_score_overall < 70
+        for: 5m
+        severity: warning
+      - name: HNSWLatencyHigh
+        expr: histogram_quantile(0.99, hnsw_search_duration_seconds) > 0.001
+        for: 2m
+        severity: critical
+      - name: PheromoneEligibilityLow
+        expr: eligible_agents / total_agents < 0.5
+        for: 10m
+        severity: warning
+      - name: RegressionDetected
+        expr: benchmark_delta > 0.10
+        for: 0m
+        severity: critical
+
+# Business Connectors
+connectors:
+  orders:
+    enabled: true
+    type: rest
+    baseUrl: ${ORDERS_API_URL}
+    auth: oauth2
+  inventory:
+    enabled: true
+    type: graphql
+    baseUrl: ${INVENTORY_API_URL}
+    auth: api_key
+  payments:
+    enabled: true
+    type: rest
+    baseUrl: ${PAYMENTS_API_URL}
+    auth: mtls
+  crm:
+    enabled: true
+    type: rest
+    baseUrl: ${CRM_API_URL}
+    auth: oauth2
+  messaging:
+    enabled: true
+    type: rest
+    baseUrl: ${MESSAGING_API_URL}
+    auth: api_key
+
+# Templates
+templates:
+  businessProcessAgent: .inno-optimize/templates/business-process-agent.yaml
+  analyticsAgent: .inno-optimize/templates/analytics-agent.yaml
+  complianceAgent: .inno-optimize/templates/compliance-agent.yaml

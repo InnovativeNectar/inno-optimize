@@ -1,0 +1,20 @@
+{
+  "name": "@inno-optimize/agentdb",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@ruvector/agentdb": "^0.3.0",
+    "hnswlib-node": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "@types/node": "^20.10.0"
+  }
+}

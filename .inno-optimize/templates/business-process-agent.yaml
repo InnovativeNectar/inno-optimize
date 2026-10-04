@@ -1,0 +1,79 @@
+# Business Process Agent Template
+
+name: business-process-agent
+version: 1.0.0
+description: Template for business workflow automation agents
+model: sonnet
+
+capabilities:
+  mcp_tools:
+    - orders
+    - inventory
+    - payments
+    - crm
+    - messaging
+  saga_orchestration: true
+  compensation_handling: true
+  idempotency: true
+  retry_policy:
+    max_retries: 3
+    backoff: exponential
+    base_delay_ms: 1000
+
+memory:
+  namespace: business-processes
+  retention_days: 90
+  working_cache_size: 5000
+
+hooks:
+  pre_execute:
+    - validate_business_rules
+    - check_idempotency_key
+  post_execute:
+    - audit_log
+    - update_metrics
+  on_error:
+    - compensate_and_alert
+    - create_incident_ticket
+
+routing:
+  default_tier: 2
+  tier_1_patterns:
+    - order_validation
+    - inventory_check
+    - payment_verification
+  tier_2_patterns:
+    - order_processing
+    - fulfillment_workflow
+    - customer_notification
+  tier_3_patterns:
+    - exception_handling
+    - complex_reconciliation
+    - multi_system_coordination
+
+sagas:
+  - order-processing
+  - order-cancellation
+  - return-processing
+  - payment-reconciliation
+
+business_rules:
+  - min_order_value: 0
+  - max_order_value: 100000
+  - require_payment_confirmation: true
+  - reserve_inventory_before_payment: true
+  - notify_customer_on_status_change: true
+
+monitoring:
+  metrics:
+    - orders_processed_total
+    - order_processing_duration_seconds
+    - compensation_triggered_total
+    - saga_failure_rate
+  alerts:
+    - name: high_failure_rate
+      expr: rate(saga_failures[5m]) > 0.05
+      severity: critical
+    - name: slow_processing
+      expr: histogram_quantile(0.95, order_processing_duration) > 30
+      severity: warning

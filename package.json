@@ -1,0 +1,35 @@
+{
+  "name": "inno-optimize",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint packages/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "dev": "npm run dev --workspaces",
+    "benchmark": "node packages/agentdb/benchmarks/index.js",
+    "adr:check": "node packages/adr-automation/dist/ci-integration.js check-pr",
+    "adr:generate": "node packages/adr-automation/dist/ci-integration.js generate",
+    "clean": "rm -rf packages/*/dist coverage .turbo",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "@types/node": "^20.10.0",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "conventional-changelog-cli": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "npm@10.2.0"
+}

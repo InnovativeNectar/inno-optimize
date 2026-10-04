@@ -1,0 +1,127 @@
+# Analytics Agent Template
+
+name: analytics-agent
+version: 1.0.0
+description: Template for business intelligence and analytics agents
+model: sonnet
+
+capabilities:
+  sql_query: true
+  vector_search: true
+  ml_inference: true
+  report_generation: true
+  data_visualization: true
+  mcp_tools:
+    - analytics
+    - data-warehouse
+    - ml-platform
+
+memory:
+  namespace: analytics
+  retention_days: 365
+  working_cache_size: 10000
+
+hooks:
+  pre_query:
+    - check_data_freshness
+    - validate_query_permissions
+    - estimate_query_cost
+  post_query:
+    - cache_results
+    - log_query_performance
+    - update_data_lineage
+  on_error:
+    - fallback_to_cached
+    - alert_data_team
+
+routing:
+  default_tier: 2
+  tier_1_patterns:
+    - simple_aggregation
+    - cached_report
+    - dashboard_refresh
+  tier_2_patterns:
+    - ad_hoc_analysis
+    - trend_detection
+    - anomaly_detection
+  tier_3_patterns:
+    - predictive_modeling
+    - complex_attribution
+    - causal_inference
+
+analytics:
+  data_sources:
+    - name: orders
+      type: postgresql
+      connection: ${ORDERS_DB_URL}
+      tables: [orders, order_items, customers]
+    - name: events
+      type: clickhouse
+      connection: ${EVENTS_DB_URL}
+      tables: [events, sessions, users]
+    - name: inventory
+      type: mysql
+      connection: ${INVENTORY_DB_URL}
+      tables: [products, stock, warehouses]
+
+  metrics:
+    - name: revenue
+      query: |
+        SELECT DATE_TRUNC('day', created_at) as day, SUM(total) as revenue
+        FROM orders WHERE status != 'cancelled'
+        GROUP BY day ORDER BY day DESC
+      refresh: hourly
+    - name: conversion_rate
+      query: |
+        SELECT 
+          COUNT(DISTINCT CASE WHEN status != 'cancelled' THEN customer_id END)::float /
+          NULLIF(COUNT(DISTINCT customer_id), 0) as rate
+        FROM orders
+        WHERE created_at > NOW() - INTERVAL '30 days'
+      refresh: daily
+    - name: avg_order_value
+      query: |
+        SELECT AVG(total) FROM orders WHERE status != 'cancelled'
+      refresh: hourly
+
+  reports:
+    - name: daily_summary
+      schedule: "0 6 * * *"
+      format: pdf
+      recipients: [analytics-team, management]
+      sections: [revenue, orders, customers, inventory]
+    - name: weekly_trends
+      schedule: "0 8 * * 1"
+      format: html
+      recipients: [marketing, product]
+      sections: [traffic, conversion, cohorts, retention]
+
+  ml_models:
+    - name: churn_prediction
+      type: classification
+      features: [recency, frequency, monetary, support_tickets]
+      target: churned_30d
+      schedule: daily
+    - name: demand_forecasting
+      type: regression
+      features: [historical_sales, seasonality, promotions, holidays]
+      target: next_week_demand
+      schedule: weekly
+
+monitoring:
+  metrics:
+    - queries_executed_total
+    - query_duration_seconds
+    - cache_hit_rate
+    - report_generation_duration
+    - ml_inference_latency
+  alerts:
+    - name: stale_data
+      expr: time_since_last_refresh > 86400
+      severity: warning
+    - name: query_timeout
+      expr: rate(query_timeouts[5m]) > 0.01
+      severity: critical
+    - name: ml_drift
+      expr: prediction_accuracy < 0.7
+      severity: warning

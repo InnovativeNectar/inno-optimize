@@ -1,0 +1,171 @@
+# Compliance Agent Template
+
+name: compliance-agent
+version: 1.0.0
+description: Template for automated compliance monitoring agents
+model: opus
+
+capabilities:
+  policy_evaluation: true
+  audit_trail: true
+  alert_generation: true
+  remediation_suggestion: true
+  evidence_collection: true
+  mcp_tools:
+    - audit-log
+    - policy-engine
+    - secrets-manager
+    - vulnerability-scanner
+
+memory:
+  namespace: compliance
+  retention_days: 2555  # 7 years
+  working_cache_size: 20000
+
+hooks:
+  pre_check:
+    - load_current_regulations
+    - fetch_policy_definitions
+    - validate_scope
+  post_check:
+    - generate_audit_record
+    - update_compliance_dashboard
+    - store_evidence
+  on_violation:
+    - escalate_to_security
+    - create_remediation_ticket
+    - notify_compliance_officer
+    - initiate_automated_remediation
+
+routing:
+  default_tier: 3  # Compliance requires highest reasoning
+  tier_1_patterns: []
+  tier_2_patterns:
+    - policy_lookup
+    - regulation_search
+  tier_3_patterns:
+    - compliance_assessment
+    - gap_analysis
+    - remediation_planning
+    - audit_preparation
+
+compliance:
+  frameworks:
+    - name: SOC2
+      version: "2023"
+      controls: [CC1-CC9, A1-A2, PI1-PI3]
+      frequency: continuous
+    - name: GDPR
+      version: "2018"
+      articles: [5, 6, 7, 12-23, 25, 30-34]
+      frequency: continuous
+    - name: PCI-DSS
+      version: "4.0"
+      requirements: [1-12]
+      frequency: daily
+    - name: HIPAA
+      version: "2023"
+      rules: [Privacy, Security, Breach Notification]
+      frequency: continuous
+    - name: ISO27001
+      version: "2022"
+      clauses: [4-10]
+      frequency: weekly
+
+  policies:
+    - name: data_retention
+      rule: |
+        DELETE FROM user_data 
+        WHERE last_activity < NOW() - INTERVAL '7 years'
+        AND NOT legal_hold
+      schedule: daily
+      severity: critical
+    - name: encryption_at_rest
+      rule: |
+        ALL tables MUST have encryption enabled
+        CHECK: pg_tables.encrypted = true
+      schedule: continuous
+      severity: critical
+    - name: access_control
+      rule: |
+        NO direct database access for applications
+        ALL access via service accounts with least privilege
+      schedule: continuous
+      severity: high
+    - name: audit_logging
+      rule: |
+        ALL mutating operations MUST be logged
+        Logs MUST be immutable for 7 years
+      schedule: continuous
+      severity: critical
+
+  checks:
+    - name: secrets_scanning
+      type: static_analysis
+      tools: [truffleHog, git-secrets, detect-secrets]
+      frequency: on_commit
+      severity: critical
+    - name: vulnerability_scanning
+      type: container_scan
+      tools: [trivy, grype, syft]
+      frequency: daily
+      severity: high
+    - name: dependency_audit
+      type: npm_audit
+      frequency: weekly
+      severity: medium
+    - name: configuration_drift
+      type: iac_scan
+      tools: [checkov, tfsec, terrascan]
+      frequency: daily
+      severity: high
+    - name: data_classification
+      type: ml_classification
+      model: pii-detector-v3
+      frequency: continuous
+      severity: high
+
+  remediation:
+    automated:
+      - rotate_exposed_secrets
+      - revoke_excessive_permissions
+      - enable_encryption
+      - quarantine_non_compliant_resources
+    manual:
+      - legal_review_required
+      - architecture_change_needed
+      - vendor_negotiation_required
+
+monitoring:
+  metrics:
+    - compliance_score_overall
+    - compliance_score_by_framework
+    - violations_total
+    - violations_by_severity
+    - remediation_time_seconds
+    - audit_readiness_score
+  alerts:
+    - name: critical_violation
+      expr: violations_critical > 0
+      severity: critical
+      notification: immediate
+    - name: compliance_score_drop
+      expr: compliance_score < 90
+      severity: warning
+      notification: hourly
+    - name: audit_due
+      expr: days_until_audit < 30
+      severity: info
+      notification: daily
+    - name: policy_drift
+      expr: policy_drift_detected > 0
+      severity: high
+      notification: immediate
+
+  dashboards:
+    - name: compliance_overview
+      panels: [score_trend, violations_by_type, remediation_status, upcoming_audits]
+    - name: framework_detail
+      panels: [control_status, evidence_coverage, test_results, gaps]
+    - name: remediation_tracking
+      panels: [open_tickets, sla_compliance, aging, root_causes]
