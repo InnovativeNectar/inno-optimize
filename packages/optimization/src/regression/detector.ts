@@ -12,7 +12,7 @@ export class RegressionDetector {
   private baselines = new Map<string, RegressionMetric>();
   private alerts: RegressionAlert[] = [];
   private monitoring = false;
-  private intervalId?: NodeJS.Timeout;
+  private intervalId: ReturnType<typeof setInterval> | undefined;
   
   constructor(memory: FastStore, config: RegressionConfig) {
     this.memory = memory;

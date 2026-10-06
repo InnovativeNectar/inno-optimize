@@ -1,17 +1,17 @@
-export * from './types';
-export { HiveMindSwarm } from './swarm/hive-mind';
-export { SagaOrchestrator } from './saga/orchestrator';
-export { PheromoneScheduler, createDefaultPheromoneConfig } from './pheromone/scheduler';
-export { businessServers, getServerByName, getServersByCapability, getServersByTier } from './mcp-business/servers';
-export { ConnectorRegistry, connectorRegistry, MockOrdersConnector, MockInventoryConnector, MockPaymentsConnector, MockCRMConnector } from './mcp-business/connectors';
+export * from './types.js';
+export { HiveMindSwarm } from './swarm/hive-mind.js';
+export { SagaOrchestrator } from './saga/orchestrator.js';
+export { PheromoneScheduler, createDefaultPheromoneConfig } from './pheromone/scheduler.js';
+export { businessServers, getServerByName, getServersByCapability, getServersByTier } from './mcp-business/servers.js';
+export { ConnectorRegistry, connectorRegistry, MockOrdersConnector, MockInventoryConnector, MockPaymentsConnector, MockCRMConnector } from './mcp-business/connectors.js';
 
 // Integrated Coordination Layer
-import { HiveMindSwarm } from './swarm/hive-mind';
-import { SagaOrchestrator } from './saga/orchestrator';
-import { PheromoneScheduler, createDefaultPheromoneConfig } from './pheromone/scheduler';
-import { businessServers } from './mcp-business/servers';
+import { HiveMindSwarm } from './swarm/hive-mind.js';
+import { SagaOrchestrator } from './saga/orchestrator.js';
+import { PheromoneScheduler, createDefaultPheromoneConfig } from './pheromone/scheduler.js';
+import { businessServers } from './mcp-business/servers.js';
 import { FastStore } from '@inno-optimize/agentdb';
-import { SwarmConfig, SagaDefinition, SagaContext, TaskOutcome, PheromoneConfig } from './types';
+import { SwarmConfig, SagaDefinition, SagaContext, TaskOutcome, PheromoneConfig } from './types.js';
 
 export interface CoordinationLayerConfig {
   swarm: SwarmConfig;

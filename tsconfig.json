@@ -15,13 +15,20 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
-    "baseUrl": ".",
-    "paths": {
-      "@inno-optimize/agentdb": ["packages/agentdb/src"],
-      "@inno-optimize/mcp-framework": ["packages/mcp-framework/src"],
-      "@inno-optimize/adr-automation": ["packages/adr-automation/src"]
-    }
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true
   },
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "references": [
+    { "path": "./packages/agentdb" },
+    { "path": "./packages/mcp-framework" },
+    { "path": "./packages/adr-automation" },
+    { "path": "./packages/ast-analysis" },
+    { "path": "./packages/intelligence" },
+    { "path": "./packages/coordination" },
+    { "path": "./packages/optimization" },
+    { "path": "./packages/business-agent-factory" }
+  ],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

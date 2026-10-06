@@ -1,3 +1,3 @@
-export * from './types';
-export { FastStore, WorkingMemoryCache } from './stores/fast-store';
-export { HNSWIndex, Quantizer, cosineSimilarity } from './hnsw/index';
+export * from './types.js';
+export { FastStore, WorkingMemoryCache } from './stores/fast-store.js';
+export { HNSWIndex, Quantizer, cosineSimilarity } from './hnsw/index.js';

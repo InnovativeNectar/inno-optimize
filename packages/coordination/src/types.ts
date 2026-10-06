@@ -303,3 +303,84 @@ export interface ConnectorMetrics {
   avgLatencyMs: number;
   rateLimitHits: number;
 }
+
+export interface ConnectorRegistry {
+  getConnector(id: string): any;
+  register(connector: any): void;
+}
+
+export interface PheromoneUpdate {
+  agentId: string;
+  outcome: {
+    success: boolean;
+    metrics: {
+      latencyMs: number;
+      toolCalls: number;
+      memoryQueries: number;
+      consensusScore: number;
+    };
+  };
+  timestamp: number;
+}
+
+export interface AgentInfo {
+  id: string;
+  type: string;
+  name: string;
+  role: string;
+  capabilities: string[];
+  model: string;
+  status: 'idle' | 'running' | 'stopped';
+  spawnedAt: Date;
+  currentTask: string | null;
+}
+
+export interface AgentSpawnConfig {
+  id?: string;
+  type: string;
+  name: string;
+  role?: string;
+  capabilities?: string[];
+  model?: string;
+}
+
+export interface NodeInfo {
+  id: string;
+  joinedAt: Date;
+  lastHeartbeat: Date;
+  status: 'active' | 'suspected' | 'down';
+}
+
+export interface ConsensusProposal {
+  id: string;
+  type: string;
+  data: any;
+  proposer: string;
+  timestamp: Date;
+}
+
+export interface ProposalInfo {
+  id: string;
+  type: string;
+  data: any;
+  proposer: string;
+  status: 'pending' | 'accepted' | 'rejected';
+  votes: Map<string, boolean>;
+  createdAt: Date;
+}
+
+export interface MessageBus {
+  initialize(): Promise<void>;
+  shutdown(): Promise<void>;
+}
+
+export interface ConsensusEngine {
+  initialize(swarmId: string, maxNodes: number): Promise<void>;
+  join(nodeId: string): Promise<void>;
+  leave(nodeId: string): Promise<void>;
+  propose(proposal: ConsensusProposal): Promise<string>;
+  vote(proposalId: string, voterId: string, vote: boolean): Promise<void>;
+  getMetrics(): any;
+  getHealth(): any;
+  shutdown(): Promise<void>;
+}

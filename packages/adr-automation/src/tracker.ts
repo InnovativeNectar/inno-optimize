@@ -1,4 +1,4 @@
-import { ADR, ArchitecturalChange, SemanticAnchor, Consequence, ImpactAnalysis } from '../agentdb/src/types';
+import { ADR, ArchitecturalChange, SemanticAnchor, Consequence, ImpactAnalysis } from '@inno-optimize/agentdb';
 
 export interface ADRTrackerConfig {
   storagePath: string;
@@ -134,7 +134,7 @@ export class CIIntegration {
         passed: false,
         message: `Missing ADRs for ${missingADRs.length} architectural changes`,
         missingADRs: missingADRs.map(c => ({
-          file: c.affectedFiles[0],
+          file: c.affectedFiles[0] ?? 'unknown',
           suggestion: this.generateADRSuggestion(c)
         }))
       };
@@ -172,8 +172,8 @@ export class CIIntegration {
   private hasADRForChange(change: ArchitecturalChange): boolean {
     const adrs = this.tracker.listADRs();
     return adrs.some(adr => 
-      adr.semanticAnchors.some(a => 
-        change.affectedFiles.includes(a.codeLocation.file)
+      adr.semanticAnchors.some((anchor: SemanticAnchor) => 
+        change.affectedFiles.includes(anchor.codeLocation.file)
       )
     );
   }
@@ -232,6 +232,7 @@ export class SemanticAnchors {
             relevance: await this.computeRelevance(adr.decision, snippet)
           });
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.warn(`Failed to create anchor for ${file}:`, e);
         }
       }
@@ -272,13 +273,17 @@ interface Embedder {
 }
 
 function cosineSimilarity(a: number[], b: number[]): number {
+  if (!a || !b || a.length !== b.length) return 0;
   let dot = 0, normA = 0, normB = 0;
   for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+    const av = a[i] ?? 0;
+    const bv = b[i] ?? 0;
+    dot += av * bv;
+    normA += av * av;
+    normB += bv * bv;
   }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+  const denom = Math.sqrt(normA) * Math.sqrt(normB);
+  return denom === 0 ? 0 : dot / denom;
 }
 
 // Placeholder for ADRGenerator import

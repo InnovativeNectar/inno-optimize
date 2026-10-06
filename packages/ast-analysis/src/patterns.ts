@@ -1,4 +1,4 @@
-import { ParseResult, AntiPattern, AntiPatternType, DetectionRule, RefactoringSuggestion, Issue } from './types';
+import { ParseResult, AntiPattern, AntiPatternType, DetectionRule, RefactoringSuggestion, Issue } from './types.js';
 
 export class AntiPatternDetector {
   private patterns: AntiPattern[] = this.initializePatterns();
@@ -116,7 +116,7 @@ export class AntiPatternDetector {
         description: 'Code bypasses architectural layers (e.g., controller accessing database directly)',
         severity: 'high',
         detection: {
-          threshold: { layers: ['controller', 'service', 'repository', 'domain'] },
+          threshold: { layerCount: 4 },
           custom: (result) => this.detectLayerViolation(result)
         },
         refactoring: {

@@ -1,0 +1,3077 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "inno-optimize",
+    "languages": [
+      "typescript",
+      "yaml",
+      "json",
+      "markdown"
+    ],
+    "frameworks": [
+      "node.js",
+      "pnpm",
+      "vitest"
+    ],
+    "description": "Proactive Architecture & Intelligence Optimization System for Business Systems, Agents, and Automation",
+    "analyzedAt": "2026-10-04T11:59:20.281Z",
+    "gitCommitHash": "f9b72f9"
+  },
+  "nodes": [
+    {
+      "id": "file:.github/workflows/ci-cd.yml",
+      "type": "infra",
+      "name": "ci-cd.yml",
+      "filePath": ".github/workflows/ci-cd.yml",
+      "summary": "yaml file, 244 lines",
+      "tags": [
+        "yaml",
+        "infra"
+      ],
+      "language": "yaml",
+      "sizeLines": 244
+    },
+    {
+      "id": "file:.inno-optimize/codemods/advanced-codemods.ts",
+      "type": "file",
+      "name": "advanced-codemods.ts",
+      "filePath": ".inno-optimize/codemods/advanced-codemods.ts",
+      "summary": "typescript file, 142 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 142
+    },
+    {
+      "id": "file:.inno-optimize/config.yaml",
+      "type": "config",
+      "name": "config.yaml",
+      "filePath": ".inno-optimize/config.yaml",
+      "summary": "yaml file, 288 lines",
+      "tags": [
+        "yaml",
+        "config"
+      ],
+      "language": "yaml",
+      "sizeLines": 288
+    },
+    {
+      "id": "file:.inno-optimize/templates/adr-template.md",
+      "type": "docs",
+      "name": "adr-template.md",
+      "filePath": ".inno-optimize/templates/adr-template.md",
+      "summary": "markdown file, 82 lines",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "language": "markdown",
+      "sizeLines": 82
+    },
+    {
+      "id": "file:.inno-optimize/templates/analytics-agent.yaml",
+      "type": "config",
+      "name": "analytics-agent.yaml",
+      "filePath": ".inno-optimize/templates/analytics-agent.yaml",
+      "summary": "yaml file, 126 lines",
+      "tags": [
+        "yaml",
+        "config"
+      ],
+      "language": "yaml",
+      "sizeLines": 126
+    },
+    {
+      "id": "file:.inno-optimize/templates/business-process-agent.yaml",
+      "type": "config",
+      "name": "business-process-agent.yaml",
+      "filePath": ".inno-optimize/templates/business-process-agent.yaml",
+      "summary": "yaml file, 78 lines",
+      "tags": [
+        "yaml",
+        "config"
+      ],
+      "language": "yaml",
+      "sizeLines": 78
+    },
+    {
+      "id": "file:.inno-optimize/templates/compliance-agent.yaml",
+      "type": "config",
+      "name": "compliance-agent.yaml",
+      "filePath": ".inno-optimize/templates/compliance-agent.yaml",
+      "summary": "yaml file, 170 lines",
+      "tags": [
+        "yaml",
+        "config"
+      ],
+      "language": "yaml",
+      "sizeLines": 170
+    },
+    {
+      "id": "file:README.md",
+      "type": "docs",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "markdown file, 325 lines",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "language": "markdown",
+      "sizeLines": 325
+    },
+    {
+      "id": "file:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "json file, 34 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 34
+    },
+    {
+      "id": "file:packages/adr-automation/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/adr-automation/package.json",
+      "summary": "json file, 17 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 17
+    },
+    {
+      "id": "file:packages/adr-automation/src/generator.ts",
+      "type": "file",
+      "name": "generator.ts",
+      "filePath": "packages/adr-automation/src/generator.ts",
+      "summary": "typescript file, 260 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 260
+    },
+    {
+      "id": "file:packages/adr-automation/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/adr-automation/src/index.ts",
+      "summary": "typescript file, 1 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 1
+    },
+    {
+      "id": "file:packages/adr-automation/src/tracker.ts",
+      "type": "file",
+      "name": "tracker.ts",
+      "filePath": "packages/adr-automation/src/tracker.ts",
+      "summary": "typescript file, 299 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 299
+    },
+    {
+      "id": "file:packages/adr-automation/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/adr-automation/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/agentdb/benchmarks/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/agentdb/benchmarks/index.ts",
+      "summary": "typescript file, 263 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 263
+    },
+    {
+      "id": "file:packages/agentdb/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/agentdb/package.json",
+      "summary": "json file, 19 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 19
+    },
+    {
+      "id": "file:packages/agentdb/src/__tests__/fast-store.test.ts",
+      "type": "file",
+      "name": "fast-store.test.ts",
+      "filePath": "packages/agentdb/src/__tests__/fast-store.test.ts",
+      "summary": "typescript file, 190 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 190
+    },
+    {
+      "id": "file:packages/agentdb/src/hnsw/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/agentdb/src/hnsw/index.ts",
+      "summary": "typescript file, 210 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 210
+    },
+    {
+      "id": "file:packages/agentdb/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/agentdb/src/index.ts",
+      "summary": "typescript file, 2 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 2
+    },
+    {
+      "id": "file:packages/agentdb/src/stores/fast-store.ts",
+      "type": "file",
+      "name": "fast-store.ts",
+      "filePath": "packages/agentdb/src/stores/fast-store.ts",
+      "summary": "typescript file, 316 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 316
+    },
+    {
+      "id": "file:packages/agentdb/src/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "packages/agentdb/src/types.ts",
+      "summary": "typescript file, 166 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 166
+    },
+    {
+      "id": "file:packages/agentdb/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/agentdb/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/ast-analysis/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/ast-analysis/package.json",
+      "summary": "json file, 26 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 26
+    },
+    {
+      "id": "file:packages/ast-analysis/src/__tests__/ast-analysis.test.ts",
+      "type": "file",
+      "name": "ast-analysis.test.ts",
+      "filePath": "packages/ast-analysis/src/__tests__/ast-analysis.test.ts",
+      "summary": "typescript file, 194 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 194
+    },
+    {
+      "id": "file:packages/ast-analysis/src/incremental.ts",
+      "type": "file",
+      "name": "incremental.ts",
+      "filePath": "packages/ast-analysis/src/incremental.ts",
+      "summary": "typescript file, 267 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 267
+    },
+    {
+      "id": "file:packages/ast-analysis/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/ast-analysis/src/index.ts",
+      "summary": "typescript file, 4 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 4
+    },
+    {
+      "id": "file:packages/ast-analysis/src/parser.ts",
+      "type": "file",
+      "name": "parser.ts",
+      "filePath": "packages/ast-analysis/src/parser.ts",
+      "summary": "typescript file, 486 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 486
+    },
+    {
+      "id": "file:packages/ast-analysis/src/patterns.ts",
+      "type": "file",
+      "name": "patterns.ts",
+      "filePath": "packages/ast-analysis/src/patterns.ts",
+      "summary": "typescript file, 612 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 612
+    },
+    {
+      "id": "file:packages/ast-analysis/src/scorer.ts",
+      "type": "file",
+      "name": "scorer.ts",
+      "filePath": "packages/ast-analysis/src/scorer.ts",
+      "summary": "typescript file, 834 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 834
+    },
+    {
+      "id": "file:packages/ast-analysis/src/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "packages/ast-analysis/src/types.ts",
+      "summary": "typescript file, 277 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 277
+    },
+    {
+      "id": "file:packages/ast-analysis/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/ast-analysis/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/coordination/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/coordination/package.json",
+      "summary": "json file, 20 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 20
+    },
+    {
+      "id": "file:packages/coordination/src/__tests__/coordination.test.ts",
+      "type": "file",
+      "name": "coordination.test.ts",
+      "filePath": "packages/coordination/src/__tests__/coordination.test.ts",
+      "summary": "typescript file, 262 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 262
+    },
+    {
+      "id": "file:packages/coordination/src/__tests__/integration.test.ts",
+      "type": "file",
+      "name": "integration.test.ts",
+      "filePath": "packages/coordination/src/__tests__/integration.test.ts",
+      "summary": "typescript file, 192 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 192
+    },
+    {
+      "id": "file:packages/coordination/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/coordination/src/index.ts",
+      "summary": "typescript file, 124 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 124
+    },
+    {
+      "id": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "type": "file",
+      "name": "connectors.ts",
+      "filePath": "packages/coordination/src/mcp-business/connectors.ts",
+      "summary": "typescript file, 223 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 223
+    },
+    {
+      "id": "file:packages/coordination/src/mcp-business/servers.ts",
+      "type": "file",
+      "name": "servers.ts",
+      "filePath": "packages/coordination/src/mcp-business/servers.ts",
+      "summary": "typescript file, 617 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 617
+    },
+    {
+      "id": "file:packages/coordination/src/pheromone/scheduler.ts",
+      "type": "file",
+      "name": "scheduler.ts",
+      "filePath": "packages/coordination/src/pheromone/scheduler.ts",
+      "summary": "typescript file, 270 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 270
+    },
+    {
+      "id": "file:packages/coordination/src/saga/orchestrator.ts",
+      "type": "file",
+      "name": "orchestrator.ts",
+      "filePath": "packages/coordination/src/saga/orchestrator.ts",
+      "summary": "typescript file, 302 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 302
+    },
+    {
+      "id": "file:packages/coordination/src/swarm/hive-mind.ts",
+      "type": "file",
+      "name": "hive-mind.ts",
+      "filePath": "packages/coordination/src/swarm/hive-mind.ts",
+      "summary": "typescript file, 552 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 552
+    },
+    {
+      "id": "file:packages/coordination/src/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "packages/coordination/src/types.ts",
+      "summary": "typescript file, 304 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 304
+    },
+    {
+      "id": "file:packages/coordination/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/coordination/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/coordination/vitest.config.ts",
+      "type": "file",
+      "name": "vitest.config.ts",
+      "filePath": "packages/coordination/vitest.config.ts",
+      "summary": "typescript file, 22 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 22
+    },
+    {
+      "id": "file:packages/intelligence/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/intelligence/package.json",
+      "summary": "json file, 19 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 19
+    },
+    {
+      "id": "file:packages/intelligence/src/__tests__/intelligence.test.ts",
+      "type": "file",
+      "name": "intelligence.test.ts",
+      "filePath": "packages/intelligence/src/__tests__/intelligence.test.ts",
+      "summary": "typescript file, 355 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 355
+    },
+    {
+      "id": "file:packages/intelligence/src/ewc/consolidator.ts",
+      "type": "file",
+      "name": "consolidator.ts",
+      "filePath": "packages/intelligence/src/ewc/consolidator.ts",
+      "summary": "typescript file, 318 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 318
+    },
+    {
+      "id": "file:packages/intelligence/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/intelligence/src/index.ts",
+      "summary": "typescript file, 164 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 164
+    },
+    {
+      "id": "file:packages/intelligence/src/moe/router.ts",
+      "type": "file",
+      "name": "router.ts",
+      "filePath": "packages/intelligence/src/moe/router.ts",
+      "summary": "typescript file, 410 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 410
+    },
+    {
+      "id": "file:packages/intelligence/src/reasoningbank/pipeline.ts",
+      "type": "file",
+      "name": "pipeline.ts",
+      "filePath": "packages/intelligence/src/reasoningbank/pipeline.ts",
+      "summary": "typescript file, 345 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 345
+    },
+    {
+      "id": "file:packages/intelligence/src/sona/adapter.ts",
+      "type": "file",
+      "name": "adapter.ts",
+      "filePath": "packages/intelligence/src/sona/adapter.ts",
+      "summary": "typescript file, 341 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 341
+    },
+    {
+      "id": "file:packages/intelligence/src/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "packages/intelligence/src/types.ts",
+      "summary": "typescript file, 184 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 184
+    },
+    {
+      "id": "file:packages/intelligence/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/intelligence/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/intelligence/vitest.config.ts",
+      "type": "file",
+      "name": "vitest.config.ts",
+      "filePath": "packages/intelligence/vitest.config.ts",
+      "summary": "typescript file, 21 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 21
+    },
+    {
+      "id": "file:packages/mcp-framework/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/mcp-framework/package.json",
+      "summary": "json file, 17 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 17
+    },
+    {
+      "id": "file:packages/mcp-framework/src/__tests__/mcp-framework.test.ts",
+      "type": "file",
+      "name": "mcp-framework.test.ts",
+      "filePath": "packages/mcp-framework/src/__tests__/mcp-framework.test.ts",
+      "summary": "typescript file, 209 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 209
+    },
+    {
+      "id": "file:packages/mcp-framework/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/mcp-framework/src/index.ts",
+      "summary": "typescript file, 1 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 1
+    },
+    {
+      "id": "file:packages/mcp-framework/src/server.ts",
+      "type": "file",
+      "name": "server.ts",
+      "filePath": "packages/mcp-framework/src/server.ts",
+      "summary": "typescript file, 385 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 385
+    },
+    {
+      "id": "file:packages/mcp-framework/src/tools/router.ts",
+      "type": "file",
+      "name": "router.ts",
+      "filePath": "packages/mcp-framework/src/tools/router.ts",
+      "summary": "typescript file, 290 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 290
+    },
+    {
+      "id": "file:packages/mcp-framework/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/mcp-framework/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/optimization/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/optimization/package.json",
+      "summary": "json file, 22 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 22
+    },
+    {
+      "id": "file:packages/optimization/src/__tests__/optimization.test.ts",
+      "type": "file",
+      "name": "optimization.test.ts",
+      "filePath": "packages/optimization/src/__tests__/optimization.test.ts",
+      "summary": "typescript file, 433 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 433
+    },
+    {
+      "id": "file:packages/optimization/src/abtesting/agenticow.ts",
+      "type": "file",
+      "name": "agenticow.ts",
+      "filePath": "packages/optimization/src/abtesting/agenticow.ts",
+      "summary": "typescript file, 16 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 16
+    },
+    {
+      "id": "file:packages/optimization/src/abtesting/framework.ts",
+      "type": "file",
+      "name": "framework.ts",
+      "filePath": "packages/optimization/src/abtesting/framework.ts",
+      "summary": "typescript file, 330 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 330
+    },
+    {
+      "id": "file:packages/optimization/src/flywheel/evaluator.ts",
+      "type": "file",
+      "name": "evaluator.ts",
+      "filePath": "packages/optimization/src/flywheel/evaluator.ts",
+      "summary": "typescript file, 488 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 488
+    },
+    {
+      "id": "file:packages/optimization/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/optimization/src/index.ts",
+      "summary": "typescript file, 158 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 158
+    },
+    {
+      "id": "file:packages/optimization/src/oapel/engine.ts",
+      "type": "file",
+      "name": "engine.ts",
+      "filePath": "packages/optimization/src/oapel/engine.ts",
+      "summary": "typescript file, 641 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 641
+    },
+    {
+      "id": "file:packages/optimization/src/regression/detector.ts",
+      "type": "file",
+      "name": "detector.ts",
+      "filePath": "packages/optimization/src/regression/detector.ts",
+      "summary": "typescript file, 297 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 297
+    },
+    {
+      "id": "file:packages/optimization/src/templates/manager.ts",
+      "type": "file",
+      "name": "manager.ts",
+      "filePath": "packages/optimization/src/templates/manager.ts",
+      "summary": "typescript file, 807 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 807
+    },
+    {
+      "id": "file:packages/optimization/src/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "packages/optimization/src/types.ts",
+      "summary": "typescript file, 415 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 415
+    },
+    {
+      "id": "file:packages/optimization/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/optimization/tsconfig.json",
+      "summary": "json file, 8 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 8
+    },
+    {
+      "id": "file:packages/optimization/vitest.config.ts",
+      "type": "file",
+      "name": "vitest.config.ts",
+      "filePath": "packages/optimization/vitest.config.ts",
+      "summary": "typescript file, 24 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 24
+    },
+    {
+      "id": "file:tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "tsconfig.json",
+      "summary": "json file, 26 lines",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "language": "json",
+      "sizeLines": 26
+    },
+    {
+      "id": "file:vitest.config.ts",
+      "type": "file",
+      "name": "vitest.config.ts",
+      "filePath": "vitest.config.ts",
+      "summary": "typescript file, 38 lines",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "language": "typescript",
+      "sizeLines": 38
+    },
+    {
+      "id": "module:extractMethodCodemod",
+      "type": "module",
+      "name": "extractMethodCodemod",
+      "summary": "Exported from .inno-optimize/codemods/advanced-codemods.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:introduceParameterObjectCodemod",
+      "type": "module",
+      "name": "introduceParameterObjectCodemod",
+      "summary": "Exported from .inno-optimize/codemods/advanced-codemods.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:replaceConditionalWithPolymorphismCodemod",
+      "type": "module",
+      "name": "replaceConditionalWithPolymorphismCodemod",
+      "summary": "Exported from .inno-optimize/codemods/advanced-codemods.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ADRGenerator",
+      "type": "module",
+      "name": "ADRGenerator",
+      "summary": "Exported from packages/adr-automation/src/generator.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ADRTracker",
+      "type": "module",
+      "name": "ADRTracker",
+      "summary": "Exported from packages/adr-automation/src/tracker.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:CIIntegration",
+      "type": "module",
+      "name": "CIIntegration",
+      "summary": "Exported from packages/adr-automation/src/tracker.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:SemanticAnchors",
+      "type": "module",
+      "name": "SemanticAnchors",
+      "summary": "Exported from packages/adr-automation/src/tracker.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:runBenchmarks",
+      "type": "module",
+      "name": "runBenchmarks",
+      "summary": "Exported from packages/agentdb/benchmarks/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:BenchmarkResult",
+      "type": "module",
+      "name": "BenchmarkResult",
+      "summary": "Exported from packages/agentdb/benchmarks/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:HNSWIndex",
+      "type": "module",
+      "name": "HNSWIndex",
+      "summary": "Exported from packages/agentdb/src/hnsw/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:Quantizer",
+      "type": "module",
+      "name": "Quantizer",
+      "summary": "Exported from packages/agentdb/src/hnsw/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:cosineSimilarity",
+      "type": "module",
+      "name": "cosineSimilarity",
+      "summary": "Exported from packages/agentdb/src/hnsw/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:FastStore",
+      "type": "module",
+      "name": "FastStore",
+      "summary": "Exported from packages/agentdb/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:WorkingMemoryCache",
+      "type": "module",
+      "name": "WorkingMemoryCache",
+      "summary": "Exported from packages/agentdb/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:HNSWIndex",
+      "type": "module",
+      "name": "HNSWIndex",
+      "summary": "Exported from packages/agentdb/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:Quantizer",
+      "type": "module",
+      "name": "Quantizer",
+      "summary": "Exported from packages/agentdb/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:cosineSimilarity",
+      "type": "module",
+      "name": "cosineSimilarity",
+      "summary": "Exported from packages/agentdb/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:WorkingMemoryCache",
+      "type": "module",
+      "name": "WorkingMemoryCache",
+      "summary": "Exported from packages/agentdb/src/stores/fast-store.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:FastStore",
+      "type": "module",
+      "name": "FastStore",
+      "summary": "Exported from packages/agentdb/src/stores/fast-store.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:IncrementalAnalyzer",
+      "type": "module",
+      "name": "IncrementalAnalyzer",
+      "summary": "Exported from packages/ast-analysis/src/incremental.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:FileWatcher",
+      "type": "module",
+      "name": "FileWatcher",
+      "summary": "Exported from packages/ast-analysis/src/incremental.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:computeDiff",
+      "type": "module",
+      "name": "computeDiff",
+      "summary": "Exported from packages/ast-analysis/src/incremental.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MultiLanguageParser",
+      "type": "module",
+      "name": "MultiLanguageParser",
+      "summary": "Exported from packages/ast-analysis/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ArchitectureScorer",
+      "type": "module",
+      "name": "ArchitectureScorer",
+      "summary": "Exported from packages/ast-analysis/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:AntiPatternDetector",
+      "type": "module",
+      "name": "AntiPatternDetector",
+      "summary": "Exported from packages/ast-analysis/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:IncrementalAnalyzer",
+      "type": "module",
+      "name": "IncrementalAnalyzer",
+      "summary": "Exported from packages/ast-analysis/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:FileWatcher",
+      "type": "module",
+      "name": "FileWatcher",
+      "summary": "Exported from packages/ast-analysis/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:computeDiff",
+      "type": "module",
+      "name": "computeDiff",
+      "summary": "Exported from packages/ast-analysis/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MultiLanguageParser",
+      "type": "module",
+      "name": "MultiLanguageParser",
+      "summary": "Exported from packages/ast-analysis/src/parser.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:AntiPatternDetector",
+      "type": "module",
+      "name": "AntiPatternDetector",
+      "summary": "Exported from packages/ast-analysis/src/patterns.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ArchitectureScorer",
+      "type": "module",
+      "name": "ArchitectureScorer",
+      "summary": "Exported from packages/ast-analysis/src/scorer.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:HiveMindSwarm",
+      "type": "module",
+      "name": "HiveMindSwarm",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:SagaOrchestrator",
+      "type": "module",
+      "name": "SagaOrchestrator",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:PheromoneScheduler",
+      "type": "module",
+      "name": "PheromoneScheduler",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultPheromoneConfig",
+      "type": "module",
+      "name": "createDefaultPheromoneConfig",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:businessServers",
+      "type": "module",
+      "name": "businessServers",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:getServerByName",
+      "type": "module",
+      "name": "getServerByName",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:getServersByCapability",
+      "type": "module",
+      "name": "getServersByCapability",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:getServersByTier",
+      "type": "module",
+      "name": "getServersByTier",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ConnectorRegistry",
+      "type": "module",
+      "name": "ConnectorRegistry",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:connectorRegistry",
+      "type": "module",
+      "name": "connectorRegistry",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockOrdersConnector",
+      "type": "module",
+      "name": "MockOrdersConnector",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockInventoryConnector",
+      "type": "module",
+      "name": "MockInventoryConnector",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockPaymentsConnector",
+      "type": "module",
+      "name": "MockPaymentsConnector",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockCRMConnector",
+      "type": "module",
+      "name": "MockCRMConnector",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:CoordinationLayer",
+      "type": "module",
+      "name": "CoordinationLayer",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createCoordinationLayer",
+      "type": "module",
+      "name": "createCoordinationLayer",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultCoordinationConfig",
+      "type": "module",
+      "name": "createDefaultCoordinationConfig",
+      "summary": "Exported from packages/coordination/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockOrdersConnector",
+      "type": "module",
+      "name": "MockOrdersConnector",
+      "summary": "Exported from packages/coordination/src/mcp-business/connectors.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockInventoryConnector",
+      "type": "module",
+      "name": "MockInventoryConnector",
+      "summary": "Exported from packages/coordination/src/mcp-business/connectors.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockPaymentsConnector",
+      "type": "module",
+      "name": "MockPaymentsConnector",
+      "summary": "Exported from packages/coordination/src/mcp-business/connectors.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MockCRMConnector",
+      "type": "module",
+      "name": "MockCRMConnector",
+      "summary": "Exported from packages/coordination/src/mcp-business/connectors.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ConnectorRegistry",
+      "type": "module",
+      "name": "ConnectorRegistry",
+      "summary": "Exported from packages/coordination/src/mcp-business/connectors.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:connectorRegistry",
+      "type": "module",
+      "name": "connectorRegistry",
+      "summary": "Exported from packages/coordination/src/mcp-business/connectors.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:businessServers",
+      "type": "module",
+      "name": "businessServers",
+      "summary": "Exported from packages/coordination/src/mcp-business/servers.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:getServerByName",
+      "type": "module",
+      "name": "getServerByName",
+      "summary": "Exported from packages/coordination/src/mcp-business/servers.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:getServersByCapability",
+      "type": "module",
+      "name": "getServersByCapability",
+      "summary": "Exported from packages/coordination/src/mcp-business/servers.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:getServersByTier",
+      "type": "module",
+      "name": "getServersByTier",
+      "summary": "Exported from packages/coordination/src/mcp-business/servers.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:PheromoneScheduler",
+      "type": "module",
+      "name": "PheromoneScheduler",
+      "summary": "Exported from packages/coordination/src/pheromone/scheduler.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultPheromoneConfig",
+      "type": "module",
+      "name": "createDefaultPheromoneConfig",
+      "summary": "Exported from packages/coordination/src/pheromone/scheduler.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:SagaOrchestrator",
+      "type": "module",
+      "name": "SagaOrchestrator",
+      "summary": "Exported from packages/coordination/src/saga/orchestrator.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:HiveMindSwarm",
+      "type": "module",
+      "name": "HiveMindSwarm",
+      "summary": "Exported from packages/coordination/src/swarm/hive-mind.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:EWCConsolidator",
+      "type": "module",
+      "name": "EWCConsolidator",
+      "summary": "Exported from packages/intelligence/src/ewc/consolidator.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultEWCConfig",
+      "type": "module",
+      "name": "createDefaultEWCConfig",
+      "summary": "Exported from packages/intelligence/src/ewc/consolidator.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:SONAAdapter",
+      "type": "module",
+      "name": "SONAAdapter",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultSONAConfig",
+      "type": "module",
+      "name": "createDefaultSONAConfig",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ReasoningBank",
+      "type": "module",
+      "name": "ReasoningBank",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultReasoningBankConfig",
+      "type": "module",
+      "name": "createDefaultReasoningBankConfig",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MoERouter",
+      "type": "module",
+      "name": "MoERouter",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultMoEConfig",
+      "type": "module",
+      "name": "createDefaultMoEConfig",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:EWCConsolidator",
+      "type": "module",
+      "name": "EWCConsolidator",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultEWCConfig",
+      "type": "module",
+      "name": "createDefaultEWCConfig",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:IntelligenceLayer",
+      "type": "module",
+      "name": "IntelligenceLayer",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createIntelligenceLayer",
+      "type": "module",
+      "name": "createIntelligenceLayer",
+      "summary": "Exported from packages/intelligence/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MoERouter",
+      "type": "module",
+      "name": "MoERouter",
+      "summary": "Exported from packages/intelligence/src/moe/router.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultMoEConfig",
+      "type": "module",
+      "name": "createDefaultMoEConfig",
+      "summary": "Exported from packages/intelligence/src/moe/router.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ReasoningBank",
+      "type": "module",
+      "name": "ReasoningBank",
+      "summary": "Exported from packages/intelligence/src/reasoningbank/pipeline.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultReasoningBankConfig",
+      "type": "module",
+      "name": "createDefaultReasoningBankConfig",
+      "summary": "Exported from packages/intelligence/src/reasoningbank/pipeline.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:SONAAdapter",
+      "type": "module",
+      "name": "SONAAdapter",
+      "summary": "Exported from packages/intelligence/src/sona/adapter.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultSONAConfig",
+      "type": "module",
+      "name": "createDefaultSONAConfig",
+      "summary": "Exported from packages/intelligence/src/sona/adapter.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ToolRouter",
+      "type": "module",
+      "name": "ToolRouter",
+      "summary": "Exported from packages/mcp-framework/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:CodemodRegistry",
+      "type": "module",
+      "name": "CodemodRegistry",
+      "summary": "Exported from packages/mcp-framework/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:PatternMemory",
+      "type": "module",
+      "name": "PatternMemory",
+      "summary": "Exported from packages/mcp-framework/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createBuiltinCodemods",
+      "type": "module",
+      "name": "createBuiltinCodemods",
+      "summary": "Exported from packages/mcp-framework/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MCPServerRegistry",
+      "type": "module",
+      "name": "MCPServerRegistry",
+      "summary": "Exported from packages/mcp-framework/src/server.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:MCPConnection",
+      "type": "module",
+      "name": "MCPConnection",
+      "summary": "Exported from packages/mcp-framework/src/server.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:CodemodRegistry",
+      "type": "module",
+      "name": "CodemodRegistry",
+      "summary": "Exported from packages/mcp-framework/src/tools/router.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:PatternMemory",
+      "type": "module",
+      "name": "PatternMemory",
+      "summary": "Exported from packages/mcp-framework/src/tools/router.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ToolRouter",
+      "type": "module",
+      "name": "ToolRouter",
+      "summary": "Exported from packages/mcp-framework/src/tools/router.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createBuiltinCodemods",
+      "type": "module",
+      "name": "createBuiltinCodemods",
+      "summary": "Exported from packages/mcp-framework/src/tools/router.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:AgenticowClient",
+      "type": "module",
+      "name": "AgenticowClient",
+      "summary": "Exported from packages/optimization/src/abtesting/agenticow.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ABTestingFramework",
+      "type": "module",
+      "name": "ABTestingFramework",
+      "summary": "Exported from packages/optimization/src/abtesting/framework.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:AgenticowClient",
+      "type": "module",
+      "name": "AgenticowClient",
+      "summary": "Exported from packages/optimization/src/abtesting/framework.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultABTestConfig",
+      "type": "module",
+      "name": "createDefaultABTestConfig",
+      "summary": "Exported from packages/optimization/src/abtesting/framework.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:FlywheelEvaluator",
+      "type": "module",
+      "name": "FlywheelEvaluator",
+      "summary": "Exported from packages/optimization/src/flywheel/evaluator.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultFlywheelConfig",
+      "type": "module",
+      "name": "createDefaultFlywheelConfig",
+      "summary": "Exported from packages/optimization/src/flywheel/evaluator.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:OAPELEngine",
+      "type": "module",
+      "name": "OAPELEngine",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultOAPELConfig",
+      "type": "module",
+      "name": "createDefaultOAPELConfig",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:ABTestingFramework",
+      "type": "module",
+      "name": "ABTestingFramework",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:AgenticowClient",
+      "type": "module",
+      "name": "AgenticowClient",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultABTestConfig",
+      "type": "module",
+      "name": "createDefaultABTestConfig",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:RegressionDetector",
+      "type": "module",
+      "name": "RegressionDetector",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultRegressionConfig",
+      "type": "module",
+      "name": "createDefaultRegressionConfig",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:FlywheelEvaluator",
+      "type": "module",
+      "name": "FlywheelEvaluator",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultFlywheelConfig",
+      "type": "module",
+      "name": "createDefaultFlywheelConfig",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:TemplateManager",
+      "type": "module",
+      "name": "TemplateManager",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:OptimizationLayer",
+      "type": "module",
+      "name": "OptimizationLayer",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createOptimizationLayer",
+      "type": "module",
+      "name": "createOptimizationLayer",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultOptimizationConfig",
+      "type": "module",
+      "name": "createDefaultOptimizationConfig",
+      "summary": "Exported from packages/optimization/src/index.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:OAPELEngine",
+      "type": "module",
+      "name": "OAPELEngine",
+      "summary": "Exported from packages/optimization/src/oapel/engine.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultOAPELConfig",
+      "type": "module",
+      "name": "createDefaultOAPELConfig",
+      "summary": "Exported from packages/optimization/src/oapel/engine.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:RegressionDetector",
+      "type": "module",
+      "name": "RegressionDetector",
+      "summary": "Exported from packages/optimization/src/regression/detector.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:createDefaultRegressionConfig",
+      "type": "module",
+      "name": "createDefaultRegressionConfig",
+      "summary": "Exported from packages/optimization/src/regression/detector.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    },
+    {
+      "id": "module:TemplateManager",
+      "type": "module",
+      "name": "TemplateManager",
+      "summary": "Exported from packages/optimization/src/templates/manager.ts",
+      "tags": [
+        "export",
+        "typescript"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:.inno-optimize/codemods/advanced-codemods.ts",
+      "target": "module:extractMethodCodemod",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:.inno-optimize/codemods/advanced-codemods.ts",
+      "target": "module:introduceParameterObjectCodemod",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:.inno-optimize/codemods/advanced-codemods.ts",
+      "target": "module:replaceConditionalWithPolymorphismCodemod",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/adr-automation/src/generator.ts",
+      "target": "module:ADRGenerator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/adr-automation/src/tracker.ts",
+      "target": "module:ADRTracker",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/adr-automation/src/tracker.ts",
+      "target": "module:CIIntegration",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/adr-automation/src/tracker.ts",
+      "target": "module:SemanticAnchors",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/benchmarks/index.ts",
+      "target": "module:runBenchmarks",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/benchmarks/index.ts",
+      "target": "module:BenchmarkResult",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/hnsw/index.ts",
+      "target": "module:HNSWIndex",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/hnsw/index.ts",
+      "target": "module:Quantizer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/hnsw/index.ts",
+      "target": "module:cosineSimilarity",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/index.ts",
+      "target": "module:FastStore",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/index.ts",
+      "target": "module:WorkingMemoryCache",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/index.ts",
+      "target": "module:HNSWIndex",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/index.ts",
+      "target": "module:Quantizer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/index.ts",
+      "target": "module:cosineSimilarity",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/stores/fast-store.ts",
+      "target": "module:WorkingMemoryCache",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/agentdb/src/stores/fast-store.ts",
+      "target": "module:FastStore",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/incremental.ts",
+      "target": "module:IncrementalAnalyzer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/incremental.ts",
+      "target": "module:FileWatcher",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/incremental.ts",
+      "target": "module:computeDiff",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/index.ts",
+      "target": "module:MultiLanguageParser",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/index.ts",
+      "target": "module:ArchitectureScorer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/index.ts",
+      "target": "module:AntiPatternDetector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/index.ts",
+      "target": "module:IncrementalAnalyzer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/index.ts",
+      "target": "module:FileWatcher",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/index.ts",
+      "target": "module:computeDiff",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/parser.ts",
+      "target": "module:MultiLanguageParser",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/patterns.ts",
+      "target": "module:AntiPatternDetector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/ast-analysis/src/scorer.ts",
+      "target": "module:ArchitectureScorer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:HiveMindSwarm",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:SagaOrchestrator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:PheromoneScheduler",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:createDefaultPheromoneConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:businessServers",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:getServerByName",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:getServersByCapability",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:getServersByTier",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:ConnectorRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:connectorRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:MockOrdersConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:MockInventoryConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:MockPaymentsConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:MockCRMConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:CoordinationLayer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:createCoordinationLayer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/index.ts",
+      "target": "module:createDefaultCoordinationConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "target": "module:MockOrdersConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "target": "module:MockInventoryConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "target": "module:MockPaymentsConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "target": "module:MockCRMConnector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "target": "module:ConnectorRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/connectors.ts",
+      "target": "module:connectorRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/servers.ts",
+      "target": "module:businessServers",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/servers.ts",
+      "target": "module:getServerByName",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/servers.ts",
+      "target": "module:getServersByCapability",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/mcp-business/servers.ts",
+      "target": "module:getServersByTier",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/pheromone/scheduler.ts",
+      "target": "module:PheromoneScheduler",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/pheromone/scheduler.ts",
+      "target": "module:createDefaultPheromoneConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/saga/orchestrator.ts",
+      "target": "module:SagaOrchestrator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/coordination/src/swarm/hive-mind.ts",
+      "target": "module:HiveMindSwarm",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/ewc/consolidator.ts",
+      "target": "module:EWCConsolidator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/ewc/consolidator.ts",
+      "target": "module:createDefaultEWCConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:SONAAdapter",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:createDefaultSONAConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:ReasoningBank",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:createDefaultReasoningBankConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:MoERouter",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:createDefaultMoEConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:EWCConsolidator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:createDefaultEWCConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:IntelligenceLayer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/index.ts",
+      "target": "module:createIntelligenceLayer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/moe/router.ts",
+      "target": "module:MoERouter",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/moe/router.ts",
+      "target": "module:createDefaultMoEConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/reasoningbank/pipeline.ts",
+      "target": "module:ReasoningBank",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/reasoningbank/pipeline.ts",
+      "target": "module:createDefaultReasoningBankConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/sona/adapter.ts",
+      "target": "module:SONAAdapter",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/intelligence/src/sona/adapter.ts",
+      "target": "module:createDefaultSONAConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/index.ts",
+      "target": "module:ToolRouter",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/index.ts",
+      "target": "module:CodemodRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/index.ts",
+      "target": "module:PatternMemory",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/index.ts",
+      "target": "module:createBuiltinCodemods",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/server.ts",
+      "target": "module:MCPServerRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/server.ts",
+      "target": "module:MCPConnection",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/tools/router.ts",
+      "target": "module:CodemodRegistry",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/tools/router.ts",
+      "target": "module:PatternMemory",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/tools/router.ts",
+      "target": "module:ToolRouter",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/mcp-framework/src/tools/router.ts",
+      "target": "module:createBuiltinCodemods",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/abtesting/agenticow.ts",
+      "target": "module:AgenticowClient",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/abtesting/framework.ts",
+      "target": "module:ABTestingFramework",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/abtesting/framework.ts",
+      "target": "module:AgenticowClient",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/abtesting/framework.ts",
+      "target": "module:createDefaultABTestConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/flywheel/evaluator.ts",
+      "target": "module:FlywheelEvaluator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/flywheel/evaluator.ts",
+      "target": "module:createDefaultFlywheelConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:OAPELEngine",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:createDefaultOAPELConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:ABTestingFramework",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:AgenticowClient",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:createDefaultABTestConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:RegressionDetector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:createDefaultRegressionConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:FlywheelEvaluator",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:createDefaultFlywheelConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:TemplateManager",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:OptimizationLayer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:createOptimizationLayer",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/index.ts",
+      "target": "module:createDefaultOptimizationConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/oapel/engine.ts",
+      "target": "module:OAPELEngine",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/oapel/engine.ts",
+      "target": "module:createDefaultOAPELConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/regression/detector.ts",
+      "target": "module:RegressionDetector",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/regression/detector.ts",
+      "target": "module:createDefaultRegressionConfig",
+      "type": "exports",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/optimization/src/templates/manager.ts",
+      "target": "module:TemplateManager",
+      "type": "exports",
+      "weight": 0.8
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:core",
+      "name": "Core",
+      "description": "Core business logic and domain models",
+      "nodeIds": [
+        "file:.inno-optimize/codemods/advanced-codemods.ts",
+        "file:packages/adr-automation/src/generator.ts",
+        "file:packages/adr-automation/src/index.ts",
+        "file:packages/adr-automation/src/tracker.ts",
+        "file:packages/agentdb/benchmarks/index.ts",
+        "file:packages/agentdb/src/__tests__/fast-store.test.ts",
+        "file:packages/agentdb/src/hnsw/index.ts",
+        "file:packages/agentdb/src/index.ts",
+        "file:packages/agentdb/src/stores/fast-store.ts",
+        "file:packages/agentdb/src/types.ts",
+        "file:packages/ast-analysis/src/__tests__/ast-analysis.test.ts",
+        "file:packages/ast-analysis/src/incremental.ts",
+        "file:packages/ast-analysis/src/index.ts",
+        "file:packages/ast-analysis/src/parser.ts",
+        "file:packages/ast-analysis/src/patterns.ts",
+        "file:packages/ast-analysis/src/scorer.ts",
+        "file:packages/ast-analysis/src/types.ts",
+        "file:packages/coordination/src/__tests__/coordination.test.ts",
+        "file:packages/coordination/src/__tests__/integration.test.ts",
+        "file:packages/coordination/src/index.ts",
+        "file:packages/coordination/src/mcp-business/connectors.ts",
+        "file:packages/coordination/src/mcp-business/servers.ts",
+        "file:packages/coordination/src/pheromone/scheduler.ts",
+        "file:packages/coordination/src/saga/orchestrator.ts",
+        "file:packages/coordination/src/swarm/hive-mind.ts",
+        "file:packages/coordination/src/types.ts",
+        "file:packages/coordination/vitest.config.ts",
+        "file:packages/intelligence/src/__tests__/intelligence.test.ts",
+        "file:packages/intelligence/src/ewc/consolidator.ts",
+        "file:packages/intelligence/src/index.ts",
+        "file:packages/intelligence/src/moe/router.ts",
+        "file:packages/intelligence/src/reasoningbank/pipeline.ts",
+        "file:packages/intelligence/src/sona/adapter.ts",
+        "file:packages/intelligence/src/types.ts",
+        "file:packages/intelligence/vitest.config.ts",
+        "file:packages/mcp-framework/src/__tests__/mcp-framework.test.ts",
+        "file:packages/mcp-framework/src/index.ts",
+        "file:packages/mcp-framework/src/server.ts",
+        "file:packages/mcp-framework/src/tools/router.ts",
+        "file:packages/optimization/src/__tests__/optimization.test.ts",
+        "file:packages/optimization/src/abtesting/agenticow.ts",
+        "file:packages/optimization/src/abtesting/framework.ts",
+        "file:packages/optimization/src/flywheel/evaluator.ts",
+        "file:packages/optimization/src/index.ts",
+        "file:packages/optimization/src/oapel/engine.ts",
+        "file:packages/optimization/src/regression/detector.ts",
+        "file:packages/optimization/src/templates/manager.ts",
+        "file:packages/optimization/src/types.ts",
+        "file:packages/optimization/vitest.config.ts",
+        "file:vitest.config.ts",
+        "module:extractMethodCodemod",
+        "module:introduceParameterObjectCodemod",
+        "module:replaceConditionalWithPolymorphismCodemod",
+        "module:ADRGenerator",
+        "module:ADRTracker",
+        "module:CIIntegration",
+        "module:SemanticAnchors",
+        "module:runBenchmarks",
+        "module:BenchmarkResult",
+        "module:HNSWIndex",
+        "module:Quantizer",
+        "module:cosineSimilarity",
+        "module:FastStore",
+        "module:WorkingMemoryCache",
+        "module:HNSWIndex",
+        "module:Quantizer",
+        "module:cosineSimilarity",
+        "module:WorkingMemoryCache",
+        "module:FastStore",
+        "module:IncrementalAnalyzer",
+        "module:FileWatcher",
+        "module:computeDiff",
+        "module:MultiLanguageParser",
+        "module:ArchitectureScorer",
+        "module:AntiPatternDetector",
+        "module:IncrementalAnalyzer",
+        "module:FileWatcher",
+        "module:computeDiff",
+        "module:MultiLanguageParser",
+        "module:AntiPatternDetector",
+        "module:ArchitectureScorer",
+        "module:HiveMindSwarm",
+        "module:SagaOrchestrator",
+        "module:PheromoneScheduler",
+        "module:createDefaultPheromoneConfig",
+        "module:businessServers",
+        "module:getServerByName",
+        "module:getServersByCapability",
+        "module:getServersByTier",
+        "module:ConnectorRegistry",
+        "module:connectorRegistry",
+        "module:MockOrdersConnector",
+        "module:MockInventoryConnector",
+        "module:MockPaymentsConnector",
+        "module:MockCRMConnector",
+        "module:CoordinationLayer",
+        "module:createCoordinationLayer",
+        "module:createDefaultCoordinationConfig",
+        "module:MockOrdersConnector",
+        "module:MockInventoryConnector",
+        "module:MockPaymentsConnector",
+        "module:MockCRMConnector",
+        "module:ConnectorRegistry",
+        "module:connectorRegistry",
+        "module:businessServers",
+        "module:getServerByName",
+        "module:getServersByCapability",
+        "module:getServersByTier",
+        "module:PheromoneScheduler",
+        "module:createDefaultPheromoneConfig",
+        "module:SagaOrchestrator",
+        "module:HiveMindSwarm",
+        "module:EWCConsolidator",
+        "module:createDefaultEWCConfig",
+        "module:SONAAdapter",
+        "module:createDefaultSONAConfig",
+        "module:ReasoningBank",
+        "module:createDefaultReasoningBankConfig",
+        "module:MoERouter",
+        "module:createDefaultMoEConfig",
+        "module:EWCConsolidator",
+        "module:createDefaultEWCConfig",
+        "module:IntelligenceLayer",
+        "module:createIntelligenceLayer",
+        "module:MoERouter",
+        "module:createDefaultMoEConfig",
+        "module:ReasoningBank",
+        "module:createDefaultReasoningBankConfig",
+        "module:SONAAdapter",
+        "module:createDefaultSONAConfig",
+        "module:ToolRouter",
+        "module:CodemodRegistry",
+        "module:PatternMemory",
+        "module:createBuiltinCodemods",
+        "module:MCPServerRegistry",
+        "module:MCPConnection",
+        "module:CodemodRegistry",
+        "module:PatternMemory",
+        "module:ToolRouter",
+        "module:createBuiltinCodemods",
+        "module:AgenticowClient",
+        "module:ABTestingFramework",
+        "module:AgenticowClient",
+        "module:createDefaultABTestConfig",
+        "module:FlywheelEvaluator",
+        "module:createDefaultFlywheelConfig",
+        "module:OAPELEngine",
+        "module:createDefaultOAPELConfig",
+        "module:ABTestingFramework",
+        "module:AgenticowClient",
+        "module:createDefaultABTestConfig",
+        "module:RegressionDetector",
+        "module:createDefaultRegressionConfig",
+        "module:FlywheelEvaluator",
+        "module:createDefaultFlywheelConfig",
+        "module:TemplateManager",
+        "module:OptimizationLayer",
+        "module:createOptimizationLayer",
+        "module:createDefaultOptimizationConfig",
+        "module:OAPELEngine",
+        "module:createDefaultOAPELConfig",
+        "module:RegressionDetector",
+        "module:createDefaultRegressionConfig",
+        "module:TemplateManager"
+      ]
+    },
+    {
+      "id": "layer:infrastructure",
+      "name": "Infrastructure",
+      "description": "Infrastructure, configuration, and deployment",
+      "nodeIds": [
+        "file:.github/workflows/ci-cd.yml",
+        "file:.inno-optimize/config.yaml",
+        "file:.inno-optimize/templates/analytics-agent.yaml",
+        "file:.inno-optimize/templates/business-process-agent.yaml",
+        "file:.inno-optimize/templates/compliance-agent.yaml",
+        "file:package.json",
+        "file:packages/adr-automation/package.json",
+        "file:packages/adr-automation/tsconfig.json",
+        "file:packages/agentdb/package.json",
+        "file:packages/agentdb/tsconfig.json",
+        "file:packages/ast-analysis/package.json",
+        "file:packages/ast-analysis/tsconfig.json",
+        "file:packages/coordination/package.json",
+        "file:packages/coordination/tsconfig.json",
+        "file:packages/intelligence/package.json",
+        "file:packages/intelligence/tsconfig.json",
+        "file:packages/mcp-framework/package.json",
+        "file:packages/mcp-framework/tsconfig.json",
+        "file:packages/optimization/package.json",
+        "file:packages/optimization/tsconfig.json",
+        "file:tsconfig.json"
+      ]
+    },
+    {
+      "id": "layer:interface",
+      "name": "Interface",
+      "description": "API endpoints, UI components, and external interfaces",
+      "nodeIds": []
+    },
+    {
+      "id": "layer:testing",
+      "name": "Testing",
+      "description": "Test files and test utilities",
+      "nodeIds": []
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation",
+      "description": "Documentation and guides",
+      "nodeIds": [
+        "file:.inno-optimize/templates/adr-template.md",
+        "file:README.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Project Overview",
+      "description": "inno-optimize is a proactive architecture & intelligence optimization system for business systems, agents, and automation.",
+      "nodeIds": [
+        "file:README.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Core Packages",
+      "description": "The core packages provide the foundation: agentdb, mcp-framework, adr-automation, ast-analysis.",
+      "nodeIds": [
+        "file:packages/agentdb/src/index.ts",
+        "file:packages/mcp-framework/src/index.ts",
+        "file:packages/adr-automation/src/index.ts",
+        "file:packages/ast-analysis/src/index.ts"
+      ]
+    },
+    {
+      "order": 3,
+      "title": "Intelligence Layer",
+      "description": "The intelligence layer provides SONA, ReasoningBank, MoE Router, and EWC++ consolidation.",
+      "nodeIds": [
+        "file:packages/intelligence/src/index.ts",
+        "file:packages/intelligence/src/sona/adapter.ts",
+        "file:packages/intelligence/src/reasoningbank/pipeline.ts",
+        "file:packages/intelligence/src/moe/router.ts",
+        "file:packages/intelligence/src/ewc/consolidator.ts"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "Coordination Layer",
+      "description": "The coordination layer provides HiveMind Swarm, Saga Orchestrator, Pheromone Scheduler, and Business MCP Servers.",
+      "nodeIds": [
+        "file:packages/coordination/src/index.ts",
+        "file:packages/coordination/src/swarm/hive-mind.ts",
+        "file:packages/coordination/src/saga/orchestrator.ts",
+        "file:packages/coordination/src/pheromone/scheduler.ts",
+        "file:packages/coordination/src/mcp-business/servers.ts"
+      ]
+    },
+    {
+      "order": 5,
+      "title": "Optimization Layer",
+      "description": "The optimization layer provides OAPEL cycles, A/B Testing, Regression Detection, Flywheel Evaluation, and Templates.",
+      "nodeIds": [
+        "file:packages/optimization/src/index.ts",
+        "file:packages/optimization/src/oapel/engine.ts",
+        "file:packages/optimization/src/abtesting/framework.ts",
+        "file:packages/optimization/src/regression/detector.ts",
+        "file:packages/optimization/src/flywheel/evaluator.ts",
+        "file:packages/optimization/src/templates/manager.ts"
+      ]
+    }
+  ]
+}

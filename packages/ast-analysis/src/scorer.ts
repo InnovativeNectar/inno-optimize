@@ -11,7 +11,7 @@ import {
   DependencyGraph,
   DependencyNode,
   DependencyEdge
-} from './types';
+} from './types.js';
 
 export class ArchitectureScorer {
   private weights = {
@@ -741,13 +741,20 @@ export class ArchitectureScorer {
   
   private computeTrends(projectId: string, dimensions: Record<string, DimensionScore>): ScoreTrend[] {
     // In production, would fetch historical data
-    return Object.keys(dimensions).map(dim => ({
-      dimension: dim,
-      values: [dimensions[dim].score],
-      timestamps: [new Date()],
-      trend: 'stable' as const,
-      forecast: dimensions[dim].score
-    }));
+    const trends: ScoreTrend[] = [];
+    for (const dim of Object.keys(dimensions)) {
+      const dimScore = dimensions[dim];
+      if (dimScore) {
+        trends.push({
+          dimension: dim,
+          values: [dimScore.score],
+          timestamps: [new Date()],
+          trend: 'stable' as const,
+          forecast: dimScore.score
+        });
+      }
+    }
+    return trends;
   }
   
   private generateRecommendations(
@@ -758,14 +765,17 @@ export class ArchitectureScorer {
     const recommendations: Recommendation[] = [];
     
     // Find worst dimension
-    const worstDim = Object.entries(dimensions).sort((a, b) => a[1].score - b[1].score)[0];
-    if (worstDim[1].score < 70) {
+    const sortedDims = Object.entries(dimensions).sort((a, b) => a[1].score - b[1].score);
+    const worstDim = sortedDims[0];
+    if (worstDim && worstDim[1].score < 70) {
+      const dimName = worstDim[0];
+      const dimScore = worstDim[1];
       recommendations.push({
         priority: 'high',
-        category: worstDim[0],
-        title: `Improve ${worstDim[0]} (score: ${worstDim[1].score})`,
-        description: `The ${worstDim[0]} dimension is below threshold. Focus on ${worstDim[1].factors.filter(f => f.score < 60).map(f => f.name).join(', ')}.`,
-        affectedFiles: fileScores.filter(f => f.dimensionScores[worstDim[0]] < 60).map(f => f.file),
+        category: dimName,
+        title: `Improve ${dimName} (score: ${dimScore.score})`,
+        description: `The ${dimName} dimension is below threshold. Focus on ${dimScore.factors.filter(f => f.score < 60).map(f => f.name).join(', ')}.`,
+        affectedFiles: fileScores.filter(f => (f.dimensionScores[dimName] ?? 100) < 60).map(f => f.file),
         estimatedEffort: '1-2 weeks',
         impact: 'High'
       });

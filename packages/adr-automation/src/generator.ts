@@ -1,4 +1,4 @@
-import { ArchitecturalChange, ADR, SemanticAnchor, Consequence } from '../agentdb/src/types';
+import { ArchitecturalChange, ADR, SemanticAnchor, Consequence } from '@inno-optimize/agentdb';
 
 export class ADRGenerator {
   private memory: MemoryInterface;
@@ -61,14 +61,14 @@ export class ADRGenerator {
   }
   
   private generateTitle(change: ArchitecturalChange): string {
-    const prefixes = {
+    const prefixes: Record<string, string> = {
       refactor: 'Refactor',
       new_module: 'Introduce',
       dependency_change: 'Update dependency',
       pattern_introduction: 'Adopt pattern'
     };
     
-    const prefix = prefixes[change.type] || 'Change';
+    const prefix = prefixes[change.type] ?? 'Change';
     const target = change.affectedFiles[0]?.split('/').pop() || 'system';
     
     return `${prefix} ${target}: ${change.description.substring(0, 50)}`;
@@ -189,6 +189,7 @@ ${this.getImplementationApproach(change)}
           relevance: await this.computeRelevance(change, snippet)
         });
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn(`Failed to create anchor for ${file}:`, e);
       }
     }
@@ -211,7 +212,8 @@ ${this.getImplementationApproach(change)}
   
   private estimateEffort(change: ArchitecturalChange): string {
     const baseHours = change.affectedFiles.length * 2;
-    const multiplier = { low: 1, medium: 2, high: 3, critical: 5 }[change.impact];
+    const multiplierMap: Record<string, number> = { low: 1, medium: 2, high: 3, critical: 5 };
+    const multiplier = multiplierMap[change.impact] ?? 1;
     const hours = baseHours * multiplier;
     
     if (hours < 8) return `${hours} hours`;
@@ -251,11 +253,15 @@ export interface Embedder {
 }
 
 function cosineSimilarity(a: number[], b: number[]): number {
+  if (!a || !b || a.length !== b.length) return 0;
   let dot = 0, normA = 0, normB = 0;
   for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+    const av = a[i] ?? 0;
+    const bv = b[i] ?? 0;
+    dot += av * bv;
+    normA += av * av;
+    normB += bv * bv;
   }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+  const denom = Math.sqrt(normA) * Math.sqrt(normB);
+  return denom === 0 ? 0 : dot / denom;
 }

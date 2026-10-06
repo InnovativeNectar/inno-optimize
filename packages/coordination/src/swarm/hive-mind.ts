@@ -5,8 +5,12 @@ import {
   AgentPheromone, 
   TaskAssignment, 
   TaskOutcome,
-  PheromoneConfig 
-} from './types';
+  PheromoneConfig,
+  AgentInfo,
+  AgentSpawnConfig,
+  MessageBus,
+  ConsensusEngine
+} from './types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 export class HiveMindSwarm extends EventEmitter {
@@ -19,7 +23,7 @@ export class HiveMindSwarm extends EventEmitter {
   private consensus: ConsensusEngine;
   private messageBus: MessageBus;
   private isRunning = false;
-  private healthCheckInterval?: NodeJS.Timeout;
+  private healthCheckInterval?: ReturnType<typeof setTimeout>;
   
   constructor(config: SwarmConfig, memory: FastStore) {
     super();
@@ -393,161 +397,9 @@ export class HiveMindSwarm extends EventEmitter {
     }
     
     await this.consensus.shutdown();
-    await this.messageBus.shutdown();
+await this.messageBus.shutdown();
     await this.persistState();
     
     this.emit('shutdown', { swarmId: this.swarmId });
-  }
-}
-
-interface AgentInfo {
-  id: string;
-  type: string;
-  name: string;
-  role: string;
-  capabilities: string[];
-  model: string;
-  status: 'idle' | 'running' | 'stopped';
-  spawnedAt: Date;
-  currentTask: string | null;
-}
-
-interface AgentSpawnConfig {
-  id?: string;
-  type: string;
-  name: string;
-  role?: string;
-  capabilities?: string[];
-  model?: string;
-}
-
-interface ConsensusProposal {
-  id: string;
-  type: string;
-  data: any;
-  proposer: string;
-  timestamp: Date;
-}
-
-class ConsensusEngine extends EventEmitter {
-  private strategy: string;
-  private maxNodes: number;
-  private nodes = new Map<string, NodeInfo>();
-  private proposals = new Map<string, ProposalInfo>();
-  private currentTerm = 0;
-  private votedFor?: string;
-  private commitIndex = 0;
-  private lastApplied = 0;
-  
-  constructor(strategy: string) {
-    super();
-    this.strategy = strategy;
-  }
-  
-  async initialize(swarmId: string, maxNodes: number): Promise<void> {
-    this.maxNodes = maxNodes;
-    // Initialize based on strategy
-  }
-  
-  async join(nodeId: string): Promise<void> {
-    this.nodes.set(nodeId, {
-      id: nodeId,
-      joinedAt: new Date(),
-      lastHeartbeat: new Date(),
-      status: 'active'
-    });
-  }
-  
-  async leave(nodeId: string): Promise<void> {
-    this.nodes.delete(nodeId);
-  }
-  
-  async propose(proposal: ConsensusProposal): Promise<string> {
-    const proposalId = `prop-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-    this.proposals.set(proposalId, {
-      ...proposal,
-      id: proposalId,
-      status: 'pending',
-      votes: new Map(),
-      createdAt: new Date()
-    });
-    
-    // Broadcast to all nodes
-    for (const nodeId of this.nodes.keys()) {
-      if (nodeId !== proposal.proposer) {
-        this.emit('proposal', { nodeId, proposal: this.proposals.get(proposalId) });
-      }
-    }
-    
-    return proposalId;
-  }
-  
-  async vote(proposalId: string, voterId: string, vote: boolean): Promise<void> {
-    const proposal = this.proposals.get(proposalId);
-    if (!proposal) return;
-    
-    proposal.votes.set(voterId, vote);
-    
-    // Check for majority
-    const votes = Array.from(proposal.votes.values());
-    const yesVotes = votes.filter(v => v).length;
-    const totalNodes = this.nodes.size;
-    
-    if (yesVotes > totalNodes / 2) {
-      proposal.status = 'accepted';
-      this.emit('proposalAccepted', { proposalId, proposal });
-    } else if (votes.length - yesVotes > totalNodes / 2) {
-      proposal.status = 'rejected';
-      this.emit('proposalRejected', { proposalId, proposal });
-    }
-  }
-  
-  getMetrics() {
-    return {
-      lastTerm: this.currentTerm,
-      committedEntries: this.commitIndex,
-      leaderId: undefined, // Would track in Raft
-      activeProposals: Array.from(this.proposals.values()).filter(p => p.status === 'pending').length
-    };
-  }
-  
-  getHealth() {
-    return {
-      healthy: this.nodes.size >= Math.ceil(this.maxNodes / 2),
-      nodeCount: this.nodes.size,
-      quorum: Math.ceil(this.maxNodes / 2)
-    };
-  }
-  
-  async shutdown(): Promise<void> {
-    this.nodes.clear();
-    this.proposals.clear();
-  }
-}
-
-interface NodeInfo {
-  id: string;
-  joinedAt: Date;
-  lastHeartbeat: Date;
-  status: 'active' | 'suspected' | 'down';
-}
-
-interface ProposalInfo {
-  id: string;
-  type: string;
-  data: any;
-  proposer: string;
-  status: 'pending' | 'accepted' | 'rejected';
-  votes: Map<string, boolean>;
-  createdAt: Date;
-}
-
-class MessageBus extends EventEmitter {
-  async initialize(): Promise<void> {
-    // Initialize message transport
-  }
-  
-  async shutdown(): Promise<void> {
-    // Close connections
   }
 }

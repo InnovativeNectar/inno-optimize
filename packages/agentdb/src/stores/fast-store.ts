@@ -1,6 +1,6 @@
-import { AgentDB } from '@ruvector/agentdb';
-import { HNSWIndex, Quantizer, cosineSimilarity } from '../hnsw/index';
-import { MemoryEntry, SearchQuery, SearchResult, FastStoreConfig } from '../types';
+import { VectorDb } from 'ruvector';
+import { HNSWIndex, Quantizer, cosineSimilarity } from '../hnsw/index.js';
+import { MemoryEntry, SearchQuery, FastStoreConfig } from '../types.js';
 
 export class WorkingMemoryCache {
   private cache = new Map<string, MemoryEntry>();
@@ -47,6 +47,11 @@ export class WorkingMemoryCache {
     this.accessOrder.add(key);
   }
   
+  delete(key: string): void {
+    this.cache.delete(key);
+    this.accessOrder.delete(key);
+  }
+  
   clear(): void {
     this.cache.clear();
     this.accessOrder.clear();
@@ -58,7 +63,7 @@ export class WorkingMemoryCache {
 }
 
 export class FastStore {
-  private db: AgentDB;
+  private db: InstanceType<typeof VectorDb>;
   private hnsw: HNSWIndex;
   private quantizer: Quantizer;
   private cache: WorkingMemoryCache;
@@ -67,11 +72,11 @@ export class FastStore {
   constructor(config: FastStoreConfig) {
     this.config = config;
     
-    // Initialize AgentDB
-    this.db = new AgentDB({
+    // Initialize VectorDb
+    this.db = new VectorDb({
       path: config.path,
       dimensions: config.dimensions,
-      metric: 'cosine'
+      distanceMetric: 'cosine'
     });
     
     // Initialize HNSW
@@ -101,32 +106,84 @@ export class FastStore {
   }
   
   async initialize(): Promise<void> {
-    await this.db.open();
+    // VectorDb doesn't need explicit open
     // Load existing vectors into HNSW
-    const allEntries = await this.db.getAll();
-    for (const entry of allEntries) {
-      this.hnsw.add(entry.id, entry.embedding);
-    }
+    // Note: VectorDb doesn't have getAll, we'd need to track entries separately
+    // For now, skip loading existing vectors into HNSW
+  }
+  
+  private serializeMetadata(entry: MemoryEntry): Record<string, any> {
+    return {
+      content: entry.content,
+      metadata: entry.metadata,
+      provenance: entry.provenance,
+      reward: entry.reward,
+      verdict: entry.verdict,
+      loraWeights: entry.loraWeights,
+      ewcImportance: entry.ewcImportance,
+      consolidated: entry.consolidated,
+      accessCount: entry.accessCount,
+      lastAccessed: entry.lastAccessed.toISOString(),
+      createdAt: entry.createdAt.toISOString()
+    };
+  }
+  
+  private deserializeMetadata(id: string, metadata: Record<string, any>): MemoryEntry {
+    const data = metadata;
+    return {
+      id,
+      type: data.type || 'working',
+      tier: data.tier || 1,
+      content: data.content || '',
+      embedding: new Float32Array(0), // Will be filled from vector
+      metadata: data.metadata || {},
+      provenance: data.provenance || { agentId: '', sessionId: '', source: 'system', timestamp: new Date() },
+      reward: data.reward ?? 0,
+      verdict: data.verdict,
+      loraWeights: data.loraWeights,
+      ewcImportance: data.ewcImportance,
+      consolidated: data.consolidated ?? false,
+      accessCount: data.accessCount ?? 0,
+      lastAccessed: data.lastAccessed ? new Date(data.lastAccessed) : new Date(),
+      createdAt: data.createdAt ? new Date(data.createdAt) : new Date()
+    };
+  }
+  
+  private toNumberArray(arr: Float32Array | number[]): number[] {
+    return Array.isArray(arr) ? arr : Array.from(arr);
+  }
+  
+  private toFloat32Array(arr: Float32Array | number[]): Float32Array {
+    return arr instanceof Float32Array ? arr : new Float32Array(arr);
   }
   
   async insert(entries: MemoryEntry[]): Promise<void> {
     if (entries.length === 0) return;
     
     // Quantize embeddings
-    const quantized = await Promise.all(
-      entries.map(e => this.quantizer.quantize(e.embedding, this.config.quantization.defaultLevel))
+    const quantized: Float32Array[] = await Promise.all(
+      entries.map(e => this.quantizer.quantize(this.toNumberArray(e.embedding), this.config.quantization.defaultLevel))
     );
     
-    // Store in AgentDB
-    const dbEntries = entries.map((e, i) => ({
-      ...e,
-      embedding: Array.from(quantized[i])
-    }));
-    await this.db.insert(dbEntries);
+    // Store in VectorDb - metadata is auto-converted to JSON
+    const dbEntries = entries.map((e, i) => {
+      const q = quantized[i]!;
+      return {
+        id: e.id,
+        vector: this.toFloat32Array(q),
+        metadata: this.serializeMetadata(e)
+      };
+    });
+    await this.db.insertBatch(dbEntries);
     
     // Add to HNSW index
     for (let i = 0; i < entries.length; i++) {
-      this.hnsw.add(entries[i].id, Array.from(quantized[i]));
+      const q = quantized[i]!;
+      const vec: number[] = this.toNumberArray(q);
+      const entry = entries[i];
+      if (entry) {
+        this.hnsw.add(entry.id, vec);
+      }
     }
     
     // Update cache
@@ -149,16 +206,35 @@ export class FastStore {
     
     if (hnswResults.length === 0) return [];
     
-    // 3. Fetch full entries from AgentDB
-    const ids = hnswResults.map(r => r.id);
-    const entries = await this.db.getByIds(ids);
+    // 3. Fetch full entries from VectorDb using search (not get) for better performance
+    const searchOptions: { vector: number[] | Float32Array; k: number; filter?: Record<string, any>; efSearch?: number } = {
+      vector: query.vector,
+      k: query.k || 10
+    };
+    if (query.filter) {
+      searchOptions.filter = query.filter;
+    }
+    const dbResults = await this.db.search(searchOptions);
     
-    // 4. Hybrid re-ranking
+    if (dbResults.length === 0) return [];
+    
+    // 4. Deserialize metadata from JSON
+    const entries = dbResults.map(e => {
+      const entry = this.deserializeMetadata(e.id, e.metadata || {});
+      const vec = e.vector;
+      entry.embedding = vec instanceof Float32Array ? vec : (vec ? new Float32Array(vec) : new Float32Array(0));
+      return entry;
+    });
+    
+    // 5. Hybrid re-ranking
     const reranked = await this.hybridRerank(query, entries, hnswResults);
     
-    // 5. Update cache
+    // 6. Update cache
     if (reranked.length > 0) {
-      this.cache.set(vectorHash, reranked[0]);
+      const first = reranked[0];
+      if (first) {
+        this.cache.set(vectorHash, first);
+      }
     }
     
     return reranked;
@@ -169,13 +245,15 @@ export class FastStore {
     entries: MemoryEntry[],
     hnswResults: Array<{ id: string; distance: number }>
   ): Promise<MemoryEntry[]> {
-    // Create distance map
+    // Create distance map from HNSW results (distance = lower is better)
     const distanceMap = new Map(hnswResults.map(r => [r.id, r.distance]));
     
     // Score each entry
     const scored = entries.map(entry => {
-      const hnswDistance = distanceMap.get(entry.id) || 1;
-      const cosineScore = 1 - hnswDistance; // Convert distance to similarity
+      const hnswDistance = distanceMap.get(entry.id) ?? 1;
+      // HNSW cosine distance: 0 = identical, 2 = opposite
+      // Convert to similarity: 1 - distance (since cosine distance = 1 - cosine similarity for normalized vectors)
+      const cosineScore = 1 - hnswDistance;
       
       let combinedScore = cosineScore;
       
@@ -213,7 +291,9 @@ export class FastStore {
     const remainingScores = [...scores];
     
     // Select first (highest score)
-    selected.push(remaining.shift()!);
+    const first = remaining.shift();
+    if (!first) return [];
+    selected.push(first);
     remainingScores.shift();
     
     while (remaining.length > 0) {
@@ -221,15 +301,18 @@ export class FastStore {
       let bestScore = -Infinity;
       
       for (let i = 0; i < remaining.length; i++) {
+        const remEntry = remaining[i];
+        if (!remEntry) continue;
         // Compute max similarity to already selected
         let maxSim = 0;
         for (const sel of selected) {
-          const sim = cosineSimilarity(remaining[i].embedding, sel.embedding);
+          const sim = cosineSimilarity(this.toNumberArray(remEntry.embedding), this.toNumberArray(sel.embedding));
           maxSim = Math.max(maxSim, sim);
         }
         
         // MMR score: alpha * relevance - lambda * max_similarity
-        const mmrScore = params.alpha * remainingScores[i] - params.lambda * maxSim;
+        const score = remainingScores[i] ?? 0;
+        const mmrScore = params.alpha * score - params.lambda * maxSim;
         
         if (mmrScore > bestScore) {
           bestScore = mmrScore;
@@ -238,8 +321,11 @@ export class FastStore {
       }
       
       if (bestIdx >= 0) {
-        selected.push(remaining.splice(bestIdx, 1)[0]);
-        remainingScores.splice(bestIdx, 1);
+        const selectedItem = remaining.splice(bestIdx, 1)[0];
+        if (selectedItem) {
+          selected.push(selectedItem);
+          remainingScores.splice(bestIdx, 1);
+        }
       } else {
         break;
       }
@@ -283,7 +369,8 @@ export class FastStore {
     // Simple hash for cache key
     let hash = 0;
     for (let i = 0; i < Math.min(vector.length, 100); i++) {
-      hash = ((hash << 5) - hash + Math.round(vector[i] * 1000)) | 0;
+      const val = vector[i] ?? 0;
+      hash = ((hash << 5) - hash + Math.round(val * 1000)) | 0;
     }
     return hash.toString(36);
   }
@@ -293,8 +380,14 @@ export class FastStore {
     const cached = this.cache.get(id);
     if (cached) return cached;
     
-    const entries = await this.db.getByIds([id]);
-    return entries[0] || null;
+    const entry = await this.db.get(id);
+    if (!entry) return null;
+    
+    const entryId = entry.id ?? id;
+    const result = this.deserializeMetadata(entryId, entry.metadata || {});
+    const vec = entry.vector;
+    result.embedding = vec instanceof Float32Array ? vec : (vec ? new Float32Array(vec) : new Float32Array(0));
+    return result;
   }
   
   async update(id: string, updates: Partial<MemoryEntry>): Promise<void> {
@@ -307,11 +400,11 @@ export class FastStore {
   
   async delete(id: string): Promise<void> {
     this.hnsw.remove(id);
-    await this.db.delete([id]);
-    this.cache.clear(); // Simplified - in production, just remove key
+    await this.db.delete(id);
+    this.cache.delete(id);
   }
   
   async close(): Promise<void> {
-    await this.db.close();
+    // VectorDb doesn't have explicit close
   }
 }

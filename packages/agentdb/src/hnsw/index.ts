@@ -1,4 +1,4 @@
-import { HNSWLib } from 'hnswlib-node';
+import { HierarchicalNSW as HNSWLib } from 'hnswlib-node';
 
 export interface HNSWConfig {
   M: number;
@@ -20,11 +20,11 @@ export interface QuantizationConfig {
 }
 
 export class HNSWIndex {
-  private index: HNSWLib;
+  private index: any;
   private config: HNSWConfig;
   private quantizer: Quantizer;
-  private idMap = new Map<number, string>(); // internal ID -> external ID
-  private reverseIdMap = new Map<string, number>(); // external ID -> internal ID
+  private idMap = new Map<number, string>();
+  private reverseIdMap = new Map<string, number>();
   private nextInternalId = 0;
   
   constructor(config: HNSWConfig, quantizer: Quantizer) {
@@ -34,7 +34,7 @@ export class HNSWIndex {
     this.index = new HNSWLib(config.space || 'cosine', config.dimensions);
     this.index.initIndex({
       maxElements: 1000000,
-      M: config.M,
+      m: config.M,
       efConstruction: config.efConstruction
     });
     this.index.setEf(config.efSearch);
@@ -45,26 +45,30 @@ export class HNSWIndex {
     this.idMap.set(internalId, externalId);
     this.reverseIdMap.set(externalId, internalId);
     
-    // Quantize before adding to index
     const quantized = this.quantizer.quantizeSync(vector, 'pq8');
-    this.index.addPoint(quantized, internalId);
+    this.index.addPoint(Array.from(quantized), internalId);
   }
   
   search(vector: number[], k: number = 10): Array<{ id: string; distance: number }> {
     const quantized = this.quantizer.quantizeSync(vector, 'pq8');
-    const result = this.index.searchKnn(quantized, k);
+    const result = this.index.searchKnn(Array.from(quantized), k);
     
-    return result.neighbors.map((neighbor, i) => ({
-      id: this.idMap.get(neighbor) || '',
-      distance: result.distances[i]
-    })).filter(r => r.id);
+    const mapped = result.neighbors.map((neighbor: number, i: number) => {
+      const id = this.idMap.get(neighbor);
+      const distance = result.distances[i];
+      return {
+        id: id ?? '',
+        distance: distance ?? 0
+      };
+    });
+    
+    return mapped.filter((r: { id: string; distance: number }): r is { id: string; distance: number } => r.id !== '');
   }
   
   remove(externalId: string): boolean {
     const internalId = this.reverseIdMap.get(externalId);
     if (internalId === undefined) return false;
     
-    // Mark as deleted (hnswlib doesn't support true deletion)
     this.index.markDelete(internalId);
     this.idMap.delete(internalId);
     this.reverseIdMap.delete(externalId);
@@ -76,13 +80,11 @@ export class HNSWIndex {
   }
   
   save(path: string): void {
-    this.index.writeIndex(path);
-    // Save id maps separately
+    this.index.writeIndexSync(path);
   }
   
   load(path: string): void {
-    this.index.readIndex(path);
-    // Load id maps separately
+    this.index.readIndexSync(path);
   }
 }
 
@@ -102,10 +104,10 @@ export class Quantizer {
         return new Float32Array(vector);
       
       case 'pq8':
-        return this.quantizePQ(vector, 8, this.config.levels.pq8.subvectors);
+        return this.quantizePQ(vector, 8, this.config.levels.pq8.subvectors ?? 16);
       
       case 'pq4':
-        return this.quantizePQ(vector, 4, this.config.levels.pq4.subvectors);
+        return this.quantizePQ(vector, 4, this.config.levels.pq4.subvectors ?? 16);
       
       case 'binary':
         return this.quantizeBinary(vector);
@@ -131,7 +133,6 @@ export class Quantizer {
       const end = Math.min(start + dimPerSubvector, vector.length);
       const subvector = vector.slice(start, end);
       
-      // Simple k-means quantization (in production, use trained codebooks)
       const centroids = this.getOrCreateCodebook(`pq${bits}-${i}`, subvector.length, 1 << bits);
       const quantizedSubvector = this.quantizeSubvector(subvector, centroids);
       
@@ -141,30 +142,60 @@ export class Quantizer {
     return quantized;
   }
   
+  private quantizeSubvector(subvector: number[], centroids: Float32Array[]): Float32Array {
+    const quantized = new Float32Array(subvector.length);
+    
+    for (let i = 0; i < subvector.length; i++) {
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      
+      const subVecVal = subvector[i] ?? 0;
+      
+      for (let j = 0; j < centroids.length; j++) {
+        const centroid = centroids[j];
+        if (!centroid) continue;
+        const centroidLen = centroid.length;
+        const idx = i % centroidLen;
+        const centroidVal = centroid[idx];
+        const cVal = centroidVal !== undefined ? +centroidVal : 0;
+        const dist = Math.abs(subVecVal - cVal);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = j;
+        }
+      }
+      
+      const bestCentroid = centroids[bestIdx];
+      if (!bestCentroid) continue;
+      const centroidLen = bestCentroid.length;
+      const idx = i % centroidLen;
+      const bestVal = bestCentroid[idx] !== undefined ? +bestCentroid[idx] : 0;
+      quantized[i] = bestVal;
+    }
+    
+    return quantized;
+  }
+  
   private quantizeBinary(vector: number[]): Float32Array {
     const quantized = new Float32Array(vector.length);
     for (let i = 0; i < vector.length; i++) {
-      quantized[i] = vector[i] >= 0 ? 1 : -1;
+      const val = vector[i] ?? 0;
+      quantized[i] = val >= 0 ? 1 : -1;
     }
     return quantized;
   }
   
   private quantizeRaBitQ(vector: number[]): Float32Array {
-    // RaBitQ: 1-bit quantization with rotation
-    // Simplified implementation - production uses learned rotation matrix
     const rotated = this.applyRotation(vector);
     return this.quantizeBinary(rotated);
   }
   
   private applyRotation(vector: number[]): number[] {
-    // Placeholder for learned rotation matrix
-    // In production: R @ vector where R is orthogonal matrix
     return vector;
   }
   
-  private getOrCreateCodebook(key: string, dim: size, k: number): Float32Array[] {
+  private getOrCreateCodebook(key: string, dim: number, k: number): Float32Array[] {
     if (!this.codebooks.has(key)) {
-      // Initialize with random centroids (in production, train on data)
       const centroids: Float32Array[] = [];
       for (let i = 0; i < k; i++) {
         const centroid = new Float32Array(dim);
@@ -175,37 +206,22 @@ export class Quantizer {
       }
       this.codebooks.set(key, centroids);
     }
-    return this.codebooks.get(key)!;
-  }
-  
-  private quantizeSubvector(subvector: number[], centroids: Float32Array[]): Float32Array {
-    const quantized = new Float32Array(subvector.length);
-    
-    for (let i = 0; i < subvector.length; i++) {
-      let bestIdx = 0;
-      let bestDist = Infinity;
-      
-      for (let j = 0; j < centroids.length; j++) {
-        const dist = Math.abs(subvector[i] - centroids[j][i % centroids[j].length]);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIdx = j;
-        }
-      }
-      
-      quantized[i] = centroids[bestIdx][i % centroids[bestIdx].length];
-    }
-    
-    return quantized;
+    const result = this.codebooks.get(key);
+    if (!result) throw new Error(`Codebook ${key} not found after creation`);
+    return result;
   }
 }
 
 export function cosineSimilarity(a: number[], b: number[]): number {
+  if (!a || !b || a.length !== b.length) return 0;
   let dot = 0, normA = 0, normB = 0;
   for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+    const av = a[i] ?? 0;
+    const bv = b[i] ?? 0;
+    dot += av * bv;
+    normA += av * av;
+    normB += bv * bv;
   }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+  const denom = Math.sqrt(normA) * Math.sqrt(normB);
+  return denom === 0 ? 0 : dot / denom;
 }

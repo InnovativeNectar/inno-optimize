@@ -1,4 +1,4 @@
-import { Parser } from 'tree-sitter';
+import Parser from 'tree-sitter';
 import TypeScript from 'tree-sitter-typescript';
 import Python from 'tree-sitter-python';
 import Go from 'tree-sitter-go';
@@ -22,7 +22,7 @@ import {
   MethodInfo,
   PropertyInfo,
   ParameterInfo
-} from './types';
+} from './types.js';
 
 export class MultiLanguageParser {
   private parsers = new Map<string, Parser>();
@@ -164,6 +164,7 @@ export class MultiLanguageParser {
         const result = await this.parseFile(file, content);
         results.push(result);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(`Failed to parse ${file}:`, e);
       }
     }
@@ -217,16 +218,30 @@ export class MultiLanguageParser {
     
     for (const capture of captures) {
       const node = capture.node;
-      classes.push({
-        name: this.extractClassName(node, content),
-        extends: this.extractExtends(node, content),
-        implements: this.extractImplements(node, content),
-        methods: this.extractMethods(node, content, config),
-        properties: this.extractProperties(node, content, config),
-        line: node.startPosition.row + 1,
-        endLine: node.endPosition.row + 1,
-        complexity: this.computeClassComplexity(node, config)
-      });
+      const className = this.extractClassName(node, content);
+      const classExtends = this.extractExtends(node, content);
+      const classImplements = this.extractImplements(node, content);
+      const classMethods = this.extractMethods(node, content, config);
+      const classProperties = this.extractProperties(node, content, config);
+      const classLine = node.startPosition.row + 1;
+      const classEndLine = node.endPosition.row + 1;
+      const classComplexity = this.computeClassComplexity(node, config);
+      
+      const classInfo: ClassInfo = {
+        name: className,
+        implements: classImplements,
+        methods: classMethods,
+        properties: classProperties,
+        line: classLine,
+        endLine: classEndLine,
+        complexity: classComplexity
+      };
+      
+      if (classExtends !== undefined) {
+        classInfo.extends = classExtends;
+      }
+      
+      classes.push(classInfo);
     }
     
     return classes;
@@ -239,16 +254,30 @@ export class MultiLanguageParser {
     
     for (const capture of captures) {
       const node = capture.node;
-      functions.push({
-        name: this.extractFunctionName(node, content),
-        params: this.extractParameters(node, content, config),
-        returnType: this.extractReturnType(node, content),
-        isAsync: this.isAsync(node, content),
-        isGenerator: this.isGenerator(node, content),
-        line: node.startPosition.row + 1,
-        endLine: node.endPosition.row + 1,
-        complexity: this.computeFunctionComplexity(node, config)
-      });
+      const funcName = this.extractFunctionName(node, content);
+      const funcParams = this.extractParameters(node, content, config);
+      const funcReturnType = this.extractReturnType(node, content);
+      const funcIsAsync = this.isAsync(node, content);
+      const funcIsGenerator = this.isGenerator(node, content);
+      const funcLine = node.startPosition.row + 1;
+      const funcEndLine = node.endPosition.row + 1;
+      const funcComplexity = this.computeFunctionComplexity(node, config);
+      
+      const funcInfo: FunctionInfo = {
+        name: funcName,
+        params: funcParams,
+        isAsync: funcIsAsync,
+        isGenerator: funcIsGenerator,
+        line: funcLine,
+        endLine: funcEndLine,
+        complexity: funcComplexity
+      };
+      
+      if (funcReturnType !== undefined) {
+        funcInfo.returnType = funcReturnType;
+      }
+      
+      functions.push(funcInfo);
     }
     
     return functions;

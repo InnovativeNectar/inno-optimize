@@ -4,7 +4,7 @@ export interface MemoryEntry {
   tier: 1 | 2 | 3;
   
   content: string;
-  embedding: number[];
+  embedding: Float32Array | number[];
   metadata: {
     domain: string;
     taskType: string;
@@ -164,4 +164,11 @@ export interface ReasoningPattern {
   loraWeights: LoRAWeights;
   consolidated: boolean;
   createdAt: Date;
+}
+
+export interface ImpactAnalysis {
+  affectedModules: string[];
+  dependencies: Map<string, string[]>;
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  estimatedEffort: string;
 }

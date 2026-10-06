@@ -6,8 +6,10 @@ import {
   CompensationAction,
   RetryPolicy,
   SagaExecution,
-  CompletedStep 
-} from '../types';
+  CompletedStep,
+  CompensationPlan,
+  ConnectorRegistry
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 export class SagaOrchestrator {

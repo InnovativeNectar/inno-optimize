@@ -37,7 +37,7 @@ export class OAPELEngine {
   private currentCycle: OAPELCycle | null = null;
   private cycleHistory: OAPELCycle[] = [];
   private running = false;
-  private intervalId?: NodeJS.Timeout;
+  private intervalId: ReturnType<typeof setInterval> | undefined;
   
   constructor(
     memory: FastStore,

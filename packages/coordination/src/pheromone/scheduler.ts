@@ -1,4 +1,4 @@
-import { PheromoneConfig, AgentPheromone, PheromoneMetrics } from '../types';
+import { PheromoneConfig, AgentPheromone, PheromoneMetrics, TaskOutcome, PheromoneUpdate } from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 export class PheromoneScheduler {
@@ -242,20 +242,6 @@ export class PheromoneScheduler {
   updateConfig(updates: Partial<PheromoneConfig>): void {
     this.config = { ...this.config, ...updates };
   }
-}
-
-interface PheromoneUpdate {
-  agentId: string;
-  outcome: {
-    success: boolean;
-    metrics: {
-      latencyMs: number;
-      toolCalls: number;
-      memoryQueries: number;
-      consensusScore: number;
-    };
-  };
-  timestamp: number;
 }
 
 export function createDefaultPheromoneConfig(): PheromoneConfig {

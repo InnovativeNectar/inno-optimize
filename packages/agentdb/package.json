@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "@inno-optimize/agentdb",
   "version": "0.1.0",
   "main": "dist/index.js",
@@ -9,7 +10,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@ruvector/agentdb": "^0.3.0",
+    "ruvector": "^0.3.3",
     "hnswlib-node": "^2.0.0"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
-import { ParseResult, IncrementalChange, DeltaAnalysis, Issue, AntiPattern } from './types';
-import { MultiLanguageParser } from './parser';
-import { ArchitectureScorer } from './scorer';
-import { AntiPatternDetector } from './patterns';
+import { ParseResult, IncrementalChange, DeltaAnalysis, Issue, AntiPattern } from './types.js';
+import { MultiLanguageParser } from './parser.js';
+import { ArchitectureScorer } from './scorer.js';
+import { AntiPatternDetector } from './patterns.js';
 
 export class IncrementalAnalyzer {
   private parser: MultiLanguageParser;
@@ -208,7 +208,7 @@ export class IncrementalAnalyzer {
 export class FileWatcher {
   private analyzer: IncrementalAnalyzer;
   private watchers = new Map<string, any>();
-  private debounceTimers = new Map<string, NodeJS.Timeout>();
+  private debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
   
   constructor(analyzer: IncrementalAnalyzer) {
     this.analyzer = analyzer;
@@ -216,6 +216,7 @@ export class FileWatcher {
   
   watch(directory: string, callback: (analysis: DeltaAnalysis) => void): void {
     // In production, use chokidar or fs.watch
+    // eslint-disable-next-line no-console
     console.log(`Watching ${directory} for changes...`);
   }
   
