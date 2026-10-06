@@ -36,7 +36,7 @@ export class CoordinationLayer {
         return this.swarm.spawnAgent(agentConfig);
     }
     // Execute saga
-    async executeSaga(definition, initialContext) {
+    async executeSaga(definition, initialContext = {}) {
         return this.sagaOrchestrator.execute(definition, initialContext);
     }
     // Record task outcome for pheromone updates

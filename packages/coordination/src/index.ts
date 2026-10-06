@@ -55,7 +55,7 @@ export class CoordinationLayer {
   }
   
   // Execute saga
-  async executeSaga(definition: SagaDefinition, initialContext?: Partial<SagaContext>) {
+  async executeSaga(definition: SagaDefinition, initialContext: Partial<SagaContext> = {}) {
     return this.sagaOrchestrator.execute(definition, initialContext);
   }
   

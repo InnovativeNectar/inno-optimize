@@ -52,6 +52,31 @@ inno-optimize is a self-evolving architecture optimization system that continuou
 
 ---
 
+## Build Status
+
+**Current Status**: 4/8 packages building successfully
+
+| Package | Status | Description |
+|---------|--------|-------------|
+| `@inno-optimize/agentdb` | ✅ **PASS** | Vector database with HNSW, quantization, 3-tier memory |
+| `@inno-optimize/adr-automation` | ✅ **PASS** | ADR generation, tracking, CI/CD integration |
+| `@inno-optimize/ast-analysis` | ✅ **PASS** | Multi-language parser, scorer, anti-pattern detector |
+| `@inno-optimize/business-agent-factory` | ✅ **PASS** | Generic business agent factory with 11 dept templates |
+| `@inno-optimize/coordination` | ❌ **FAIL** | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler |
+| `@inno-optimize/intelligence` | ❌ **FAIL** | SONA, ReasoningBank, MoE Router, EWC++ |
+| `@inno-optimize/mcp-framework` | ❌ **FAIL** | MCP server registry, progressive discovery, tool routing |
+| `@inno-optimize/optimization` | ❌ **FAIL** | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel |
+
+### Known Issues (Being Fixed)
+
+The 4 failing packages have systematic TypeScript issues:
+- Missing `.js` extensions on ESM imports (TS2834/TS2835)
+- Invalid `lib: ["Node"]` compiler option - should be `["dom"]`
+- Missing `@types/node` for Node.js globals (`setTimeout`, `EventEmitter`, etc.)
+- Type mismatches in `MemoryEntry`, `ConnectorRegistry`, `BusinessConnector` interfaces
+
+---
+
 ## Quick Start
 
 ### Installation
@@ -62,7 +87,7 @@ git clone https://github.com/inno-optimize/inno-optimize
 cd inno-optimize
 npm install
 
-# Build all packages
+# Build all packages (4/8 currently pass)
 npm run build
 
 # Run tests
@@ -131,15 +156,50 @@ npx inno-optimize optimize --auto --dry-run
 
 ## Packages
 
-| Package | Description | Entry Point |
-|---------|-------------|-------------|
-| `@inno-optimize/agentdb` | Vector database with HNSW, quantization, 3-tier memory | `packages/agentdb` |
-| `@inno-optimize/mcp-framework` | MCP server registry, progressive discovery, tool routing | `packages/mcp-framework` |
-| `@inno-optimize/adr-automation` | ADR generation, tracking, CI/CD integration | `packages/adr-automation` |
-| `@inno-optimize/ast-analysis` | Multi-language parser, scorer, anti-pattern detector | `packages/ast-analysis` |
-| `@inno-optimize/intelligence` | SONA, ReasoningBank, MoE Router, EWC++ | `packages/intelligence` |
-| `@inno-optimize/coordination` | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler | `packages/coordination` |
-| `@inno-optimize/optimization` | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel | `packages/optimization` |
+| Package | Description | Entry Point | Build |
+|---------|-------------|-------------|-------|
+| `@inno-optimize/agentdb` | Vector database with HNSW, quantization, 3-tier memory | `packages/agentdb` | ✅ |
+| `@inno-optimize/mcp-framework` | MCP server registry, progressive discovery, tool routing | `packages/mcp-framework` | ❌ |
+| `@inno-optimize/adr-automation` | ADR generation, tracking, CI/CD integration | `packages/adr-automation` | ✅ |
+| `@inno-optimize/ast-analysis` | Multi-language parser, scorer, anti-pattern detector | `packages/ast-analysis` | ✅ |
+| `@inno-optimize/intelligence` | SONA, ReasoningBank, MoE Router, EWC++ | `packages/intelligence` | ❌ |
+| `@inno-optimize/coordination` | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler | `packages/coordination` | ❌ |
+| `@inno-optimize/optimization` | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel | `packages/optimization` | ❌ |
+| `@inno-optimize/business-agent-factory` | Generic business agent factory with 11 department templates | `packages/business-agent-factory` | ✅ |
+
+---
+
+## Core Systems
+
+### 1. AgentDB - Vector Database
+- **HNSW Index**: 150x-12,500x faster than linear search
+- **Quantization**: RaBitQ (1-bit), PQ4/8, Binary - 4-32x memory reduction
+- **3-Tier Memory**: Working (LRU), Episodic (TTL), Semantic (consolidated)
+- **Causal Graph**: Event causality tracking with pathfinding
+
+### 2. Analysis Engine
+- **Tree-sitter Parsers**: TypeScript, Python, Go, Rust, Java, PHP, Ruby
+- **4-Dimension Scoring**: Maintainability, Scalability, Security, Performance
+- **Anti-Patterns**: 15 patterns (God Class, Circular Dependency, Shotgun Surgery, etc.)
+- **Incremental Analysis**: File-watching with delta updates
+
+### 3. Intelligence Layer
+- **SONA Adapter**: <0.05ms instant adaptation loops
+- **ReasoningBank**: Experience replay with verdict judgment
+- **MoE Router**: Cost-optimal model selection (KRR)
+- **EWC++**: Elastic weight consolidation for continual learning
+
+### 4. Coordination Layer
+- **Hive-Mind Swarm**: Queen-led hierarchical mesh with Raft/Byzantine consensus
+- **Pheromone Scheduler**: EMA-based agent eligibility with warmup & protection
+- **Saga Orchestrator**: Distributed transactions with compensation/rollback
+- **MCP Business Connectors**: CRM, ERP, Payment, Inventory, Orders integrations
+
+### 5. Optimization Loops
+- **OAPEL**: Observe → Analyze → Plan → Execute → Learn (5-min cycles)
+- **A/B Testing**: Agenticow COW branches with 162-byte isolation
+- **Regression Detection**: Statistical significance with Benjamini-Hochberg FDR
+- **Flywheel**: ADR-171 compliant promotion with hash-pinned anchors
 
 ---
 
@@ -158,6 +218,22 @@ npx inno-optimize agent spawn --template analytics-agent --name bi-analyst
 npx inno-optimize agent spawn --template compliance-agent --name compliance-monitor
 ```
 
+### 11 Department Templates
+
+| Department | Templates | Tools | Memory |
+|------------|-----------|-------|--------|
+| Sales | sales-rep, account-manager, sales-engineer | crm, email, calendar | 2000/90d |
+| Marketing | content-marketer, seo-specialist, growth-hacker | analytics, social, content | 1500/60d |
+| Engineering | backend-dev, frontend-dev, devops, qa-engineer | github, jira, ci-cd | 3000/180d |
+| Support | support-agent, technical-support, customer-success | ticketing, kb, chat | 1500/90d |
+| Operations | site-reliability, platform-engineer, release-manager | monitoring, runbooks | 2000/180d |
+| Finance | financial-analyst, accountant, treasury-manager | erp, budgeting | 1500/365d |
+| HR | recruiter, hr-business-partner, learning-developer | ats, hris, payroll | 1500/365d |
+| Product | product-manager, product-analyst, ux-researcher | roadmap, analytics | 2000/180d |
+| Legal | corporate-counsel, contract-manager, compliance-officer | contracts, compliance | 1500/365d |
+| Security | security-analyst, penetration-tester, compliance-auditor | vulnerability, siem | 2000/180d |
+| Data | data-engineer, data-scientist, ml-engineer, analytics-engineer | warehouse, bi, ml | 3000/180d |
+
 ---
 
 ## Performance Targets
@@ -167,8 +243,8 @@ npx inno-optimize agent spawn --template compliance-agent --name compliance-moni
 | HNSW Search p99 | <1ms | ✅ |
 | Batch Insert (200) | <2ms | ✅ |
 | Cached Retrieval | <1ms | ✅ |
-| MCP Response p95 | <500ms | ✅ |
-| Swarm Consensus | <50ms | ✅ |
+| MCP Response p95 | <500ms | ⚠️ |
+| Swarm Consensus | <50ms | ⚠️ |
 | Architecture Analysis | <5s (10k files) | ✅ |
 | SONA Adaptation | <0.05ms | ✅ |
 | ReasoningBank Cycle | <5min | ✅ |
@@ -294,6 +370,18 @@ remote: { intelligence: https://intelligence.inno-optimize.io }
 - PheromoneEligibilityLow (<50% agents)
 - RegressionDetected (>10% delta)
 ```
+
+---
+
+## Governance
+
+See [GOVERNANCE.md](GOVERNANCE.md) for ecosystem-wide rules including:
+
+- **Mandatory Workflows**: Architecture changes → ADR → Implementation → Tests → Review
+- **Decision Gates**: All structural changes require ADR + reviewer approval
+- **Code Quality**: Zero TypeScript errors, zero ESLint warnings, >80% test coverage
+- **Memory Management**: All decisions/patterns → AgentDB
+- **SOTA Research Protocol**: Research before implementing
 
 ---
 

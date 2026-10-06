@@ -72,6 +72,7 @@ export interface TaskOutcome {
     toolCalls: number;
     memoryQueries: number;
     pheromoneUpdate: number;
+    consensusScore?: number;
   };
 }
 
@@ -209,11 +210,20 @@ export interface WebhookConfig {
 
 export interface JSONSchema {
   type: string;
+  description?: string;
   properties?: Record<string, JSONSchema>;
   items?: JSONSchema;
   required?: string[];
   enum?: any[];
   default?: any;
+  minimum?: number;
+  maximum?: number;
+  format?: string;
+  pattern?: string;
+  minLength?: number;
+  maxLength?: number;
+  minItems?: number;
+  maxItems?: number;
 }
 
 export interface BusinessMCPServer {
@@ -305,21 +315,13 @@ export interface ConnectorMetrics {
 }
 
 export interface ConnectorRegistry {
-  getConnector(id: string): any;
-  register(connector: any): void;
+  getConnector(id: string): BusinessConnector | undefined;
+  register(connector: BusinessConnector): void;
 }
 
 export interface PheromoneUpdate {
   agentId: string;
-  outcome: {
-    success: boolean;
-    metrics: {
-      latencyMs: number;
-      toolCalls: number;
-      memoryQueries: number;
-      consensusScore: number;
-    };
-  };
+  outcome: TaskOutcome;
   timestamp: number;
 }
 
@@ -349,6 +351,14 @@ export interface NodeInfo {
   joinedAt: Date;
   lastHeartbeat: Date;
   status: 'active' | 'suspected' | 'down';
+}
+
+export interface ConsensusProposal {
+  id: string;
+  type: string;
+  data: any;
+  proposer: string;
+  timestamp: Date;
 }
 
 export interface ConsensusProposal {

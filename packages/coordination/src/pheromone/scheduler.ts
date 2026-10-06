@@ -69,7 +69,7 @@ export class PheromoneScheduler {
     const taskSuccess = outcome.success ? 1 : 0;
     const latencyScore = Math.max(0, 1 - outcome.metrics.latencyMs / 60000);
     const toolEfficiency = Math.max(0, 1 - outcome.metrics.toolCalls / 20);
-    const consensusScore = outcome.metrics.consensusScore || 0.5;
+    const consensusScore = outcome.metrics.consensusScore ?? 0.5;
     
     const combinedScore = (taskSuccess * 0.4) + (latencyScore * 0.2) + (toolEfficiency * 0.2) + (consensusScore * 0.2);
     

@@ -8,8 +8,9 @@ import {
   PheromoneConfig,
   AgentInfo,
   AgentSpawnConfig,
-  MessageBus,
-  ConsensusEngine
+  ConsensusProposal,
+  ProposalInfo,
+  NodeInfo
 } from './types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 

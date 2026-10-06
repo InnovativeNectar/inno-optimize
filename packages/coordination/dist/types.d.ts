@@ -67,6 +67,7 @@ export interface TaskOutcome {
         toolCalls: number;
         memoryQueries: number;
         pheromoneUpdate: number;
+        consensusScore?: number;
     };
 }
 export interface SagaDefinition {
@@ -187,11 +188,20 @@ export interface WebhookConfig {
 }
 export interface JSONSchema {
     type: string;
+    description?: string;
     properties?: Record<string, JSONSchema>;
     items?: JSONSchema;
     required?: string[];
     enum?: any[];
     default?: any;
+    minimum?: number;
+    maximum?: number;
+    format?: string;
+    pattern?: string;
+    minLength?: number;
+    maxLength?: number;
+    minItems?: number;
+    maxItems?: number;
 }
 export interface BusinessMCPServer {
     name: string;
@@ -277,15 +287,7 @@ export interface ConnectorRegistry {
 }
 export interface PheromoneUpdate {
     agentId: string;
-    outcome: {
-        success: boolean;
-        metrics: {
-            latencyMs: number;
-            toolCalls: number;
-            memoryQueries: number;
-            consensusScore: number;
-        };
-    };
+    outcome: TaskOutcome;
     timestamp: number;
 }
 export interface AgentInfo {

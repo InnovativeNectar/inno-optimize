@@ -1,463 +1,1536 @@
 {
-  "scriptCompleted": true,
-  "contentDigest": "9adfa135b0fdb24fb7a34d541549bc3d82848144bcc9adc438c4e252677e036b",
   "files": [
     {
-      "path": ".github/workflows/ci-cd.yml",
-      "language": "yaml",
-      "sizeLines": 244,
-      "fileCategory": "infra"
-    },
-    {
-      "path": ".inno-optimize/codemods/advanced-codemods.ts",
-      "language": "typescript",
-      "sizeLines": 142,
-      "fileCategory": "code"
-    },
-    {
-      "path": ".inno-optimize/config.yaml",
-      "language": "yaml",
-      "sizeLines": 288,
-      "fileCategory": "config"
-    },
-    {
-      "path": ".inno-optimize/templates/adr-template.md",
-      "language": "markdown",
-      "sizeLines": 82,
-      "fileCategory": "docs"
-    },
-    {
-      "path": ".inno-optimize/templates/analytics-agent.yaml",
-      "language": "yaml",
-      "sizeLines": 126,
-      "fileCategory": "config"
-    },
-    {
-      "path": ".inno-optimize/templates/business-process-agent.yaml",
-      "language": "yaml",
-      "sizeLines": 78,
-      "fileCategory": "config"
-    },
-    {
-      "path": ".inno-optimize/templates/compliance-agent.yaml",
-      "language": "yaml",
-      "sizeLines": 170,
-      "fileCategory": "config"
-    },
-    {
-      "path": "README.md",
-      "language": "markdown",
-      "sizeLines": 325,
-      "fileCategory": "docs"
-    },
-    {
-      "path": "package.json",
-      "language": "json",
-      "sizeLines": 34,
-      "fileCategory": "config"
-    },
-    {
       "path": "packages/adr-automation/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/adr-automation/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 17,
-      "fileCategory": "config"
+      "sizeLines": 19,
+      "sizeBytes": 378,
+      "lastModified": "2026-10-05T10:35:43.068Z"
     },
     {
       "path": "packages/adr-automation/src/generator.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/adr-automation/src/generator.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 260,
-      "fileCategory": "code"
+      "sizeLines": 267,
+      "sizeBytes": 8438,
+      "lastModified": "2026-10-05T19:17:28.192Z"
     },
     {
       "path": "packages/adr-automation/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/adr-automation/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 1,
-      "fileCategory": "code"
+      "sizeLines": 2,
+      "sizeBytes": 61,
+      "lastModified": "2026-10-05T19:07:39.563Z"
     },
     {
       "path": "packages/adr-automation/src/tracker.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/adr-automation/src/tracker.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 299,
-      "fileCategory": "code"
+      "sizeLines": 305,
+      "sizeBytes": 8631,
+      "lastModified": "2026-10-05T19:47:36.995Z"
     },
     {
       "path": "packages/adr-automation/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/adr-automation/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 11,
+      "sizeBytes": 264,
+      "lastModified": "2026-10-05T19:09:26.539Z"
+    },
+    {
+      "path": "packages/adr-automation/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/adr-automation/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7833,
+      "lastModified": "2026-10-05T19:47:49.011Z"
     },
     {
       "path": "packages/agentdb/benchmarks/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/benchmarks/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 263,
-      "fileCategory": "code"
+      "sizeLines": 264,
+      "sizeBytes": 9141,
+      "lastModified": "2026-10-03T06:15:37.190Z"
     },
     {
       "path": "packages/agentdb/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 19,
-      "fileCategory": "config"
+      "sizeLines": 21,
+      "sizeBytes": 413,
+      "lastModified": "2026-10-05T10:46:13.416Z"
     },
     {
       "path": "packages/agentdb/src/__tests__/fast-store.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/__tests__/fast-store.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 190,
-      "fileCategory": "code"
+      "sizeLines": 191,
+      "sizeBytes": 5560,
+      "lastModified": "2026-10-03T06:06:16.033Z"
+    },
+    {
+      "path": "packages/agentdb/src/hnsw/index.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/hnsw/index.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 68,
+      "sizeBytes": 1871,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/agentdb/src/hnsw/index.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/hnsw/index.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1981,
+      "lastModified": "2026-10-04T23:11:20.844Z"
+    },
+    {
+      "path": "packages/agentdb/src/hnsw/index.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/hnsw/index.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 163,
+      "sizeBytes": 6011,
+      "lastModified": "2026-10-04T23:11:20.820Z"
+    },
+    {
+      "path": "packages/agentdb/src/hnsw/index.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/hnsw/index.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 6150,
+      "lastModified": "2026-10-04T23:11:20.820Z"
     },
     {
       "path": "packages/agentdb/src/hnsw/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/hnsw/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 210,
-      "fileCategory": "code"
+      "sizeLines": 227,
+      "sizeBytes": 6960,
+      "lastModified": "2026-10-05T12:37:41.700Z"
+    },
+    {
+      "path": "packages/agentdb/src/index.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/index.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 4,
+      "sizeBytes": 200,
+      "lastModified": "2026-10-04T23:11:20.828Z"
+    },
+    {
+      "path": "packages/agentdb/src/index.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/index.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 234,
+      "lastModified": "2026-10-04T23:11:20.804Z"
+    },
+    {
+      "path": "packages/agentdb/src/index.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/index.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 26,
+      "sizeBytes": 1664,
+      "lastModified": "2026-10-04T23:11:20.804Z"
+    },
+    {
+      "path": "packages/agentdb/src/index.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/index.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 260,
+      "lastModified": "2026-10-04T23:11:20.804Z"
     },
     {
       "path": "packages/agentdb/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 2,
-      "fileCategory": "code"
+      "sizeLines": 3,
+      "sizeBytes": 173,
+      "lastModified": "2026-10-05T11:03:35.336Z"
+    },
+    {
+      "path": "packages/agentdb/src/stores/fast-store.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/stores/fast-store.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 35,
+      "sizeBytes": 1049,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/agentdb/src/stores/fast-store.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/stores/fast-store.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1258,
+      "lastModified": "2026-10-04T23:11:20.844Z"
+    },
+    {
+      "path": "packages/agentdb/src/stores/fast-store.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/stores/fast-store.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 260,
+      "sizeBytes": 9139,
+      "lastModified": "2026-10-04T23:11:20.840Z"
+    },
+    {
+      "path": "packages/agentdb/src/stores/fast-store.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/stores/fast-store.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 9687,
+      "lastModified": "2026-10-04T23:11:20.840Z"
     },
     {
       "path": "packages/agentdb/src/stores/fast-store.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/stores/fast-store.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 316,
-      "fileCategory": "code"
+      "sizeLines": 410,
+      "sizeBytes": 12386,
+      "lastModified": "2026-10-05T12:45:50.988Z"
+    },
+    {
+      "path": "packages/agentdb/src/types.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/types.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 157,
+      "sizeBytes": 3697,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/agentdb/src/types.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/types.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 4043,
+      "lastModified": "2026-10-04T23:11:20.844Z"
+    },
+    {
+      "path": "packages/agentdb/src/types.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/types.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 3,
+      "sizeBytes": 110,
+      "lastModified": "2026-10-04T23:11:20.828Z"
+    },
+    {
+      "path": "packages/agentdb/src/types.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/types.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 95,
+      "lastModified": "2026-10-04T23:11:20.772Z"
     },
     {
       "path": "packages/agentdb/src/types.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/src/types.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 166,
-      "fileCategory": "code"
+      "sizeLines": 174,
+      "sizeBytes": 3544,
+      "lastModified": "2026-10-05T19:18:40.151Z"
     },
     {
       "path": "packages/agentdb/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 12,
+      "sizeBytes": 278,
+      "lastModified": "2026-10-05T19:36:56.279Z"
+    },
+    {
+      "path": "packages/agentdb/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/agentdb/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 12230,
+      "lastModified": "2026-10-05T19:46:00.299Z"
     },
     {
       "path": "packages/ast-analysis/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 26,
-      "fileCategory": "config"
+      "sizeLines": 28,
+      "sizeBytes": 677,
+      "lastModified": "2026-10-05T10:35:43.096Z"
     },
     {
       "path": "packages/ast-analysis/src/__tests__/ast-analysis.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/__tests__/ast-analysis.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 194,
-      "fileCategory": "code"
+      "sizeLines": 195,
+      "sizeBytes": 6070,
+      "lastModified": "2026-10-03T06:07:02.205Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/incremental.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/incremental.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 36,
+      "sizeBytes": 1235,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/incremental.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/incremental.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1223,
+      "lastModified": "2026-10-04T23:11:20.844Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/incremental.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/incremental.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 223,
+      "sizeBytes": 7930,
+      "lastModified": "2026-10-04T23:11:20.844Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/incremental.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/incremental.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7387,
+      "lastModified": "2026-10-04T23:11:20.844Z"
     },
     {
       "path": "packages/ast-analysis/src/incremental.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/incremental.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 267,
-      "fileCategory": "code"
+      "sizeLines": 269,
+      "sizeBytes": 7990,
+      "lastModified": "2026-10-05T19:51:03.065Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/index.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/index.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 6,
+      "sizeBytes": 284,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/index.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/index.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 308,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/index.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/index.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 29,
+      "sizeBytes": 1961,
+      "lastModified": "2026-10-04T23:11:20.820Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/index.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/index.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 313,
+      "lastModified": "2026-10-04T23:11:20.820Z"
     },
     {
       "path": "packages/ast-analysis/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 4,
-      "fileCategory": "code"
+      "sizeLines": 5,
+      "sizeBytes": 263,
+      "lastModified": "2026-10-05T19:49:07.297Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/parser.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/parser.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 60,
+      "sizeBytes": 1924,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/parser.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/parser.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1576,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/parser.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/parser.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 423,
+      "sizeBytes": 18090,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/parser.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/parser.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 15227,
+      "lastModified": "2026-10-04T23:11:20.848Z"
     },
     {
       "path": "packages/ast-analysis/src/parser.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/parser.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 486,
-      "fileCategory": "code"
+      "sizeLines": 516,
+      "sizeBytes": 18654,
+      "lastModified": "2026-10-05T19:59:23.241Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/patterns.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/patterns.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 26,
+      "sizeBytes": 894,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/patterns.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/patterns.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 810,
+      "lastModified": "2026-10-04T23:11:20.844Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/patterns.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/patterns.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 562,
+      "sizeBytes": 24007,
+      "lastModified": "2026-10-04T23:11:20.824Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/patterns.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/patterns.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 14725,
+      "lastModified": "2026-10-04T23:11:20.824Z"
     },
     {
       "path": "packages/ast-analysis/src/patterns.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/patterns.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 612,
-      "fileCategory": "code"
+      "sizeLines": 613,
+      "sizeBytes": 20806,
+      "lastModified": "2026-10-05T19:56:27.006Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/scorer.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/scorer.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 39,
+      "sizeBytes": 1284,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/scorer.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/scorer.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1035,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/scorer.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/scorer.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 692,
+      "sizeBytes": 27308,
+      "lastModified": "2026-10-04T23:11:20.820Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/scorer.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/scorer.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 25507,
+      "lastModified": "2026-10-04T23:11:20.816Z"
     },
     {
       "path": "packages/ast-analysis/src/scorer.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/scorer.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 834,
-      "fileCategory": "code"
+      "sizeLines": 845,
+      "sizeBytes": 26481,
+      "lastModified": "2026-10-05T20:01:34.025Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/types/tree-sitter-php.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/types/tree-sitter-php.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 2,
+      "sizeBytes": 154,
+      "lastModified": "2026-10-05T19:53:15.591Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/types.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/types.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 242,
+      "sizeBytes": 5987,
+      "lastModified": "2026-10-04T23:11:20.840Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/types.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/types.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 6273,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/types.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/types.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 3,
+      "sizeBytes": 110,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/ast-analysis/src/types.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/types.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 95,
+      "lastModified": "2026-10-04T23:11:20.800Z"
     },
     {
       "path": "packages/ast-analysis/src/types.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/src/types.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 277,
-      "fileCategory": "code"
+      "sizeLines": 278,
+      "sizeBytes": 5690,
+      "lastModified": "2026-10-03T05:22:05.589Z"
     },
     {
       "path": "packages/ast-analysis/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 12,
+      "sizeBytes": 285,
+      "lastModified": "2026-10-05T19:48:46.507Z"
+    },
+    {
+      "path": "packages/ast-analysis/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/ast-analysis/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 10499,
+      "lastModified": "2026-10-05T20:02:03.501Z"
+    },
+    {
+      "path": "packages/business-agent-factory/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/package.json",
+      "fileCategory": "config",
+      "language": "json",
+      "sizeLines": 23,
+      "sizeBytes": 528,
+      "lastModified": "2026-10-05T10:35:43.116Z"
+    },
+    {
+      "path": "packages/business-agent-factory/src/adapters/department-adapter.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/src/adapters/department-adapter.ts",
+      "fileCategory": "code",
+      "language": "typescript",
+      "sizeLines": 111,
+      "sizeBytes": 3788,
+      "lastModified": "2026-10-05T20:06:32.117Z"
+    },
+    {
+      "path": "packages/business-agent-factory/src/domains/business-domain.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/src/domains/business-domain.ts",
+      "fileCategory": "code",
+      "language": "typescript",
+      "sizeLines": 72,
+      "sizeBytes": 2533,
+      "lastModified": "2026-10-05T20:06:54.585Z"
+    },
+    {
+      "path": "packages/business-agent-factory/src/factories/agent-factory.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/src/factories/agent-factory.ts",
+      "fileCategory": "code",
+      "language": "typescript",
+      "sizeLines": 89,
+      "sizeBytes": 2430,
+      "lastModified": "2026-10-05T20:05:57.533Z"
+    },
+    {
+      "path": "packages/business-agent-factory/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/src/index.ts",
+      "fileCategory": "code",
+      "language": "typescript",
+      "sizeLines": 5,
+      "sizeBytes": 182,
+      "lastModified": "2026-10-05T20:05:10.776Z"
+    },
+    {
+      "path": "packages/business-agent-factory/src/templates/manager.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/src/templates/manager.ts",
+      "fileCategory": "code",
+      "language": "typescript",
+      "sizeLines": 42,
+      "sizeBytes": 1107,
+      "lastModified": "2026-10-05T20:05:25.642Z"
+    },
+    {
+      "path": "packages/business-agent-factory/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/tsconfig.json",
+      "fileCategory": "config",
+      "language": "json",
+      "sizeLines": 12,
+      "sizeBytes": 285,
+      "lastModified": "2026-10-05T20:04:55.392Z"
+    },
+    {
+      "path": "packages/business-agent-factory/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/business-agent-factory/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7657,
+      "lastModified": "2026-10-05T20:07:13.893Z"
     },
     {
       "path": "packages/coordination/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 20,
-      "fileCategory": "config"
+      "sizeLines": 22,
+      "sizeBytes": 478,
+      "lastModified": "2026-10-05T10:35:43.136Z"
     },
     {
       "path": "packages/coordination/src/__tests__/coordination.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/__tests__/coordination.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 262,
-      "fileCategory": "code"
+      "sizeLines": 263,
+      "sizeBytes": 8803,
+      "lastModified": "2026-10-04T10:05:26.894Z"
     },
     {
       "path": "packages/coordination/src/__tests__/integration.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/__tests__/integration.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 192,
-      "fileCategory": "code"
+      "sizeLines": 193,
+      "sizeBytes": 7170,
+      "lastModified": "2026-10-04T10:06:53.150Z"
+    },
+    {
+      "path": "packages/coordination/src/index.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/index.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 35,
+      "sizeBytes": 1797,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/coordination/src/index.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/index.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1469,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/coordination/src/index.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/index.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 130,
+      "sizeBytes": 6613,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/coordination/src/index.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/index.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 2652,
+      "lastModified": "2026-10-04T23:11:20.832Z"
     },
     {
       "path": "packages/coordination/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 124,
-      "fileCategory": "code"
+      "sizeLines": 125,
+      "sizeBytes": 3972,
+      "lastModified": "2026-10-05T20:08:46.088Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/connectors.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/connectors.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 54,
+      "sizeBytes": 1551,
+      "lastModified": "2026-10-04T23:11:20.820Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/connectors.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/connectors.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1383,
+      "lastModified": "2026-10-04T23:11:20.820Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/connectors.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/connectors.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 210,
+      "sizeBytes": 8510,
+      "lastModified": "2026-10-04T23:11:20.816Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/connectors.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/connectors.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7397,
+      "lastModified": "2026-10-04T23:11:20.816Z"
     },
     {
       "path": "packages/coordination/src/mcp-business/connectors.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/connectors.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 223,
-      "fileCategory": "code"
+      "sizeLines": 224,
+      "sizeBytes": 7610,
+      "lastModified": "2026-10-04T10:07:32.614Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/servers.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/servers.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 6,
+      "sizeBytes": 411,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/servers.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/servers.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 412,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/servers.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/servers.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 611,
+      "sizeBytes": 24234,
+      "lastModified": "2026-10-04T23:11:20.800Z"
+    },
+    {
+      "path": "packages/coordination/src/mcp-business/servers.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/servers.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 16066,
+      "lastModified": "2026-10-04T23:11:20.792Z"
     },
     {
       "path": "packages/coordination/src/mcp-business/servers.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/mcp-business/servers.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 617,
-      "fileCategory": "code"
+      "sizeLines": 618,
+      "sizeBytes": 18910,
+      "lastModified": "2026-10-04T10:02:14.946Z"
+    },
+    {
+      "path": "packages/coordination/src/pheromone/scheduler.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/pheromone/scheduler.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 32,
+      "sizeBytes": 1297,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/coordination/src/pheromone/scheduler.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/pheromone/scheduler.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1254,
+      "lastModified": "2026-10-04T23:11:20.848Z"
+    },
+    {
+      "path": "packages/coordination/src/pheromone/scheduler.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/pheromone/scheduler.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 219,
+      "sizeBytes": 7802,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/coordination/src/pheromone/scheduler.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/pheromone/scheduler.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7439,
+      "lastModified": "2026-10-04T23:11:20.832Z"
     },
     {
       "path": "packages/coordination/src/pheromone/scheduler.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/pheromone/scheduler.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 270,
-      "fileCategory": "code"
+      "sizeLines": 257,
+      "sizeBytes": 7691,
+      "lastModified": "2026-10-05T22:35:20.780Z"
+    },
+    {
+      "path": "packages/coordination/src/saga/orchestrator.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/saga/orchestrator.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 33,
+      "sizeBytes": 1186,
+      "lastModified": "2026-10-04T23:11:20.840Z"
+    },
+    {
+      "path": "packages/coordination/src/saga/orchestrator.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/saga/orchestrator.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1071,
+      "lastModified": "2026-10-04T23:11:20.840Z"
+    },
+    {
+      "path": "packages/coordination/src/saga/orchestrator.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/saga/orchestrator.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 242,
+      "sizeBytes": 9119,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/coordination/src/saga/orchestrator.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/saga/orchestrator.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7950,
+      "lastModified": "2026-10-04T23:11:20.824Z"
     },
     {
       "path": "packages/coordination/src/saga/orchestrator.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/saga/orchestrator.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 302,
-      "fileCategory": "code"
+      "sizeLines": 305,
+      "sizeBytes": 8881,
+      "lastModified": "2026-10-05T20:09:13.056Z"
+    },
+    {
+      "path": "packages/coordination/src/swarm/hive-mind.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/swarm/hive-mind.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 52,
+      "sizeBytes": 1644,
+      "lastModified": "2026-10-04T23:11:20.812Z"
+    },
+    {
+      "path": "packages/coordination/src/swarm/hive-mind.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/swarm/hive-mind.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1729,
+      "lastModified": "2026-10-04T23:11:20.812Z"
+    },
+    {
+      "path": "packages/coordination/src/swarm/hive-mind.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/swarm/hive-mind.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 424,
+      "sizeBytes": 15840,
+      "lastModified": "2026-10-04T23:11:20.804Z"
+    },
+    {
+      "path": "packages/coordination/src/swarm/hive-mind.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/swarm/hive-mind.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 15673,
+      "lastModified": "2026-10-04T23:11:20.800Z"
     },
     {
       "path": "packages/coordination/src/swarm/hive-mind.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/swarm/hive-mind.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 552,
-      "fileCategory": "code"
+      "sizeLines": 405,
+      "sizeBytes": 12653,
+      "lastModified": "2026-10-05T22:37:23.577Z"
+    },
+    {
+      "path": "packages/coordination/src/types.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/types.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 274,
+      "sizeBytes": 7014,
+      "lastModified": "2026-10-04T23:11:20.796Z"
+    },
+    {
+      "path": "packages/coordination/src/types.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/types.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 7268,
+      "lastModified": "2026-10-04T23:11:20.792Z"
+    },
+    {
+      "path": "packages/coordination/src/types.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/types.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 3,
+      "sizeBytes": 110,
+      "lastModified": "2026-10-04T23:11:20.792Z"
+    },
+    {
+      "path": "packages/coordination/src/types.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/types.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 95,
+      "lastModified": "2026-10-04T23:11:20.792Z"
     },
     {
       "path": "packages/coordination/src/types.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/src/types.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 304,
-      "fileCategory": "code"
+      "sizeLines": 386,
+      "sizeBytes": 8564,
+      "lastModified": "2026-10-05T22:36:51.205Z"
     },
     {
       "path": "packages/coordination/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 12,
+      "sizeBytes": 285,
+      "lastModified": "2026-10-05T20:08:04.793Z"
+    },
+    {
+      "path": "packages/coordination/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 17751,
+      "lastModified": "2026-10-05T22:37:46.129Z"
     },
     {
       "path": "packages/coordination/vitest.config.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/coordination/vitest.config.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 22,
-      "fileCategory": "code"
+      "sizeLines": 23,
+      "sizeBytes": 682,
+      "lastModified": "2026-10-04T10:03:01.398Z"
     },
     {
       "path": "packages/intelligence/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 19,
-      "fileCategory": "config"
+      "sizeLines": 21,
+      "sizeBytes": 438,
+      "lastModified": "2026-10-05T10:35:43.148Z"
     },
     {
       "path": "packages/intelligence/src/__tests__/intelligence.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/__tests__/intelligence.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 355,
-      "fileCategory": "code"
+      "sizeLines": 356,
+      "sizeBytes": 10991,
+      "lastModified": "2026-10-03T06:31:06.138Z"
+    },
+    {
+      "path": "packages/intelligence/src/ewc/consolidator.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/ewc/consolidator.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 36,
+      "sizeBytes": 1430,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/intelligence/src/ewc/consolidator.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/ewc/consolidator.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1320,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/intelligence/src/ewc/consolidator.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/ewc/consolidator.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 255,
+      "sizeBytes": 9904,
+      "lastModified": "2026-10-04T23:11:20.824Z"
+    },
+    {
+      "path": "packages/intelligence/src/ewc/consolidator.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/ewc/consolidator.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 9199,
+      "lastModified": "2026-10-04T23:11:20.820Z"
     },
     {
       "path": "packages/intelligence/src/ewc/consolidator.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/ewc/consolidator.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 318,
-      "fileCategory": "code"
+      "sizeLines": 319,
+      "sizeBytes": 9902,
+      "lastModified": "2026-10-03T06:27:14.666Z"
+    },
+    {
+      "path": "packages/intelligence/src/index.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/index.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 42,
+      "sizeBytes": 1845,
+      "lastModified": "2026-10-04T23:11:20.812Z"
+    },
+    {
+      "path": "packages/intelligence/src/index.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/index.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1639,
+      "lastModified": "2026-10-04T23:11:20.812Z"
+    },
+    {
+      "path": "packages/intelligence/src/index.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/index.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 146,
+      "sizeBytes": 7070,
+      "lastModified": "2026-10-04T23:11:20.804Z"
+    },
+    {
+      "path": "packages/intelligence/src/index.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/index.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 4521,
+      "lastModified": "2026-10-04T23:11:20.804Z"
     },
     {
       "path": "packages/intelligence/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 164,
-      "fileCategory": "code"
+      "sizeLines": 165,
+      "sizeBytes": 5607,
+      "lastModified": "2026-10-03T06:28:46.802Z"
+    },
+    {
+      "path": "packages/intelligence/src/moe/router.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/moe/router.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 35,
+      "sizeBytes": 1055,
+      "lastModified": "2026-10-04T23:11:20.804Z"
+    },
+    {
+      "path": "packages/intelligence/src/moe/router.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/moe/router.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 972,
+      "lastModified": "2026-10-04T23:11:20.800Z"
+    },
+    {
+      "path": "packages/intelligence/src/moe/router.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/moe/router.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 331,
+      "sizeBytes": 12686,
+      "lastModified": "2026-10-04T23:11:20.792Z"
+    },
+    {
+      "path": "packages/intelligence/src/moe/router.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/moe/router.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 12463,
+      "lastModified": "2026-10-04T23:11:20.792Z"
     },
     {
       "path": "packages/intelligence/src/moe/router.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/moe/router.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 410,
-      "fileCategory": "code"
+      "sizeLines": 411,
+      "sizeBytes": 12469,
+      "lastModified": "2026-10-03T06:26:26.182Z"
+    },
+    {
+      "path": "packages/intelligence/src/reasoningbank/pipeline.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/reasoningbank/pipeline.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 31,
+      "sizeBytes": 1464,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/intelligence/src/reasoningbank/pipeline.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/reasoningbank/pipeline.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 1324,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/intelligence/src/reasoningbank/pipeline.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/reasoningbank/pipeline.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 274,
+      "sizeBytes": 10455,
+      "lastModified": "2026-10-04T23:11:20.832Z"
+    },
+    {
+      "path": "packages/intelligence/src/reasoningbank/pipeline.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/reasoningbank/pipeline.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 9156,
+      "lastModified": "2026-10-04T23:11:20.824Z"
     },
     {
       "path": "packages/intelligence/src/reasoningbank/pipeline.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/reasoningbank/pipeline.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 345,
-      "fileCategory": "code"
+      "sizeLines": 346,
+      "sizeBytes": 10627,
+      "lastModified": "2026-10-03T06:25:35.718Z"
+    },
+    {
+      "path": "packages/intelligence/src/sona/adapter.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/sona/adapter.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 27,
+      "sizeBytes": 987,
+      "lastModified": "2026-10-04T23:11:20.824Z"
+    },
+    {
+      "path": "packages/intelligence/src/sona/adapter.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/sona/adapter.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 891,
+      "lastModified": "2026-10-04T23:11:20.824Z"
+    },
+    {
+      "path": "packages/intelligence/src/sona/adapter.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/sona/adapter.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 290,
+      "sizeBytes": 10766,
+      "lastModified": "2026-10-04T23:11:20.804Z"
+    },
+    {
+      "path": "packages/intelligence/src/sona/adapter.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/sona/adapter.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 10049,
+      "lastModified": "2026-10-04T23:11:20.804Z"
     },
     {
       "path": "packages/intelligence/src/sona/adapter.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/sona/adapter.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 341,
-      "fileCategory": "code"
+      "sizeLines": 342,
+      "sizeBytes": 10163,
+      "lastModified": "2026-10-03T06:24:49.134Z"
+    },
+    {
+      "path": "packages/intelligence/src/types.d.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/types.d.ts",
+      "fileCategory": "config",
+      "language": "typescript",
+      "sizeLines": 167,
+      "sizeBytes": 3976,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/intelligence/src/types.d.ts.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/types.d.ts.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 4082,
+      "lastModified": "2026-10-04T23:11:20.836Z"
+    },
+    {
+      "path": "packages/intelligence/src/types.js",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/types.js",
+      "fileCategory": "code",
+      "language": "javascript",
+      "sizeLines": 3,
+      "sizeBytes": 110,
+      "lastModified": "2026-10-04T23:11:20.792Z"
+    },
+    {
+      "path": "packages/intelligence/src/types.js.map",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/types.js.map",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 95,
+      "lastModified": "2026-10-04T23:11:20.792Z"
     },
     {
       "path": "packages/intelligence/src/types.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/src/types.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 184,
-      "fileCategory": "code"
+      "sizeLines": 185,
+      "sizeBytes": 3784,
+      "lastModified": "2026-10-03T06:23:12.662Z"
     },
     {
       "path": "packages/intelligence/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 11,
+      "sizeBytes": 265,
+      "lastModified": "2026-10-05T10:37:21.852Z"
+    },
+    {
+      "path": "packages/intelligence/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 18266,
+      "lastModified": "2026-10-05T19:48:21.731Z"
     },
     {
       "path": "packages/intelligence/vitest.config.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/intelligence/vitest.config.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 21,
-      "fileCategory": "code"
+      "sizeLines": 22,
+      "sizeBytes": 597,
+      "lastModified": "2026-10-03T06:28:58.178Z"
     },
     {
       "path": "packages/mcp-framework/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 17,
-      "fileCategory": "config"
+      "sizeLines": 19,
+      "sizeBytes": 385,
+      "lastModified": "2026-10-05T10:35:43.160Z"
     },
     {
       "path": "packages/mcp-framework/src/__tests__/mcp-framework.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/src/__tests__/mcp-framework.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 209,
-      "fileCategory": "code"
+      "sizeLines": 210,
+      "sizeBytes": 6353,
+      "lastModified": "2026-10-03T06:05:50.549Z"
     },
     {
       "path": "packages/mcp-framework/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 1,
-      "fileCategory": "code"
+      "sizeLines": 2,
+      "sizeBytes": 125,
+      "lastModified": "2026-10-03T05:18:18.945Z"
     },
     {
       "path": "packages/mcp-framework/src/server.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/src/server.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 385,
-      "fileCategory": "code"
+      "sizeLines": 386,
+      "sizeBytes": 9665,
+      "lastModified": "2026-10-03T05:15:50.901Z"
     },
     {
       "path": "packages/mcp-framework/src/tools/router.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/src/tools/router.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 290,
-      "fileCategory": "code"
+      "sizeLines": 291,
+      "sizeBytes": 9384,
+      "lastModified": "2026-10-03T05:16:35.529Z"
     },
     {
       "path": "packages/mcp-framework/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 11,
+      "sizeBytes": 257,
+      "lastModified": "2026-10-05T11:27:45.748Z"
+    },
+    {
+      "path": "packages/mcp-framework/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/mcp-framework/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 11133,
+      "lastModified": "2026-10-05T11:40:06.596Z"
     },
     {
       "path": "packages/optimization/package.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/package.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 22,
-      "fileCategory": "config"
+      "sizeLines": 24,
+      "sizeBytes": 558,
+      "lastModified": "2026-10-05T10:35:43.184Z"
     },
     {
       "path": "packages/optimization/src/__tests__/optimization.test.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/__tests__/optimization.test.ts",
+      "fileCategory": "test",
       "language": "typescript",
-      "sizeLines": 433,
-      "fileCategory": "code"
+      "sizeLines": 434,
+      "sizeBytes": 13701,
+      "lastModified": "2026-10-04T10:40:31.838Z"
     },
     {
       "path": "packages/optimization/src/abtesting/agenticow.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/abtesting/agenticow.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 16,
-      "fileCategory": "code"
+      "sizeLines": 17,
+      "sizeBytes": 646,
+      "lastModified": "2026-10-04T10:40:46.558Z"
     },
     {
       "path": "packages/optimization/src/abtesting/framework.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/abtesting/framework.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 330,
-      "fileCategory": "code"
+      "sizeLines": 331,
+      "sizeBytes": 10012,
+      "lastModified": "2026-10-04T10:33:25.682Z"
     },
     {
       "path": "packages/optimization/src/flywheel/evaluator.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/flywheel/evaluator.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 488,
-      "fileCategory": "code"
+      "sizeLines": 489,
+      "sizeBytes": 15917,
+      "lastModified": "2026-10-04T10:36:37.182Z"
     },
     {
       "path": "packages/optimization/src/index.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/index.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 158,
-      "fileCategory": "code"
+      "sizeLines": 159,
+      "sizeBytes": 5430,
+      "lastModified": "2026-10-04T10:39:18.486Z"
     },
     {
       "path": "packages/optimization/src/oapel/engine.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/oapel/engine.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 641,
-      "fileCategory": "code"
+      "sizeLines": 642,
+      "sizeBytes": 18445,
+      "lastModified": "2026-10-05T10:41:47.604Z"
     },
     {
       "path": "packages/optimization/src/regression/detector.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/regression/detector.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 297,
-      "fileCategory": "code"
+      "sizeLines": 298,
+      "sizeBytes": 10350,
+      "lastModified": "2026-10-05T10:43:17.700Z"
     },
     {
       "path": "packages/optimization/src/templates/manager.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/templates/manager.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 807,
-      "fileCategory": "code"
+      "sizeLines": 808,
+      "sizeBytes": 26269,
+      "lastModified": "2026-10-04T10:38:44.438Z"
     },
     {
       "path": "packages/optimization/src/types.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/src/types.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 415,
-      "fileCategory": "code"
+      "sizeLines": 416,
+      "sizeBytes": 9365,
+      "lastModified": "2026-10-04T10:23:39.928Z"
     },
     {
       "path": "packages/optimization/tsconfig.json",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/tsconfig.json",
+      "fileCategory": "config",
       "language": "json",
-      "sizeLines": 8,
-      "fileCategory": "config"
+      "sizeLines": 11,
+      "sizeBytes": 265,
+      "lastModified": "2026-10-05T10:37:27.052Z"
+    },
+    {
+      "path": "packages/optimization/tsconfig.tsbuildinfo",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/tsconfig.tsbuildinfo",
+      "fileCategory": "config",
+      "language": "unknown",
+      "sizeLines": 1,
+      "sizeBytes": 27490,
+      "lastModified": "2026-10-05T22:38:17.661Z"
     },
     {
       "path": "packages/optimization/vitest.config.ts",
+      "absolutePath": "/root/projects/inno-optimize/packages/optimization/vitest.config.ts",
+      "fileCategory": "code",
       "language": "typescript",
-      "sizeLines": 24,
-      "fileCategory": "code"
-    },
-    {
-      "path": "tsconfig.json",
-      "language": "json",
-      "sizeLines": 26,
-      "fileCategory": "config"
-    },
-    {
-      "path": "vitest.config.ts",
-      "language": "typescript",
-      "sizeLines": 38,
-      "fileCategory": "code"
+      "sizeLines": 25,
+      "sizeBytes": 852,
+      "lastModified": "2026-10-04T10:39:32.550Z"
     }
   ],
-  "totalFiles": 73,
-  "filteredByIgnore": 0,
-  "estimatedComplexity": "moderate",
-  "failures": [],
-  "stats": {
-    "filesScanned": 73,
-    "byCategory": {
-      "infra": 1,
-      "code": 50,
-      "config": 20,
-      "docs": 2
-    },
-    "byLanguage": {
-      "yaml": 5,
-      "typescript": 50,
-      "markdown": 2,
-      "json": 16
-    }
-  }
+  "totalFiles": 170,
+  "scannedAt": "2026-10-06T04:29:46.830Z"
 }

@@ -4,7 +4,7 @@ import {
   ResourceDescriptor, 
   PromptDescriptor,
   JSONSchema 
-} from '../types';
+} from '../types.js';
 
 export const businessServers: BusinessMCPServer[] = [
   // Orders Server

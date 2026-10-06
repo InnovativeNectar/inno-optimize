@@ -8,7 +8,7 @@ import {
   SagaExecution,
   CompletedStep,
   CompensationPlan,
-  ConnectorRegistry
+  ConnectorRegistry as ConnectorRegistryType
 } from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
@@ -19,7 +19,7 @@ export class SagaOrchestrator {
   private runningCount = 0;
   private maxConcurrent = 10;
   
-  constructor(memory: FastStore, connectorRegistry: ConnectorRegistry) {
+  constructor(memory: FastStore, connectorRegistry: ConnectorRegistryType) {
     this.memory = memory;
     this.connectorRegistry = connectorRegistry;
   }
@@ -197,7 +197,7 @@ export class SagaOrchestrator {
   
   private async checkIdempotency(key: string): Promise<any | null> {
     const result = await this.memory.getById(`idempotency:${key}`);
-    return result ? result.data : null;
+    return result ? JSON.parse(result.content) : null;
   }
   
   private async storeIdempotency(key: string, result: any): Promise<void> {
@@ -207,9 +207,10 @@ export class SagaOrchestrator {
       tier: 2,
       content: JSON.stringify(result),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'saga', taskType: 'idempotency' },
+      metadata: { domain: 'saga', taskType: 'idempotency', mode: 'system', context: 'idempotency storage', tags: ['idempotency'] },
       provenance: { agentId: 'saga-orchestrator', sessionId: 'current', source: 'system', timestamp: new Date() },
       reward: 1,
+      verdict: 'success' as const,
       consolidated: false,
       accessCount: 0,
       lastAccessed: new Date(),
@@ -281,25 +282,4 @@ export class SagaOrchestrator {
   getRunningExecutions(): SagaExecution[] {
     return Array.from(this.executions.values()).filter(e => e.status === 'running');
   }
-}
-
-class ConnectorRegistry {
-  private connectors = new Map<string, BusinessConnector>();
-  
-  register(connector: BusinessConnector): void {
-    this.connectors.set(connector.id, connector);
-  }
-  
-  getConnector(id: string): BusinessConnector | undefined {
-    return this.connectors.get(id);
-  }
-  
-  listConnectors(): BusinessConnector[] {
-    return Array.from(this.connectors.values());
-  }
-}
-
-interface BusinessConnector {
-  id: string;
-  execute(operation: string, input: any): Promise<any>;
 }

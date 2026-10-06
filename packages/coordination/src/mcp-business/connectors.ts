@@ -1,9 +1,9 @@
-import { BusinessConnector, ConnectorOperation } from '../types';
+import { BusinessConnector, ConnectorOperation } from '../types.js';
 
 export class MockOrdersConnector implements BusinessConnector {
   id = 'business-orders';
   name = 'Mock Orders Connector';
-  type = 'orders';
+  type = 'orders' as const;
   
   auth = { type: 'api_key' as const, config: {} };
   
@@ -65,7 +65,7 @@ export class MockOrdersConnector implements BusinessConnector {
 export class MockInventoryConnector implements BusinessConnector {
   id = 'business-inventory';
   name = 'Mock Inventory Connector';
-  type = 'inventory';
+  type = 'inventory' as const;
   
   auth = { type: 'api_key' as const, config: {} };
   
@@ -116,7 +116,7 @@ export class MockInventoryConnector implements BusinessConnector {
 export class MockPaymentsConnector implements BusinessConnector {
   id = 'business-payments';
   name = 'Mock Payments Connector';
-  type = 'payment';
+  type = 'payment' as const;
   
   auth = { type: 'api_key' as const, config: {} };
   
@@ -161,7 +161,7 @@ export class MockPaymentsConnector implements BusinessConnector {
 export class MockCRMConnector implements BusinessConnector {
   id = 'business-crm';
   name = 'Mock CRM Connector';
-  type = 'crm';
+  type = 'crm' as const;
   
   auth = { type: 'api_key' as const, config: {} };
   

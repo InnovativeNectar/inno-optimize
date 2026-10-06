@@ -1,4 +1,4 @@
-import { BusinessMCPServer } from '../types';
+import { BusinessMCPServer } from '../types.js';
 export declare const businessServers: BusinessMCPServer[];
 export declare function getServerByName(name: string): typeof businessServers[0] | undefined;
 export declare function getServersByCapability(capability: string): typeof businessServers;

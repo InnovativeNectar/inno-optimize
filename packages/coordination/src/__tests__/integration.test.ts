@@ -7,7 +7,7 @@ import {
   PheromoneScheduler,
   createDefaultPheromoneConfig,
   businessServers
-} from '../src';
+} from '../src.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 describe('Coordination Layer Integration', () => {
