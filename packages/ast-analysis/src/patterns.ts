@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+
 import type { ParseResult, AntiPattern, Issue, ClassInfo, FunctionInfo, MethodInfo } from './types.js';
 
 export class AntiPatternDetector {
@@ -518,12 +520,22 @@ export class AntiPatternDetector {
   }
   
   private detectFeatureEnvy(result: ParseResult): boolean {
-    // Simplified: check if method calls more methods on other objects than its own
+    if (result.calls.length === 0) return false;
     for (const cls of result.classes) {
       for (const method of cls.methods) {
-        const externalCalls = method.complexity; // Placeholder
-        const internalCalls = 1; // Placeholder
-        if (externalCalls > internalCalls * 2) return true;
+        let external = 0;
+        let internal = 0;
+        for (const call of result.calls) {
+          if (call.line < method.line || call.line > method.endLine) continue;
+          if (!call.isMethodCall || !call.caller) continue;
+          const c = call.caller;
+          if (c === 'this' || c === 'self' || c === 'super' || c === cls.name || c === `self.${cls.name}`) {
+            internal++;
+          } else {
+            external++;
+          }
+        }
+        if (external >= 3 && external > internal * 2) return true;
       }
     }
     return false;
@@ -547,12 +559,19 @@ export class AntiPatternDetector {
   }
   
   private detectDeadCode(result: ParseResult): boolean {
-    // Check for unused private methods, unreachable code after return/throw
+    if (result.calls.length === 0) return false;
+    const called = new Set(
+      result.calls.map(c => {
+        const parts = c.callee.split('.');
+        return parts[parts.length - 1] ?? c.callee;
+      })
+    );
     for (const cls of result.classes) {
       for (const method of cls.methods) {
-        if (method.isPrivate && method.name.startsWith('_')) {
-          // Could be dead - would need call graph analysis
-        }
+        if (!method.isPrivate) continue;
+        if (!method.name || method.name === 'anonymous') continue;
+        if (/^__\w+__$/.test(method.name) || method.name.startsWith('#')) continue;
+        if (!called.has(method.name)) return true;
       }
     }
     return false;
@@ -606,8 +625,11 @@ export class AntiPatternDetector {
     return switchMatches.length > 2;
   }
   
-  private getContent(_result: ParseResult): string {
-    // In production, read from file
-    return '';
+  private getContent(result: ParseResult): string {
+    try {
+      return readFileSync(result.file, 'utf8');
+    } catch {
+      return '';
+    }
   }
 }

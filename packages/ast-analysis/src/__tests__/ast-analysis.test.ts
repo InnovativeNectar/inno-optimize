@@ -73,8 +73,11 @@ describe('AST Analysis', () => {
       expect(result.imports).toHaveLength(1);
       expect(result.imports[0]?.source).toBe('fs');
       expect(result.exports.length).toBeGreaterThanOrEqual(2);
-      expect(result.functions).toHaveLength(1);
+      expect(result.functions).toHaveLength(2);
+      expect(result.functions.map(f => f.name).sort()).toEqual(['add', 'greet']);
       expect(result.classes).toHaveLength(1);
+      expect(result.classes[0]!.methods.map(m => m.name)).toContain('greet');
+      expect(result.classes[0]!.methods[0]!.params.map(p => p.name)).toEqual(['n']);
       expect(result.interfaces).toHaveLength(1);
       expect(result.types).toHaveLength(1);
       expect(result.metrics.linesOfCode).toBeGreaterThan(0);
@@ -104,6 +107,147 @@ describe('AST Analysis', () => {
       await expect(parser.parseFile('file.xyz', 'some content')).rejects.toThrow(
         'Unsupported language for file: file.xyz'
       );
+    });
+
+    it('should parse TSX files with the tsx dialect and no parse errors', async () => {
+      const content = [
+        "import React from 'react';",
+        'export const Card: React.FC<{title: string}> = ({ title }) => {',
+        '  if (title) { return <div className="c">{title}</div>; }',
+        '  return <span />;',
+        '};',
+        'export function App() { return <Card title="x" />; }',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/Card.tsx', content);
+
+      expect(result.errors).toHaveLength(0);
+      const names = result.functions.map(f => f.name);
+      expect(names).toContain('Card');
+      expect(names).toContain('App');
+    });
+
+    it('should extract arrow function names and parameter details', async () => {
+      const content = [
+        'const calc = (a: number, b = 2, ...rest: number[]): number => {',
+        '  return a + b + rest.length;',
+        '};',
+        'export function uses(): number { return calc(1); }',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/arrow.ts', content);
+
+      expect(result.errors).toHaveLength(0);
+      const calc = result.functions.find(f => f.name === 'calc');
+      expect(calc).toBeDefined();
+      expect(calc!.params.map(p => p.name)).toEqual(['a', 'b', 'rest']);
+      expect(calc!.params[1]!.optional).toBe(true);
+      expect(calc!.params[1]!.defaultValue).toBe('2');
+      expect(calc!.returnType).toBe('number');
+    });
+
+    it('should compute real complexity metrics', async () => {
+      const content = [
+        'function branchy(a: number, b: number): number {',
+        '  if (a && b) {',
+        '    for (let i = 0; i < 10; i++) {',
+        '      if (i > a || i < b) { return i; }',
+        '    }',
+        '  } else if (a) {',
+        '    while (b > 0) { b--; }',
+        '  }',
+        '  try { throw new Error(); } catch (e) { return -1; }',
+        '  return a ? a : b;',
+        '}',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/branchy.ts', content);
+      const m = result.metrics;
+
+      expect(m.cyclomaticComplexity).toBeGreaterThanOrEqual(6);
+      expect(m.cognitiveComplexity).toBeGreaterThanOrEqual(m.cyclomaticComplexity);
+      expect(m.nestingDepth).toBeGreaterThanOrEqual(3);
+      expect(m.halsteadVolume).toBeGreaterThan(0);
+      expect(m.maintainabilityIndex).toBeGreaterThanOrEqual(0);
+      expect(m.maintainabilityIndex).toBeLessThanOrEqual(100);
+
+      const branchFunc = result.functions.find(f => f.name === 'branchy');
+      expect(branchFunc).toBeDefined();
+      expect(branchFunc!.complexity).toBeGreaterThanOrEqual(6);
+    });
+
+    it('should parse Python with real metrics, hash comments and lambdas', async () => {
+      const content = [
+        '# leading comment',
+        'import os',
+        '',
+        'class Worker:',
+        '    def run(self, data, retries=3, *args, **kwargs):',
+        '        if data and retries:',
+        '            for x in data:',
+        '                if x > 1:',
+        '                    return x',
+        '        return None',
+        '',
+        'handler = lambda rows: sum(rows)',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/worker.py', content);
+
+      expect(result.errors).toHaveLength(0);
+      expect(result.metrics.linesOfComments).toBe(1);
+      expect(result.functions.map(f => f.name)).toContain('handler');
+      const cls = result.classes.find(c => c.name === 'Worker');
+      expect(cls).toBeDefined();
+      const run = cls!.methods.find(m => m.name === 'run');
+      expect(run).toBeDefined();
+      expect(run!.params.map(p => p.name)).toEqual(['self', 'data', 'retries', 'args', 'kwargs']);
+      expect(run!.params[2]!.optional).toBe(true);
+      expect(run!.params[2]!.defaultValue).toBe('3');
+      expect(result.metrics.cyclomaticComplexity).toBeGreaterThanOrEqual(4);
+      expect(result.metrics.maintainabilityIndex).toBeGreaterThan(0);
+      expect(result.metrics.halsteadVolume).toBeGreaterThan(0);
+    });
+
+    it('should detect dead private methods on real parses', async () => {
+      const content = [
+        'export class Service {',
+        '  private _legacy(): void { return; }',
+        '  run(): void { console.log("x"); }',
+        '}',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/service.ts', content);
+      const issues = detector.detect(result);
+      const dead = issues.filter(i => i.ruleId === 'AP-DEAD_CODE');
+
+      expect(dead.length).toBeGreaterThan(0);
+    });
+
+    it('should detect feature envy on real parses', async () => {
+      const content = [
+        'export class Controller {',
+        '  handle(repo: Repo, logger: Logger): void {',
+        '    repo.find();',
+        '    repo.filter();',
+        '    repo.persist();',
+        '    logger.info("ok");',
+        '    repo.count();',
+        '  }',
+        '}',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/controller.ts', content);
+      const issues = detector.detect(result);
+      const envy = issues.filter(i => i.ruleId === 'AP-FEATURE_ENVY');
+
+      expect(envy.length).toBeGreaterThan(0);
     });
 
     it('should run the anti-pattern detector on parsed output', async () => {

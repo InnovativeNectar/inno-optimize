@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+
 import type { 
   ParseResult, 
   ArchitectureScore, 
@@ -213,7 +215,7 @@ export class ArchitectureScorer {
     // Check for synchronous I/O in async contexts
     const syncInAsync = result.functions
       .filter(f => f.isAsync)
-      .some(f => this.hasSyncIO(f));
+      .some(f => this.hasSyncIO(f, result));
     if (syncInAsync) {
       score -= 15;
     }
@@ -724,19 +726,71 @@ export class ArchitectureScorer {
     return Math.min(100, score);
   }
   
-  private getFileContent(_result: ParseResult): string {
-    // In production, would read from file system or cache
-    return '';
+  private getFileContent(result: ParseResult): string {
+    try {
+      return readFileSync(result.file, 'utf8');
+    } catch {
+      return '';
+    }
   }
   
-  private hasSyncIO(_func: FunctionInfo): boolean {
-    // Check for synchronous I/O operations
-    return false; // Placeholder
+  private hasSyncIO(func: FunctionInfo, result: ParseResult): boolean {
+    const syncNames = new Set([
+      'open', 'os.system', 'os.popen', 'subprocess.run', 'subprocess.call',
+      'subprocess.check_output', 'subprocess.check_call', 'requests.get',
+      'requests.post', 'requests.request', 'urlopen'
+    ]);
+    return result.calls.some(c => {
+      if (c.line < func.line || c.line > func.endLine) return false;
+      return /Sync$/.test(c.callee) || syncNames.has(c.callee);
+    });
   }
   
-  private computeMaxCallDepth(_result: ParseResult): number {
-    // Build call graph and find max depth
-    return 5; // Placeholder
+  private computeMaxCallDepth(result: ParseResult): number {
+    if (result.functions.length === 0 || result.calls.length === 0) return 0;
+    const ranges = result.functions.map(f => ({ name: f.name, line: f.line, endLine: f.endLine }));
+    const callees = new Map<number, Set<string>>();
+    const nameToIdx = new Map<string, number[]>();
+    ranges.forEach((r, i) => {
+      const arr = nameToIdx.get(r.name) ?? [];
+      arr.push(i);
+      nameToIdx.set(r.name, arr);
+    });
+    const sortedCalls = [...result.calls].sort((a, b) => a.line - b.line);
+    for (let i = 0; i < ranges.length; i++) {
+      const set = new Set<string>();
+      const range = ranges[i];
+      if (range) {
+        for (const c of sortedCalls) {
+          if (c.line < range.line) continue;
+          if (c.line > range.endLine) break;
+          const parts = c.callee.split('.');
+          set.add(parts[parts.length - 1] ?? c.callee);
+        }
+      }
+      callees.set(i, set);
+    }
+    const memo = new Map<number, number>();
+    const inStack = new Set<number>();
+    const depth = (i: number): number => {
+      const cached = memo.get(i);
+      if (cached !== undefined) return cached;
+      if (inStack.has(i)) return 0;
+      inStack.add(i);
+      let best = 1;
+      for (const callee of callees.get(i) ?? []) {
+        for (const t of nameToIdx.get(callee) ?? []) {
+          if (t === i) continue;
+          best = Math.max(best, 1 + depth(t));
+        }
+      }
+      inStack.delete(i);
+      memo.set(i, best);
+      return best;
+    };
+    let max = 0;
+    for (let i = 0; i < ranges.length; i++) max = Math.max(max, depth(i));
+    return max;
   }
   
   private computeTrends(projectId: string, dimensions: Record<string, DimensionScore>): ScoreTrend[] {
