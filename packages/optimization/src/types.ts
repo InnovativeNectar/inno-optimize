@@ -96,7 +96,7 @@ export interface ExecutionPlan {
 
 export interface PlanTask {
   id: string;
-  type: 'refactor' | 'optimize' | 'test' | 'deploy' | 'verify';
+  type: 'refactor' | 'optimize' | 'test' | 'deploy' | 'verify' | 'secure' | 'document';
   description: string;
   targetFiles: string[];
   agentType: string;
@@ -178,10 +178,22 @@ export interface OAPELConfig {
   cycleTimeout: number;           // max cycle duration
 }
 
+export type ABTestStatus = 'pending' | 'running' | 'completed' | 'failed' | 'pending_clearance';
+
+export interface ABVariantConfig {
+  id: string;
+  name: string;
+  description: string;
+  config: any;
+  weight?: number;
+  cowBranch?: string;
+  parameters?: Record<string, any>;
+}
+
 export interface ABTest {
   id: string;
   name: string;
-  status: 'pending' | 'running' | 'completed' | 'failed';
+  status: ABTestStatus;
   hypothesis: string;
   variants: ABVariant[];
   metrics: ABMetric[];
@@ -198,7 +210,7 @@ export interface ABVariant {
   description: string;
   config: any;           // Variant-specific configuration
   weight: number;        // Traffic allocation (0-1)
-  cowBranch?: string;    // Agenticow COW branch path
+  cowBranch?: string | undefined;   // Agenticow COW branch path
   parameters: Record<string, any>;
 }
 
@@ -286,7 +298,7 @@ export interface CandidateChange {
 }
 
 export interface Evidence {
-  type: 'benchmark' | 'test' | 'simulation' | 'production' | 'audit';
+  type: 'benchmark' | 'test' | 'simulation' | 'production' | 'audit' | 'abtest' | 'regression';
   source: string;
   data: any;
   timestamp: Date;

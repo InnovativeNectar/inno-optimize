@@ -33,7 +33,11 @@ export class CoordinationLayer {
     }
     // Spawn agent in swarm
     async spawnAgent(agentConfig) {
-        return this.swarm.spawnAgent(agentConfig);
+        const agentId = await this.swarm.spawnAgent(agentConfig);
+        // Keep the layer's pheromone scheduler in sync with the swarm so
+        // getEligibleAgents() sees newly spawned agents.
+        this.pheromoneScheduler.initialize(agentId, agentConfig.role || 'worker');
+        return agentId;
     }
     // Execute saga
     async executeSaga(definition, initialContext = {}) {

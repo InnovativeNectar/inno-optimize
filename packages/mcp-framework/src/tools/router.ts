@@ -1,5 +1,21 @@
-import { ToolDescriptor, ToolResult, ToolRoute } from './server';
-import { TaskContext } from '../agentdb/src/types';
+import { ToolDescriptor, ToolResult } from '../server.js';
+
+export interface TaskContext {
+  id: string;
+  type: string;
+  description: string;
+  codeContext?: string;
+  constraints: string[];
+  acceptanceCriteria: string[];
+  mode: 'convergent' | 'divergent' | 'lateral' | 'systems' | 'critical';
+}
+
+export interface ToolRoute {
+  selectedTool: ToolDescriptor;
+  modelTier: 1 | 2 | 3;
+  fallbackTools: ToolDescriptor[];
+  reasoning: string;
+}
 
 export class CodemodRegistry {
   private codemods = new Map<string, CodemodPattern>();
@@ -14,7 +30,10 @@ export class CodemodRegistry {
   
   findMatching(codeContext: string): CodemodPattern | null {
     for (const pattern of this.codemods.values()) {
-      if (pattern.matches(codeContext)) {
+      const matched = typeof pattern.pattern === 'function'
+        ? pattern.pattern(codeContext)
+        : new RegExp(pattern.pattern.source, pattern.pattern.flags).test(codeContext);
+      if (matched) {
         return pattern;
       }
     }
@@ -111,14 +130,15 @@ export class ToolRouter {
     
     // Tier 2: Check for high-confidence pattern match
     const patterns = await this.patternMemory.findSimilar(task, 3);
-    if (patterns.length > 0 && patterns[0].reward > 0.85) {
-      const tool = this.selectToolForPattern(patterns[0], availableTools);
+    const topPattern = patterns[0];
+    if (topPattern && topPattern.reward > 0.85) {
+      const tool = this.selectToolForPattern(topPattern, availableTools);
       if (tool) {
         return {
           selectedTool: tool,
           modelTier: 2,
           fallbackTools: this.getFallbacks(tool, availableTools),
-          reasoning: `High-confidence pattern match: ${patterns[0].title} (reward: ${patterns[0].reward})`
+          reasoning: `High-confidence pattern match: ${topPattern.title} (reward: ${topPattern.reward})`
         };
       }
     }
@@ -157,7 +177,9 @@ export class ToolRouter {
     }));
     
     scored.sort((a, b) => b.score - a.score);
-    return scored[0]?.tool || availableTools[0];
+    const best = scored[0]?.tool ?? availableTools[0];
+    if (!best) throw new Error('No tools available for task');
+    return best;
   }
   
   private scoreToolForTask(tool: ToolDescriptor, task: TaskContext): number {

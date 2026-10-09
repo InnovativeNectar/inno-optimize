@@ -1,6 +1,6 @@
-import { FastStore } from '../src/stores/fast-store';
-import { HNSWIndex, Quantizer } from '../src/hnsw/index';
-import { MemoryEntry } from '../src/types';
+import { FastStore } from '../src/stores/fast-store.js';
+import { HNSWIndex, Quantizer } from '../src/hnsw/index.js';
+import { MemoryEntry } from '../src/types.js';
 
 interface BenchmarkResult {
   name: string;
@@ -215,7 +215,7 @@ function createTestEntries(count: number): MemoryEntry[] {
     provenance: {
       agentId: 'bench-agent',
       sessionId: 'bench-session',
-      source: 'benchmark',
+      source: 'agent',
       timestamp: new Date()
     },
     reward: Math.random(),
@@ -242,9 +242,9 @@ function calculateStats(name: string, operations: number, latencies: number[]): 
     durationMs,
     opsPerSec: (operations / durationMs) * 1000,
     avgLatencyMs: total / operations,
-    p50LatencyMs: sorted[Math.floor(operations * 0.5)],
-    p95LatencyMs: sorted[Math.floor(operations * 0.95)],
-    p99LatencyMs: sorted[Math.floor(operations * 0.99)]
+    p50LatencyMs: sorted[Math.floor(operations * 0.5)] ?? 0,
+    p95LatencyMs: sorted[Math.floor(operations * 0.95)] ?? 0,
+    p99LatencyMs: sorted[Math.floor(operations * 0.99)] ?? 0
   };
 }
 
@@ -261,4 +261,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   runBenchmarks().catch(console.error);
 }
 
-export { runBenchmarks, BenchmarkResult };
+export { runBenchmarks };
+export type { BenchmarkResult };

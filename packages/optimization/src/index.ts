@@ -1,21 +1,21 @@
-export * from './types';
-export { OAPELEngine, createDefaultOAPELConfig } from './oapel/engine';
-export { ABTestingFramework, AgenticowClient, createDefaultABTestConfig } from './abtesting/framework';
-export { RegressionDetector, createDefaultRegressionConfig } from './regression/detector';
-export { FlywheelEvaluator, createDefaultFlywheelConfig } from './flywheel/evaluator';
-export { TemplateManager } from './templates/manager';
+export * from './types.js';
+export { OAPELEngine, createDefaultOAPELConfig } from './oapel/engine.js';
+export { ABTestingFramework, AgenticowClient, createDefaultABTestConfig } from './abtesting/framework.js';
+export { RegressionDetector, createDefaultRegressionConfig } from './regression/detector.js';
+export { FlywheelEvaluator, createDefaultFlywheelConfig } from './flywheel/evaluator.js';
+export { TemplateManager } from './templates/manager.js';
 
 // Integrated Optimization Layer
-import { OAPELEngine, createDefaultOAPELConfig } from './oapel/engine';
-import { ABTestingFramework, AgenticowClient, createDefaultABTestConfig } from './abtesting/framework';
-import { RegressionDetector, createDefaultRegressionConfig } from './regression/detector';
-import { FlywheelEvaluator, createDefaultFlywheelConfig } from './flywheel/evaluator';
-import { TemplateManager } from './templates/manager';
+import { OAPELEngine, createDefaultOAPELConfig } from './oapel/engine.js';
+import { ABTestingFramework, AgenticowClient, createDefaultABTestConfig } from './abtesting/framework.js';
+import { RegressionDetector, createDefaultRegressionConfig } from './regression/detector.js';
+import { FlywheelEvaluator, createDefaultFlywheelConfig } from './flywheel/evaluator.js';
+import { TemplateManager } from './templates/manager.js';
 import { FastStore } from '@inno-optimize/agentdb';
 import { IntelligenceLayer } from '@inno-optimize/intelligence';
 import { CoordinationLayer } from '@inno-optimize/coordination';
 import { ArchitectureScorer } from '@inno-optimize/ast-analysis';
-import { OAPELConfig, ABTestConfig, RegressionConfig, FlywheelConfig } from './types';
+import { OAPELConfig, ABTestConfig, RegressionConfig, FlywheelConfig } from './types.js';
 
 export interface OptimizationLayerConfig {
   oapel: OAPELConfig;
@@ -59,7 +59,7 @@ export class OptimizationLayer {
     
     // Initialize components
     this.oapel = new OAPELEngine(memory, intelligence, coordination, scorer, finalConfig.oapel);
-    this.abtest = new ABTestingFramework(memory, new (require('./abtesting/framework').AgenticowClient)(), finalConfig.abtest);
+    this.abtest = new ABTestingFramework(memory, new AgenticowClient(), finalConfig.abtest);
     this.regression = new RegressionDetector(memory, finalConfig.regression);
     this.flywheel = new FlywheelEvaluator(memory, this.oapel, this.regression, this.abtest, finalConfig.flywheel);
     this.templates = new TemplateManager(memory);

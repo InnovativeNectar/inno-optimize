@@ -1,16 +1,16 @@
-export * from './types';
-export { SONAAdapter, createDefaultSONAConfig } from './sona/adapter';
-export { ReasoningBank, createDefaultReasoningBankConfig } from './reasoningbank/pipeline';
-export { MoERouter, createDefaultMoEConfig } from './moe/router';
-export { EWCConsolidator, createDefaultEWCConfig } from './ewc/consolidator';
+export * from './types.js';
+export { SONAAdapter, createDefaultSONAConfig } from './sona/adapter.js';
+export { ReasoningBank, createDefaultReasoningBankConfig } from './reasoningbank/pipeline.js';
+export { MoERouter, createDefaultMoEConfig } from './moe/router.js';
+export { EWCConsolidator, createDefaultEWCConfig } from './ewc/consolidator.js';
 
 // Integrated Intelligence Layer
-import { SONAAdapter, createDefaultSONAConfig } from './sona/adapter';
-import { ReasoningBank, createDefaultReasoningBankConfig } from './reasoningbank/pipeline';
-import { MoERouter, createDefaultMoEConfig } from './moe/router';
-import { EWCConsolidator, createDefaultEWCConfig } from './ewc/consolidator';
+import { SONAAdapter, createDefaultSONAConfig } from './sona/adapter.js';
+import { ReasoningBank, createDefaultReasoningBankConfig } from './reasoningbank/pipeline.js';
+import { MoERouter, createDefaultMoEConfig } from './moe/router.js';
+import { EWCConsolidator, createDefaultEWCConfig } from './ewc/consolidator.js';
 import { FastStore } from '@inno-optimize/agentdb';
-import { Trajectory, TaskContext, ReasoningPattern } from './types';
+import { Trajectory, TaskContext, ReasoningPattern } from './types.js';
 
 export interface IntelligenceLayerConfig {
   sona: ReturnType<typeof createDefaultSONAConfig>;
@@ -53,7 +53,7 @@ export class IntelligenceLayer {
   async processTask(taskContext: TaskContext): Promise<{
     sonaAdaptation: any;
     routing: any;
-    pattern?: ReasoningPattern;
+    pattern: ReasoningPattern | undefined;
   }> {
     // 1. SONA instant adaptation
     const sonaAdaptation = await this.sona.adapt(taskContext);
@@ -68,7 +68,9 @@ export class IntelligenceLayer {
       pattern = await this.reasoningBank.processTrajectory(trajectory);
       
       // 4. EWC++ consolidation (async, non-blocking)
-      this.ewc.consolidate(pattern).catch(console.error);
+      if (pattern) {
+        this.ewc.consolidate(pattern).catch(console.error);
+      }
     }
     
     return { sonaAdaptation, routing, pattern };
@@ -149,9 +151,14 @@ export class IntelligenceLayer {
     }
     
     let norm = 0;
-    for (let i = 0; i < dim; i++) norm += vector[i] * vector[i];
+    for (let i = 0; i < dim; i++) {
+      const val = vector[i] ?? 0;
+      norm += val * val;
+    }
     norm = Math.sqrt(norm);
-    for (let i = 0; i < dim; i++) vector[i] /= norm;
+    for (let i = 0; i < dim; i++) {
+      vector[i] = (vector[i] ?? 0) / norm;
+    }
     
     return Array.from(vector);
   }

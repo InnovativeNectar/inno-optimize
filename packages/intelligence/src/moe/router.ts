@@ -3,8 +3,8 @@ import {
   Expert, 
   RoutingDecision, 
   LoRAWeights,
-  TaskContext 
-} from '../types';
+  TaskContext
+} from '../types.js';
 
 export class MoERouter {
   private config: MoEConfig;
@@ -26,7 +26,7 @@ export class MoERouter {
     ];
     
     for (let i = 0; i < this.config.numExperts; i++) {
-      const domain = domains[i % domains.length];
+      const domain = domains[i % domains.length] ?? 'general';
       this.experts.push({
         id: `expert-${i}`,
         name: `${domain}-expert-${Math.floor(i / domains.length)}`,
@@ -134,7 +134,10 @@ export class MoERouter {
     const scores: number[] = [];
     
     for (const expert of this.experts) {
-      let score = 0;
+      // Base score keeps domain/mode/load/reward multipliers meaningful even
+      // when a task matches no specialization words (otherwise every expert
+      // scores exactly 0 and routing collapses onto expert 0).
+      let score = 1;
       
       // Domain match
       const taskWords = new Set(task.description.toLowerCase().split(/\s+/));
@@ -157,7 +160,7 @@ export class MoERouter {
       score *= (1 - loadRatio * 0.5);
       
       // Expert reward history (from LoRA metadata)
-      score *= expert.weights.metadata.reward;
+      score *= expert.weights.metadata?.reward ?? 1;
       
       scores.push(score);
     }
@@ -167,12 +170,12 @@ export class MoERouter {
   
   private maxScoreRouting(scores: number[]): { expertId: string; confidence: number } {
     const maxIdx = scores.indexOf(Math.max(...scores));
-    const maxScore = scores[maxIdx];
+    const maxScore = scores[maxIdx] ?? 0;
     const sumExp = scores.reduce((sum, s) => sum + Math.exp(s - maxScore), 0);
     const confidence = Math.exp(maxScore - maxScore) / sumExp; // softmax
     
     return {
-      expertId: this.experts[maxIdx].id,
+      expertId: this.experts[maxIdx]?.id ?? '',
       confidence
     };
   }
@@ -187,7 +190,7 @@ export class MoERouter {
       
       // Apply penalty
       const penalizedScores = scores.map((s, i) => 
-        s - this.config.spectralLambda * spectralPenalty[i]
+        s - this.config.spectralLambda * (spectralPenalty[i] ?? 0)
       );
       
       return this.maxScoreRouting(penalizedScores);
@@ -197,13 +200,14 @@ export class MoERouter {
   }
   
   private computeSpectralPenalty(scores: number[]): number[] {
-    // Simplified spectral penalty - encourages diverse expert usage
+    // Simplified spectral penalty - encourages diverse expert usage.
+    // Returned in score units (not z-scores): subtracting a z-score scaled by
+    // spectralLambda overshoots when score spread is tiny and reverses the
+    // ordering, which collapses routing onto the most-loaded expert.
     const n = scores.length;
     const mean = scores.reduce((a, b) => a + b, 0) / n;
-    const variance = scores.reduce((sum, s) => sum + Math.pow(s - mean, 2), 0) / n;
     
-    // Penalize experts that deviate too much from mean usage
-    return scores.map(s => (s - mean) / (Math.sqrt(variance) + 1e-8));
+    return scores.map(s => s - mean);
   }
   
   private adaptiveWidthRouting(
@@ -229,7 +233,7 @@ export class MoERouter {
     // Weighted random selection from top-k
     const rand = Math.random() * totalScore;
     let cumsum = 0;
-    let chosenIdx = selected[0].idx;
+    let chosenIdx = selected[0]?.idx ?? 0;
     
     for (const { score, idx } of selected) {
       cumsum += score;
@@ -239,10 +243,10 @@ export class MoERouter {
       }
     }
     
-    const confidence = selected[0].score / totalScore;
+    const confidence = (selected[0]?.score ?? 0) / totalScore;
     
     return {
-      expertId: this.experts[chosenIdx].id,
+      expertId: this.experts[chosenIdx]?.id ?? '',
       confidence
     };
   }
@@ -377,7 +381,7 @@ class LoadBalancer {
   }
   
   updateLoad(expertId: string, load: number): void {
-    const idx = parseInt(expertId.split('-')[1]) || 0;
+    const idx = parseInt(expertId.split('-')[1] ?? '0') || 0;
     if (idx < this.targetLoads.length) {
       this.targetLoads[idx] = load;
     }
@@ -388,12 +392,12 @@ class LoadBalancer {
     
     // Soft rebalancing - just track target
     for (let i = 0; i < this.numExperts; i++) {
-      this.targetLoads[i] = Math.max(0, this.targetLoads[i] - avgLoad * 0.1);
+      this.targetLoads[i] = Math.max(0, (this.targetLoads[i] ?? 0) - avgLoad * 0.1);
     }
   }
   
   getTargetLoad(expertId: string): number {
-    const idx = parseInt(expertId.split('-')[1]) || 0;
+    const idx = parseInt(expertId.split('-')[1] ?? '0') || 0;
     return this.targetLoads[idx] || 0;
   }
 }

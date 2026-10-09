@@ -7,7 +7,7 @@ import {
   createBuiltinCodemods,
   ToolDescriptor,
   ToolResult
-} from '../src';
+} from '../index.js';
 
 describe('MCP Framework', () => {
   let registry: MCPServerRegistry;

@@ -1,4 +1,4 @@
-import { SagaDefinition, SagaContext, SagaResult, SagaExecution, ConnectorRegistry } from '../types.js';
+import { SagaDefinition, SagaContext, SagaResult, SagaExecution, ConnectorRegistry as ConnectorRegistryType } from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 export declare class SagaOrchestrator {
     private memory;
@@ -6,7 +6,7 @@ export declare class SagaOrchestrator {
     private executions;
     private runningCount;
     private maxConcurrent;
-    constructor(memory: FastStore, connectorRegistry: ConnectorRegistry);
+    constructor(memory: FastStore, connectorRegistry: ConnectorRegistryType);
     execute(definition: SagaDefinition, initialContext: Partial<SagaContext>): Promise<SagaResult>;
     private executeStep;
     private compensate;
@@ -19,15 +19,4 @@ export declare class SagaOrchestrator {
     getExecution(executionId: string): SagaExecution | undefined;
     getRunningExecutions(): SagaExecution[];
 }
-declare class ConnectorRegistry {
-    private connectors;
-    register(connector: BusinessConnector): void;
-    getConnector(id: string): BusinessConnector | undefined;
-    listConnectors(): BusinessConnector[];
-}
-interface BusinessConnector {
-    id: string;
-    execute(operation: string, input: any): Promise<any>;
-}
-export {};
 //# sourceMappingURL=orchestrator.d.ts.map

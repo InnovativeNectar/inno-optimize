@@ -5,8 +5,9 @@ import {
   AntiPatternDetector,
   IncrementalAnalyzer,
   ParseResult,
-  IncrementalChange 
-} from '../src';
+  IncrementalChange,
+  computeDiff 
+} from '../index.js';
 
 describe('AST Analysis', () => {
   let parser: MultiLanguageParser;
@@ -123,20 +124,19 @@ describe('AST Analysis', () => {
       const oldContent = 'line1\nline2\nline3\nline4';
       const newContent = 'line1\nline2\nmodified\nline4';
       
-      const change = analyzer['computeDiff']?.(oldContent, newContent) || 
-        require('../src/incremental').computeDiff(oldContent, newContent);
+      const change = computeDiff(oldContent, newContent);
       
       expect(change.type).toBe('modified');
       expect(change.affectedLines.start).toBeGreaterThan(0);
     });
 
     it('should detect added file', () => {
-      const change = require('../src/incremental').computeDiff('', 'new content');
+      const change = computeDiff('', 'new content');
       expect(change.type).toBe('added');
     });
 
     it('should detect deleted file', () => {
-      const change = require('../src/incremental').computeDiff('old content', '');
+      const change = computeDiff('old content', '');
       expect(change.type).toBe('deleted');
     });
   });

@@ -22,7 +22,7 @@ import {
   ExecutionMetrics,
   LearningResult as LearningResultType,
   Insight
-} from './types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 import { ArchitectureScorer } from '@inno-optimize/ast-analysis';
 import { IntelligenceLayer } from '@inno-optimize/intelligence';
@@ -353,11 +353,11 @@ export class OAPELEngine {
     const insights = this.extractInsights(observations, analysis, execution);
     
     return {
-      patternsLearned: pattern ? 1 : 0,
+      patternsLearned: pattern.pattern ? 1 : 0,
       patternsValidated: 0,
       patternsRejected: 0,
       knowledgeTransferred: 0,
-      ewcConsolidations: pattern && pattern.consolidated ? 1 : 0,
+      ewcConsolidations: pattern.pattern?.consolidated ? 1 : 0,
       sonaAdaptations: 0,
       moeRoutingUpdates: 0,
       insights
@@ -574,8 +574,8 @@ export class OAPELEngine {
       tier: 2,
       content: JSON.stringify(cycle),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'optimization', taskType: 'oapel-cycle' },
-      provenance: { agentId: 'oapel-engine', sessionId: 'oapel', source: 'system', timestamp: new Date() },
+      metadata: { domain: 'optimization', taskType: 'oapel-cycle', mode: 'systems', context: 'oapel-persistence', tags: ['oapel', 'optimization'] },
+      provenance: { agentId: 'oapel-engine', sessionId: 'oapel', source: 'agent', timestamp: new Date() },
       reward: cycle.status === 'completed' ? 1 : 0,
       consolidated: false,
       accessCount: 0,

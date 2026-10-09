@@ -1,4 +1,5 @@
-import { HierarchicalNSW as HNSWLib } from 'hnswlib-node';
+import hnswNode from 'hnswlib-node';
+const { HierarchicalNSW: HNSWLib } = hnswNode;
 export class HNSWIndex {
     index;
     config;
@@ -11,7 +12,7 @@ export class HNSWIndex {
         this.quantizer = quantizer;
         this.index = new HNSWLib(config.space || 'cosine', config.dimensions);
         this.index.initIndex({
-            maxElements: 1000000,
+            maxElements: config.maxElements ?? 1000000,
             m: config.M,
             efConstruction: config.efConstruction
         });

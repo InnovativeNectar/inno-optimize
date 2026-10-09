@@ -11,8 +11,8 @@ import {
   ConsensusProposal,
   ProposalInfo,
   NodeInfo
-} from './types.js';
-import { FastStore } from '@inno-optimize/agentdb';
+} from '../types.js';
+import { FastStore, MemoryEntry } from '@inno-optimize/agentdb';
 
 export class HiveMindSwarm extends EventEmitter {
   private config: SwarmConfig;
@@ -53,7 +53,7 @@ export class HiveMindSwarm extends EventEmitter {
   }
   
   async spawnAgent(agentConfig: AgentSpawnConfig): Promise<string> {
-    const agentId = agentConfig.id || `agent-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const agentId = agentConfig.id || this.generateAgentId(agentConfig);
     
     if (this.agents.size >= this.config.maxAgents) {
       throw new Error(`Swarm at max capacity (${this.config.maxAgents})`);
@@ -84,7 +84,16 @@ export class HiveMindSwarm extends EventEmitter {
     
     return agentId;
   }
-  
+
+  // Build a readable, unique agent id from the provided name (or type)
+  private generateAgentId(agentConfig: AgentSpawnConfig): string {
+    const base = (agentConfig.name || agentConfig.type || 'agent')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return `${base}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  }
+
   async terminateAgent(agentId: string): Promise<void> {
     const agent = this.agents.get(agentId);
     if (!agent) return;
@@ -272,7 +281,7 @@ export class HiveMindSwarm extends EventEmitter {
       maxAgents: this.config.maxAgents,
       eligibleAgents,
       suspendedAgents,
-      queenId: this.config.queenId,
+      queenId: this.config.queenId ?? '',
       pheromoneStats: {
         globalEMA,
         threshold,
@@ -316,8 +325,8 @@ export class HiveMindSwarm extends EventEmitter {
       tier: 3,
       content: JSON.stringify(state),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'swarm', taskType: 'state' },
-      provenance: { agentId: 'hive-mind', sessionId: this.swarmId, source: 'system', timestamp: new Date() },
+      metadata: { domain: 'swarm', taskType: 'state', mode: 'swarm', context: 'state persistence', tags: ['state', 'persistence'] },
+      provenance: { agentId: 'hive-mind', sessionId: this.swarmId, source: 'agent', timestamp: new Date() },
       reward: 1,
       consolidated: true,
       accessCount: 0,
@@ -336,8 +345,8 @@ export class HiveMindSwarm extends EventEmitter {
       tier: 2,
       content: JSON.stringify(pheromone),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'swarm', taskType: 'pheromone' },
-      provenance: { agentId: 'hive-mind', sessionId: this.swarmId, source: 'system', timestamp: new Date() },
+      metadata: { domain: 'swarm', taskType: 'pheromone', mode: 'swarm', context: 'pheromone persistence', tags: ['pheromone', 'persistence'] },
+      provenance: { agentId: 'hive-mind', sessionId: this.swarmId, source: 'agent', timestamp: new Date() },
       reward: pheromone.emaScore,
       consolidated: false,
       accessCount: 0,
@@ -397,10 +406,112 @@ export class HiveMindSwarm extends EventEmitter {
       await this.terminateAgent(agentId);
     }
     
-    await this.consensus.shutdown();
-await this.messageBus.shutdown();
+await this.consensus.shutdown();
+    await this.messageBus.shutdown();
     await this.persistState();
     
     this.emit('shutdown', { swarmId: this.swarmId });
+  }
+}
+
+class ConsensusEngine extends EventEmitter implements ConsensusEngine {
+  private strategy: string;
+  private maxNodes: number;
+  private nodes = new Map<string, NodeInfo>();
+  private proposals = new Map<string, ProposalInfo>();
+  private currentTerm = 0;
+  private votedFor?: string;
+  private commitIndex = 0;
+  private lastApplied = 0;
+  
+  constructor(strategy: string) {
+    super();
+    this.strategy = strategy;
+    this.maxNodes = 0;
+  }
+  
+  async initialize(swarmId: string, maxNodes: number): Promise<void> {
+    this.maxNodes = maxNodes;
+  }
+  
+  async join(nodeId: string): Promise<void> {
+    this.nodes.set(nodeId, {
+      id: nodeId,
+      joinedAt: new Date(),
+      lastHeartbeat: new Date(),
+      status: 'active'
+    });
+  }
+  
+  async leave(nodeId: string): Promise<void> {
+    this.nodes.delete(nodeId);
+  }
+  
+  async propose(proposal: ConsensusProposal): Promise<string> {
+    const proposalId = `prop-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    this.proposals.set(proposalId, {
+      ...proposal,
+      id: proposalId,
+      status: 'pending',
+      votes: new Map(),
+      createdAt: new Date()
+    });
+    
+    for (const nodeId of this.nodes.keys()) {
+      if (nodeId !== proposal.proposer) {
+        this.emit('proposal', { nodeId, proposal: this.proposals.get(proposalId) });
+      }
+    }
+    
+    return proposalId;
+  }
+  
+  async vote(proposalId: string, voterId: string, vote: boolean): Promise<void> {
+    const proposal = this.proposals.get(proposalId);
+    if (!proposal) return;
+    
+    proposal.votes.set(voterId, vote);
+    
+    const votes = Array.from(proposal.votes.values());
+    const yesVotes = votes.filter(v => v).length;
+    const totalNodes = this.nodes.size;
+    
+    if (yesVotes > totalNodes / 2) {
+      proposal.status = 'accepted';
+      this.emit('proposalAccepted', { proposalId, proposal });
+    } else if (votes.length - yesVotes > totalNodes / 2) {
+      proposal.status = 'rejected';
+      this.emit('proposalRejected', { proposalId, proposal });
+    }
+  }
+  
+  getMetrics() {
+    return {
+      lastTerm: this.currentTerm,
+      committedEntries: this.commitIndex,
+      leaderId: '',
+      activeProposals: Array.from(this.proposals.values()).filter(p => p.status === 'pending').length
+    };
+  }
+  
+  getHealth() {
+    return {
+      healthy: this.nodes.size >= Math.ceil(this.maxNodes / 2),
+      nodeCount: this.nodes.size,
+      quorum: Math.ceil(this.maxNodes / 2)
+    };
+  }
+  
+  async shutdown(): Promise<void> {
+    this.nodes.clear();
+    this.proposals.clear();
+  }
+}
+
+class MessageBus extends EventEmitter implements MessageBus {
+  async initialize(): Promise<void> {
+  }
+  
+  async shutdown(): Promise<void> {
   }
 }

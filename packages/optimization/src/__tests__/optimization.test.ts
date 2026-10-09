@@ -12,7 +12,7 @@ import {
   TemplateManager,
   OptimizationLayer,
   createDefaultOptimizationConfig
-} from '../src';
+} from '../index.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 describe('Optimization Layer', () => {
@@ -20,7 +20,7 @@ describe('Optimization Layer', () => {
   const config = {
     path: ':memory:',
     dimensions: 384,
-    hnsw: { M: 16, efConstruction: 200, efSearch: 100 },
+    hnsw: { M: 16, efConstruction: 200, efSearch: 100, maxElements: 10000 },
     quantization: { defaultLevel: 'pq8' as const },
     cache: { maxSize: 100, ttlMs: 60000 }
   };

@@ -3,19 +3,13 @@ import {
   TemplateVariable, 
   TemplateInstance,
   TemplateMetadata
-} from '../types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 export class TemplateManager {
-  private memory: FastStore;
   private templates = new Map<string, Template>();
   private instances = new Map<string, TemplateInstance>();
-  
-  constructor(memory: FastStore) {
-    this.memory = memory;
-    this.loadBuiltinTemplates();
-  }
-  
+
   private loadBuiltinTemplates(): void {
     // Agent Templates
     this.registerTemplate({
@@ -756,8 +750,8 @@ idempotencyKeys: [order-processing]`,
       tier: 2,
       content: JSON.stringify(instance),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'templates', taskType: 'instance' },
-      provenance: { agentId: 'template-manager', sessionId: 'templates', source: 'system', timestamp: new Date() },
+      metadata: { domain: 'templates', taskType: 'instance', mode: 'systems', context: 'template-persistence', tags: ['templates', 'optimization'] },
+      provenance: { agentId: 'template-manager', sessionId: 'templates', source: 'agent', timestamp: new Date() },
       reward: 1,
       consolidated: false,
       accessCount: 0,
@@ -788,10 +782,6 @@ idempotencyKeys: [order-processing]`,
     const template = JSON.parse(json) as Template;
     this.registerTemplate(template);
     return template;
-  }
-  
-  private registerTemplate(template: Template): void {
-    this.templates.set(template.id, template);
   }
   
   private loadFromMemory(): void {

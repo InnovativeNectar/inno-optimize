@@ -5,9 +5,9 @@ import {
   ABTestConfig,
   ABTestStatus,
   ABVariantConfig
-} from '../types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
-import { AgenticowClient } from './agenticow';
+import { AgenticowClient } from './agenticow.js';
 
 export class ABTestingFramework {
   private memory: FastStore;
@@ -96,7 +96,8 @@ export class ABTestingFramework {
     
     // Update running average
     const count = test.sampleSize + 1;
-    if (variant.id === test.variants[0].id) {
+    const firstVariantId = test.variants[0]?.id;
+    if (variant.id === firstVariantId) {
       metric.currentA = (metric.currentA * test.sampleSize + value) / count;
     } else {
       metric.currentB = (metric.currentB * test.sampleSize + value) / count;
@@ -136,8 +137,8 @@ export class ABTestingFramework {
         const target = metric.target;
         const winnerId = (target === 'increase' && metric.currentB > metric.currentA) ||
                          (target === 'decrease' && metric.currentB < metric.currentA)
-          ? test.variants[1].id
-          : test.variants[0].id;
+          ? test.variants[1]?.id ?? test.variants[0]?.id ?? ''
+          : test.variants[0]?.id ?? '';
         
         test.winner = winnerId;
         test.significance = 1 - pValue;
@@ -279,8 +280,8 @@ export class ABTestingFramework {
       tier: 2,
       content: JSON.stringify(test),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'optimization', taskType: 'abtest' },
-      provenance: { agentId: 'abtest-framework', sessionId: 'abtest', source: 'system', timestamp: new Date() },
+      metadata: { domain: 'optimization', taskType: 'abtest', mode: 'systems', context: 'abtest-persistence', tags: ['abtest', 'optimization'] },
+      provenance: { agentId: 'abtest-framework', sessionId: 'abtest', source: 'agent', timestamp: new Date() },
       reward: test.status === 'completed' ? 1 : 0.5,
       consolidated: false,
       accessCount: 0,
@@ -298,25 +299,7 @@ export class ABTestingFramework {
   }
 }
 
-// Agenticow client for COW branch management
-export class AgenticowClient {
-  async createBranch(branchPath: string, options: { label: string; basePath: string; dimension: number }): Promise<void> {
-    // Would call agenticow CLI or API
-    console.log(`Creating COW branch: ${branchPath} (${options.label})`);
-  }
-  
-  async promoteBranch(branchPath: string, options: { basePath: string; requireClearance: boolean }): Promise<void> {
-    console.log(`Promoting COW branch: ${branchPath} (clearance: ${options.requireClearance})`);
-  }
-  
-  async rollbackBranch(branchPath: string): Promise<void> {
-    console.log(`Rolling back COW branch: ${branchPath}`);
-  }
-  
-  async listBranches(): Promise<string[]> {
-    return [];
-  }
-}
+export { AgenticowClient } from './agenticow.js';
 
 export function createDefaultABTestConfig(): ABTestConfig {
   return {

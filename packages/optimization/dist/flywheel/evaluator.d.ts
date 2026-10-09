@@ -1,0 +1,46 @@
+import { FlywheelEvaluation, FlywheelCandidate, FlywheelReceipt, FlywheelConfig } from '../types.js';
+import { FastStore } from '@inno-optimize/agentdb';
+import { OAPELEngine } from '../oapel/engine.js';
+import { RegressionDetector } from '../regression/detector.js';
+import { ABTestingFramework } from '../abtesting/framework.js';
+export declare class FlywheelEvaluator {
+    private memory;
+    private oapel;
+    private regression;
+    private abtest;
+    private config;
+    private evaluations;
+    constructor(memory: FastStore, oapel: OAPELEngine, regression: RegressionDetector, abtest: ABTestingFramework, config: FlywheelConfig);
+    submitCandidate(candidate: FlywheelCandidate): Promise<string>;
+    private evaluateCandidate;
+    private getEvaluationCriteria;
+    private runBenchmarks;
+    private runTests;
+    private runAudits;
+    private scorePerformance;
+    private scoreQuality;
+    private scoreSecurity;
+    private scoreRegression;
+    private scoreCorrectness;
+    promoteCandidate(evaluationId: string, promotedBy: string): Promise<FlywheelReceipt | null>;
+    private verifyClearance;
+    private createReceipt;
+    private hashEvaluation;
+    private getAnchorHash;
+    private signReceipt;
+    private promoteCandidateBranches;
+    rejectCandidate(evaluationId: string, reason: string): Promise<void>;
+    getEvaluation(evaluationId: string): FlywheelEvaluation | undefined;
+    getAllEvaluations(): FlywheelEvaluation[];
+    runFlywheelCycle(): Promise<void>;
+    private getCompletedABTests;
+    private createCandidateFromABTest;
+    private createCandidateFromRegressionFix;
+    private persistEvaluation;
+    startFlywheel(): Promise<void>;
+    getConfig(): FlywheelConfig;
+    updateConfig(updates: Partial<FlywheelConfig>): void;
+    getEvaluationsByStatus(status: FlywheelEvaluation['status']): FlywheelEvaluation[];
+}
+export declare function createDefaultFlywheelConfig(): FlywheelConfig;
+//# sourceMappingURL=evaluator.d.ts.map

@@ -270,14 +270,14 @@ class HttpConnection extends MCPConnection {
   
   async listTools(): Promise<ToolDescriptor[]> {
     const response = await fetch(`${this.server.url}/tools/list`, {
-      headers: this.server.headers
+      headers: this.server.headers ?? {}
     });
     return response.json();
   }
   
   async listResources(): Promise<ResourceDescriptor[]> {
     const response = await fetch(`${this.server.url}/resources/list`, {
-      headers: this.server.headers
+      headers: this.server.headers ?? {}
     });
     return response.json();
   }
@@ -288,7 +288,7 @@ class HttpConnection extends MCPConnection {
   
   async readResource(uri: string): Promise<any> {
     const response = await fetch(`${this.server.url}/resources/read?uri=${encodeURIComponent(uri)}`, {
-      headers: this.server.headers
+      headers: this.server.headers ?? {}
     });
     return response.json();
   }

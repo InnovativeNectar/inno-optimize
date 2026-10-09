@@ -8,6 +8,7 @@ import {
   SagaExecution,
   CompletedStep,
   CompensationPlan,
+  ConnectorRegistry,
   ConnectorRegistry as ConnectorRegistryType
 } from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
@@ -208,7 +209,7 @@ export class SagaOrchestrator {
       content: JSON.stringify(result),
       embedding: new Array(384).fill(0.1),
       metadata: { domain: 'saga', taskType: 'idempotency', mode: 'system', context: 'idempotency storage', tags: ['idempotency'] },
-      provenance: { agentId: 'saga-orchestrator', sessionId: 'current', source: 'system', timestamp: new Date() },
+      provenance: { agentId: 'saga-orchestrator', sessionId: 'current', source: 'agent', timestamp: new Date() },
       reward: 1,
       verdict: 'success' as const,
       consolidated: false,
@@ -265,8 +266,8 @@ export class SagaOrchestrator {
         }
       }),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'saga', taskType: 'execution' },
-      provenance: { agentId: 'saga-orchestrator', sessionId: execution.context.executionId, source: 'system', timestamp: new Date() },
+      metadata: { domain: 'saga', taskType: 'execution', mode: 'orchestration', context: 'saga execution persistence', tags: ['saga', 'execution', 'persistence'] },
+      provenance: { agentId: 'saga-orchestrator', sessionId: execution.context.executionId, source: 'agent', timestamp: new Date() },
       reward: execution.status === 'completed' ? 1 : 0,
       consolidated: false,
       accessCount: 0,

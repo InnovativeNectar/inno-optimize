@@ -11,12 +11,12 @@ import {
   AuditResult,
   EvaluationCriterion,
   ReceiptSignature
-} from '../types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
-import { OAPELEngine } from '../oapel/engine';
-import { RegressionDetector } from '../regression/detector';
-import { ABTestingFramework } from '../abtesting/framework';
-import { Crypto } from '@inno-optimize/agentdb';
+import { OAPELEngine } from '../oapel/engine.js';
+import { RegressionDetector } from '../regression/detector.js';
+import { ABTestingFramework } from '../abtesting/framework.js';
+import { createHash } from 'node:crypto';
 
 export class FlywheelEvaluator {
   private memory: FastStore;
@@ -25,7 +25,6 @@ export class FlywheelEvaluator {
   private abtest: ABTestingFramework;
   private config: FlywheelConfig;
   private evaluations = new Map<string, FlywheelEvaluation>();
-  private crypto: Crypto;
   
   constructor(
     memory: FastStore,
@@ -39,7 +38,6 @@ export class FlywheelEvaluator {
     this.regression = regression;
     this.abtest = abtest;
     this.config = config;
-    this.crypto = new Crypto();
   }
   
   // Submit candidate for evaluation
@@ -299,7 +297,7 @@ export class FlywheelEvaluator {
       candidate: evaluation.candidate,
       evaluation: evaluation.evaluation
     });
-    return this.crypto.sha256(content);
+    return createHash('sha256').update(content).digest('hex');
   }
   
   private async getAnchorHash(): Promise<string> {
@@ -441,8 +439,8 @@ export class FlywheelEvaluator {
       tier: 3,
       content: JSON.stringify(evaluation),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'flywheel', taskType: 'evaluation' },
-      provenance: { agentId: 'flywheel-evaluator', sessionId: 'flywheel', source: 'system', timestamp: new Date() },
+      metadata: { domain: 'flywheel', taskType: 'evaluation', mode: 'systems', context: 'flywheel-persistence', tags: ['flywheel', 'optimization'] },
+      provenance: { agentId: 'flywheel-evaluator', sessionId: 'flywheel', source: 'agent', timestamp: new Date() },
       reward: evaluation.status === 'promoted' ? 1 : evaluation.evaluation.passed ? 0.7 : 0.3,
       consolidated: evaluation.status === 'promoted',
       accessCount: 0,
@@ -458,11 +456,7 @@ export class FlywheelEvaluator {
       this.runFlywheelCycle().catch(console.error);
     }, 3600000); // Every hour
   }
-  
-  async runFlywheelCycle(): Promise<void> {
-    // Would run the flywheel cycle
-  }
-  
+
   getConfig(): FlywheelConfig {
     return { ...this.config };
   }

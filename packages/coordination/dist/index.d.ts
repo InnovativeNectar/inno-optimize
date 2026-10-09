@@ -25,7 +25,7 @@ export declare class CoordinationLayer {
     executeSaga(definition: SagaDefinition, initialContext?: Partial<SagaContext>): Promise<import("./types.js").SagaResult>;
     recordTaskOutcome(agentId: string, outcome: TaskOutcome): Promise<void>;
     getEligibleAgents(role?: string): Promise<string[]>;
-    getSwarmStatus(): SwarmStatus;
+    getSwarmStatus(): import("./types.js").SwarmStatus;
     getPheromoneMetrics(): import("./types.js").PheromoneMetrics;
     shutdown(): Promise<void>;
     private getBusinessConnector;

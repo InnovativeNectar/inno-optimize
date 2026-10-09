@@ -147,7 +147,7 @@ export class SagaOrchestrator {
     }
     async checkIdempotency(key) {
         const result = await this.memory.getById(`idempotency:${key}`);
-        return result ? result.data : null;
+        return result ? JSON.parse(result.content) : null;
     }
     async storeIdempotency(key, result) {
         await this.memory.insert([{
@@ -156,9 +156,10 @@ export class SagaOrchestrator {
                 tier: 2,
                 content: JSON.stringify(result),
                 embedding: new Array(384).fill(0.1),
-                metadata: { domain: 'saga', taskType: 'idempotency' },
-                provenance: { agentId: 'saga-orchestrator', sessionId: 'current', source: 'system', timestamp: new Date() },
+                metadata: { domain: 'saga', taskType: 'idempotency', mode: 'system', context: 'idempotency storage', tags: ['idempotency'] },
+                provenance: { agentId: 'saga-orchestrator', sessionId: 'current', source: 'agent', timestamp: new Date() },
                 reward: 1,
+                verdict: 'success',
                 consolidated: false,
                 accessCount: 0,
                 lastAccessed: new Date(),
@@ -207,8 +208,8 @@ export class SagaOrchestrator {
                     }
                 }),
                 embedding: new Array(384).fill(0.1),
-                metadata: { domain: 'saga', taskType: 'execution' },
-                provenance: { agentId: 'saga-orchestrator', sessionId: execution.context.executionId, source: 'system', timestamp: new Date() },
+                metadata: { domain: 'saga', taskType: 'execution', mode: 'orchestration', context: 'saga execution persistence', tags: ['saga', 'execution', 'persistence'] },
+                provenance: { agentId: 'saga-orchestrator', sessionId: execution.context.executionId, source: 'agent', timestamp: new Date() },
                 reward: execution.status === 'completed' ? 1 : 0,
                 consolidated: false,
                 accessCount: 0,
@@ -221,18 +222,6 @@ export class SagaOrchestrator {
     }
     getRunningExecutions() {
         return Array.from(this.executions.values()).filter(e => e.status === 'running');
-    }
-}
-class ConnectorRegistry {
-    connectors = new Map();
-    register(connector) {
-        this.connectors.set(connector.id, connector);
-    }
-    getConnector(id) {
-        return this.connectors.get(id);
-    }
-    listConnectors() {
-        return Array.from(this.connectors.values());
     }
 }
 //# sourceMappingURL=orchestrator.js.map

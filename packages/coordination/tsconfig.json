@@ -5,6 +5,7 @@
     "rootDir": "./src",
     "composite": true,
     "lib": ["ES2022", "dom"],
+"types": ["node"],
     "noEmit": false
   },
   "include": ["src/**/*"],

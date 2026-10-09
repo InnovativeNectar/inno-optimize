@@ -40,6 +40,12 @@ export interface LoRAWeights {
   weightsA: number[][];
   weightsB: number[][];
   scales: number[];
+  metadata?: {
+    patternId: string;
+    mode: string;
+    timestamp: number;
+    reward: number;
+  };
 }
 
 export interface SearchQuery {
@@ -49,6 +55,7 @@ export interface SearchQuery {
   filter?: Record<string, any>;
   useCache?: boolean;
   vectorHash?: string;
+  rerank?: boolean;
 }
 
 export interface SearchResult {
@@ -64,6 +71,7 @@ export interface FastStoreConfig {
     M: number;
     efConstruction: number;
     efSearch: number;
+    maxElements?: number | undefined;
   };
   quantization: {
     defaultLevel: 'none' | 'pq8' | 'pq4' | 'binary' | 'rabitq';

@@ -5,7 +5,7 @@ import {
   Trajectory, 
   TaskContext,
   ModeConfig 
-} from '../types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 export class SONAAdapter {
@@ -33,7 +33,14 @@ export class SONAAdapter {
     const patterns = await this.retrievePatterns(taskContext);
     
     if (patterns.length === 0) {
-      return this.createDefaultAdaptation(taskContext);
+      const defaultAdaptation = this.createDefaultAdaptation(taskContext);
+      defaultAdaptation.extractionTimeMs = performance.now() - startTime;
+      
+      if (this.config.trajectoryTracking) {
+        await this.trackTrajectory(taskContext, defaultAdaptation, patterns);
+      }
+      
+      return defaultAdaptation;
     }
     
     // 2. Select best matching pattern
@@ -45,20 +52,22 @@ export class SONAAdapter {
     // 4. Apply mode-specific adaptation
     const adapted = this.applyModeAdaptation(loraWeights, taskContext.mode);
     
-    // 5. Track trajectory
-    if (this.config.trajectoryTracking) {
-      await this.trackTrajectory(taskContext, adapted, patterns);
-    }
-    
     const extractionTime = performance.now() - startTime;
     
-    return {
+    const adaptation: SONAAdaptation = {
       adaptedWeights: adapted,
       confidence: bestPattern.reward,
       patternId: bestPattern.id,
       mode: taskContext.mode,
       extractionTimeMs: extractionTime
     };
+    
+    // 5. Track trajectory
+    if (this.config.trajectoryTracking) {
+      await this.trackTrajectory(taskContext, adaptation, patterns);
+    }
+    
+    return adaptation;
   }
   
   private async retrievePatterns(taskContext: TaskContext): Promise<any[]> {
@@ -100,9 +109,9 @@ export class SONAAdapter {
     
     // Normalize
     let norm = 0;
-    for (let i = 0; i < dim; i++) norm += vector[i] * vector[i];
+    for (let i = 0; i < dim; i++) norm += (vector[i] ?? 0) * (vector[i] ?? 0);
     norm = Math.sqrt(norm);
-    for (let i = 0; i < dim; i++) vector[i] /= norm;
+    for (let i = 0; i < dim; i++) vector[i] = (vector[i] ?? 0) / norm;
     
     return Array.from(vector);
   }
@@ -290,18 +299,20 @@ export class SONAAdapter {
     
     for (let i = 0; i < baseWeights.length; i++) {
       const row: number[] = [];
-      for (let j = 0; j < baseWeights[i].length; j++) {
+      const baseRow = baseWeights[i] ?? [];
+      for (let j = 0; j < baseRow.length; j++) {
         let loraContribution = 0;
         
         // LoRA: B @ A @ x
         for (let r = 0; r < lora.rank; r++) {
-          if (i < lora.weightsB.length && r < lora.weightsB[i].length &&
-              r < lora.weightsA.length && j < lora.weightsA[r].length) {
-            loraContribution += lora.weightsB[i][r] * lora.weightsA[r][j] * lora.scales[i];
+          const bRow = lora.weightsB[i];
+          const aRow = lora.weightsA[r];
+          if (bRow && aRow && r < bRow.length && j < aRow.length) {
+            loraContribution += (bRow[r] ?? 0) * (aRow[j] ?? 0) * (lora.scales[i] ?? 0);
           }
         }
         
-        row.push(baseWeights[i][j] + (lora.alpha / lora.rank) * loraContribution);
+        row.push((baseRow[j] ?? 0) + (lora.alpha / lora.rank) * loraContribution);
       }
       result.push(row);
     }

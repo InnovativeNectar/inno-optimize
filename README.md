@@ -54,7 +54,7 @@ inno-optimize is a self-evolving architecture optimization system that continuou
 
 ## Build Status
 
-**Current Status**: 4/8 packages building successfully
+**Current Status**: 8/8 packages building successfully
 
 | Package | Status | Description |
 |---------|--------|-------------|
@@ -62,18 +62,27 @@ inno-optimize is a self-evolving architecture optimization system that continuou
 | `@inno-optimize/adr-automation` | ✅ **PASS** | ADR generation, tracking, CI/CD integration |
 | `@inno-optimize/ast-analysis` | ✅ **PASS** | Multi-language parser, scorer, anti-pattern detector |
 | `@inno-optimize/business-agent-factory` | ✅ **PASS** | Generic business agent factory with 11 dept templates |
-| `@inno-optimize/coordination` | ❌ **FAIL** | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler |
-| `@inno-optimize/intelligence` | ❌ **FAIL** | SONA, ReasoningBank, MoE Router, EWC++ |
-| `@inno-optimize/mcp-framework` | ❌ **FAIL** | MCP server registry, progressive discovery, tool routing |
-| `@inno-optimize/optimization` | ❌ **FAIL** | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel |
+| `@inno-optimize/coordination` | ✅ **PASS** | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler |
+| `@inno-optimize/intelligence` | ✅ **PASS** | SONA, ReasoningBank, MoE Router, EWC++ |
+| `@inno-optimize/mcp-framework` | ✅ **PASS** | MCP server registry, progressive discovery, tool routing |
+| `@inno-optimize/optimization` | ✅ **PASS** | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel |
 
-### Known Issues (Being Fixed)
+### Test Status
 
-The 4 failing packages have systematic TypeScript issues:
-- Missing `.js` extensions on ESM imports (TS2834/TS2835)
-- Invalid `lib: ["Node"]` compiler option - should be `["dom"]`
-- Missing `@types/node` for Node.js globals (`setTimeout`, `EventEmitter`, etc.)
-- Type mismatches in `MemoryEntry`, `ConnectorRegistry`, `BusinessConnector` interfaces
+**Current Status**: 7/7 test suites, **91/91 tests passing** (zero single-allocation >512MB, verified with an `LD_PRELOAD` malloc guard)
+
+| Suite | Tests | Status |
+|-------|-------|--------|
+| `agentdb` (FastStore) | 9 | ✅ |
+| `ast-analysis` | 13 | ✅ |
+| `intelligence` (SONA, ReasoningBank, MoE, EWC++) | 13 | ✅ |
+| `coordination` (Hive-Mind, integration) | 27 | ✅ |
+| `optimization` (OAPEL, A/B, regression, flywheel) | 20 | ✅ |
+| `mcp-framework` | 9 | ✅ |
+
+`adr-automation` and `business-agent-factory` build cleanly but have no test suites yet (tracked follow-up).
+
+> **Note**: `hnswlib` allocations are bounded by `hnswConfig.maxElements`. Passing `storagePath: ':memory:'` forces a full 10M-element (~4.4GB) allocation regardless of `maxElements`; `FastStore` now maps that to a unique temp file so tests cannot trigger the OOM.
 
 ---
 
@@ -87,7 +96,7 @@ git clone https://github.com/inno-optimize/inno-optimize
 cd inno-optimize
 npm install
 
-# Build all packages (4/8 currently pass)
+# Build all packages (8/8 pass)
 npm run build
 
 # Run tests
@@ -159,12 +168,12 @@ npx inno-optimize optimize --auto --dry-run
 | Package | Description | Entry Point | Build |
 |---------|-------------|-------------|-------|
 | `@inno-optimize/agentdb` | Vector database with HNSW, quantization, 3-tier memory | `packages/agentdb` | ✅ |
-| `@inno-optimize/mcp-framework` | MCP server registry, progressive discovery, tool routing | `packages/mcp-framework` | ❌ |
+| `@inno-optimize/mcp-framework` | MCP server registry, progressive discovery, tool routing | `packages/mcp-framework` | ✅ |
 | `@inno-optimize/adr-automation` | ADR generation, tracking, CI/CD integration | `packages/adr-automation` | ✅ |
 | `@inno-optimize/ast-analysis` | Multi-language parser, scorer, anti-pattern detector | `packages/ast-analysis` | ✅ |
-| `@inno-optimize/intelligence` | SONA, ReasoningBank, MoE Router, EWC++ | `packages/intelligence` | ❌ |
-| `@inno-optimize/coordination` | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler | `packages/coordination` | ❌ |
-| `@inno-optimize/optimization` | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel | `packages/optimization` | ❌ |
+| `@inno-optimize/intelligence` | SONA, ReasoningBank, MoE Router, EWC++ | `packages/intelligence` | ✅ |
+| `@inno-optimize/coordination` | Hive-Mind Swarm, Saga Orchestrator, Pheromone Scheduler | `packages/coordination` | ✅ |
+| `@inno-optimize/optimization` | OAPEL Cycles, A/B Testing, Regression Detection, Flywheel | `packages/optimization` | ✅ |
 | `@inno-optimize/business-agent-factory` | Generic business agent factory with 11 department templates | `packages/business-agent-factory` | ✅ |
 
 ---

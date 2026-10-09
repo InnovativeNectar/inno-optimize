@@ -210,9 +210,9 @@ export class AntiPatternDetector {
         severity: 'medium',
         detection: {
           threshold: { params: 5 },
-          custom: (result) => 
-            result.functions.some(f => f.params.length > 5) ||
-            result.classes.some(c => c.methods.some(m => m.params.length > 5))
+          custom: (result) =>
+            result.functions.some(f => (f.params?.length ?? 0) > 5) ||
+            result.classes.some(c => c.methods.some(m => (m.params?.length ?? 0) > 5))
         },
         refactoring: {
           pattern: 'Introduce Parameter Object / Builder',

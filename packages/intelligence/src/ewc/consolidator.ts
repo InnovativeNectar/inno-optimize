@@ -4,8 +4,9 @@ import {
   ConsolidationTask,
   ReasoningPattern,
   LoRAWeights
-} from '../types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
+import { MemoryEntry } from '@inno-optimize/agentdb';
 
 export class EWCConsolidator {
   private config: EWCConfig;
@@ -18,31 +19,91 @@ export class EWCConsolidator {
     this.config = config;
     this.memory = memory;
   }
-  
+
+  private memoryEntryToPattern(entry: MemoryEntry): ReasoningPattern {
+    const ewcImportance: number[] = entry.ewcImportance ?? [];
+    return {
+      id: entry.id,
+      title: entry.metadata?.domain || 'Unknown',
+      description: entry.content,
+      content: entry.content,
+      reward: entry.reward ?? 0,
+      mode: entry.metadata?.mode || 'systems',
+      verdict: entry.verdict ?? 'success',
+      loraWeights: entry.loraWeights ?? { rank: 0, alpha: 0, weightsA: [], weightsB: [], scales: [], metadata: { patternId: '', mode: '', timestamp: 0, reward: 0 } },
+      consolidated: entry.consolidated ?? false,
+      createdAt: entry.createdAt,
+      ewcImportance,
+      metadata: entry.metadata
+    };
+  }
+
   // Main consolidation entry point
-  async consolidate(pattern: ReasoningPattern): Promise<void> {
-    const paramKey = `pattern:${pattern.id}`;
+  async consolidate(pattern: ReasoningPattern | MemoryEntry): Promise<void> {
+    const patternObj = 'loraWeights' in pattern ? pattern as ReasoningPattern : this.memoryEntryToPattern(pattern as MemoryEntry);
+    const paramKey = `pattern:${patternObj.id}`;
     
     // 1. Compute Fisher Information (diagonal approximation)
-    const fisher = await this.computeFisherDiagonal(pattern);
+    const fisher = await this.computeFisherDiagonal(patternObj);
     
     // 2. Store Fisher info and optimal parameters
     this.fisherMatrix.set(paramKey, {
       paramKey,
       fisherDiagonal: fisher,
-      optimalParams: this.flattenLoRA(pattern.loraWeights),
+      optimalParams: this.flattenLoRA(patternObj.loraWeights),
       lastUpdated: new Date()
     });
     
     // 3. Register quadratic penalty in loss function
     this.registerPenalty(paramKey, fisher);
     
-    // 4. Update pattern as consolidated
-    await this.memory.update(pattern.id, {
+    // 4. Update pattern as consolidated (upsert: the pattern may not be
+    // persisted yet when consolidate() is called directly)
+    const existing = await this.memory.getById(patternObj.id);
+    if (existing) {
+      await this.memory.update(patternObj.id, {
+        ewcImportance: fisher,
+        consolidated: true,
+        consolidatedAt: new Date()
+      });
+    } else {
+      await this.memory.insert([this.patternToMemoryEntry(patternObj, fisher)]);
+    }
+    
+    patternObj.consolidated = true;
+    patternObj.ewcImportance = fisher;
+  }
+  
+  private patternToMemoryEntry(pattern: ReasoningPattern, fisher: number[]): MemoryEntry {
+    return {
+      id: pattern.id,
+      type: 'semantic',
+      tier: 3,
+      content: pattern.content,
+      embedding: this.stringToVector(pattern.description || pattern.id, 384),
+      metadata: {
+        domain: pattern.metadata?.domain ?? 'general',
+        taskType: 'ewc-pattern',
+        mode: pattern.mode,
+        context: pattern.description,
+        tags: ['ewc', pattern.verdict]
+      },
+      provenance: {
+        agentId: 'ewc-consolidator',
+        sessionId: 'ewc-consolidator',
+        source: 'distillation',
+        timestamp: new Date()
+      },
+      reward: pattern.reward,
+      verdict: pattern.verdict,
+      loraWeights: pattern.loraWeights,
       ewcImportance: fisher,
       consolidated: true,
-      consolidatedAt: new Date()
-    });
+      consolidatedAt: new Date(),
+      accessCount: 0,
+      lastAccessed: new Date(),
+      createdAt: pattern.createdAt
+    };
   }
   
   // Compute Fisher Information diagonal
@@ -55,7 +116,7 @@ export class EWCConsolidator {
     
     // Gradient vanishing fix for high-confidence predictions
     if (this.config.gradientVanishingFix) {
-      const confidence = pattern.reward;
+      const confidence = pattern.reward ?? 0;
       fisher = fisher.map(f => f * (1 + confidence));
     }
     
@@ -69,13 +130,13 @@ export class EWCConsolidator {
     
     for (let i = 0; i < params.length; i++) {
       // Gradient magnitude based on parameter importance
-      const baseGrad = Math.abs(params[i]) * 0.1;
+      const baseGrad = Math.abs(params[i] ?? 0) * 0.1;
       
       // Modulate by pattern reward
-      const rewardMod = pattern.reward;
+      const rewardMod = pattern.reward ?? 0;
       
       // Add noise for parameter-specific variation
-      const noise = (Math.sin(pattern.id.length + i) - 0.5) * 0.2;
+      const noise = (Math.sin((pattern.id?.length ?? 0) + i) - 0.5) * 0.2;
       
       gradients.push(baseGrad * rewardMod + noise);
     }
@@ -87,17 +148,17 @@ export class EWCConsolidator {
     const flat: number[] = [];
     
     // Flatten weightsA [rank, input_dim]
-    for (const row of lora.weightsA) {
+    for (const row of lora.weightsA ?? []) {
       flat.push(...row);
     }
     
     // Flatten weightsB [output_dim, rank]
-    for (const row of lora.weightsB) {
+    for (const row of lora.weightsB ?? []) {
       flat.push(...row);
     }
     
     // Add scales
-    flat.push(...lora.scales);
+    flat.push(...(lora.scales ?? []));
     
     return flat;
   }
@@ -119,8 +180,10 @@ export class EWCConsolidator {
       const { fisherDiagonal, optimalParams } = fisherInfo;
       
       for (let i = 0; i < params.length && i < optimalParams.length; i++) {
-        const diff = params[i] - optimalParams[i];
-        loss += this.config.lambda * fisherDiagonal[i] * diff * diff;
+        const diff = (params[i] ?? 0) - (optimalParams[i] ?? 0);
+        const fisherVal = fisherDiagonal[i];
+        const fisherValSafe = fisherVal !== undefined ? fisherVal : 0;
+        loss += this.config.lambda * fisherValSafe * diff * diff;
       }
     }
     
@@ -141,8 +204,11 @@ export class EWCConsolidator {
     // Exponential moving average of Fisher
     const alpha = 0.1; // Update rate
     for (let i = 0; i < existing.fisherDiagonal.length && i < newGradients.length; i++) {
-      const newFisher = newGradients[i] * newGradients[i];
-      existing.fisherDiagonal[i] = (1 - alpha) * existing.fisherDiagonal[i] + alpha * newFisher;
+      const grad = newGradients[i] ?? 0;
+      const newFisher = grad * grad;
+      const existingVal = existing.fisherDiagonal[i];
+      const existingValSafe = existingVal !== undefined ? existingVal : 0;
+      existing.fisherDiagonal[i] = (1 - alpha) * existingValSafe + alpha * newFisher;
     }
     
     existing.lastUpdated = new Date();
@@ -211,7 +277,7 @@ export class EWCConsolidator {
     
     let transferred = 0;
     for (const pattern of sourcePatterns) {
-      const adapted = await this.adaptPattern(pattern, targetDomain);
+      const adapted = await this.adaptPattern(this.memoryEntryToPattern(pattern), targetDomain);
       await this.memory.insert([adapted]);
       transferred++;
     }
@@ -228,9 +294,9 @@ export class EWCConsolidator {
       id: `transfer-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
       embedding: newEmbedding,
       metadata: {
-        ...pattern.metadata,
+        ...(pattern.metadata ?? {}),
         domain: targetDomain,
-        transferredFrom: pattern.metadata.domain,
+        transferredFrom: pattern.metadata?.domain,
         transferredAt: new Date()
       },
       consolidated: false,
@@ -257,9 +323,14 @@ export class EWCConsolidator {
     }
     
     let norm = 0;
-    for (let i = 0; i < dim; i++) norm += vector[i] * vector[i];
+    for (let i = 0; i < dim; i++) {
+      const val = vector[i] ?? 0;
+      norm += val * val;
+    }
     norm = Math.sqrt(norm);
-    for (let i = 0; i < dim; i++) vector[i] /= norm;
+    for (let i = 0; i < dim; i++) {
+      vector[i] = (vector[i] ?? 0) / norm;
+    }
     
     return Array.from(vector);
   }

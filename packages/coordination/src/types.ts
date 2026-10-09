@@ -163,6 +163,7 @@ export interface BusinessConnector {
   operations: ConnectorOperation[];
   syncConfig?: SyncConfig;
   webhooks?: WebhookConfig[];
+  execute(operation: string, input: any): Promise<any>;
 }
 
 export interface ConnectorAuth {

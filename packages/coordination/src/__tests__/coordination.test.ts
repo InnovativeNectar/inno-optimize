@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { 
   HiveMindSwarm, 
   SagaOrchestrator, 
@@ -7,7 +7,7 @@ import {
   CoordinationLayer,
   createDefaultCoordinationConfig,
   businessServers
-} from '../src.js';
+} from '../index.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 describe('Coordination Layer', () => {
@@ -15,7 +15,7 @@ describe('Coordination Layer', () => {
   const config = {
     path: ':memory:',
     dimensions: 384,
-    hnsw: { M: 16, efConstruction: 200, efSearch: 100 },
+    hnsw: { M: 16, efConstruction: 200, efSearch: 100, maxElements: 10000 },
     quantization: { defaultLevel: 'pq8' as const },
     cache: { maxSize: 100, ttlMs: 60000 }
   };

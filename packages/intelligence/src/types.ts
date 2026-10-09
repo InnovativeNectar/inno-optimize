@@ -31,7 +31,7 @@ export interface LoRAWeights {
   weightsA: number[][];  // [rank, input_dim]
   weightsB: number[][];  // [output_dim, rank]
   scales: number[];      // Per-output scaling
-  metadata: {
+  metadata?: {
     patternId: string;
     mode: string;
     timestamp: number;
@@ -99,6 +99,7 @@ export interface ReasoningPattern {
   consolidated: boolean;
   createdAt: Date;
   ewcImportance?: number[];
+  metadata?: Record<string, any>;
 }
 
 export interface Verdict {
@@ -142,6 +143,7 @@ export interface MoEConfig {
   spectralLambda: number;
   loadBalancing: boolean;
   adaptiveWidth: boolean;
+  rerankEnabled?: boolean;
 }
 
 export interface Expert {
@@ -182,4 +184,22 @@ export interface ConsolidationTask {
   sourceDomain?: string;
   targetDomain?: string;
   priority: 'low' | 'normal' | 'high' | 'critical';
+}
+
+export interface SearchQuery {
+  vector: number[];
+  textQuery?: string;
+  k?: number;
+  filter?: Record<string, any>;
+  useCache?: boolean;
+  vectorHash?: string;
+  rerank?: boolean;
+}
+
+export interface LoadBalancer {
+  numExperts: number;
+  targetLoads: number[];
+  updateLoad(expertId: string, load: number): void;
+  rebalance(): void;
+  getTargetLoad(expertId: string): number;
 }

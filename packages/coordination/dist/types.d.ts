@@ -148,6 +148,7 @@ export interface BusinessConnector {
     operations: ConnectorOperation[];
     syncConfig?: SyncConfig;
     webhooks?: WebhookConfig[];
+    execute(operation: string, input: any): Promise<any>;
 }
 export interface ConnectorAuth {
     type: 'oauth2' | 'api_key' | 'basic' | 'jwt' | 'mtls';
@@ -282,8 +283,8 @@ export interface ConnectorMetrics {
     rateLimitHits: number;
 }
 export interface ConnectorRegistry {
-    getConnector(id: string): any;
-    register(connector: any): void;
+    getConnector(id: string): BusinessConnector | undefined;
+    register(connector: BusinessConnector): void;
 }
 export interface PheromoneUpdate {
     agentId: string;
@@ -314,6 +315,13 @@ export interface NodeInfo {
     joinedAt: Date;
     lastHeartbeat: Date;
     status: 'active' | 'suspected' | 'down';
+}
+export interface ConsensusProposal {
+    id: string;
+    type: string;
+    data: any;
+    proposer: string;
+    timestamp: Date;
 }
 export interface ConsensusProposal {
     id: string;

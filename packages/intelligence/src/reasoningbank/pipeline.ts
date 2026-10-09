@@ -7,8 +7,8 @@ import {
   DistillResult,
   ConsolidateResult,
   LoRAWeights
-} from '../types';
-import { FastStore } from '@inno-optimize/agentdb';
+} from '../types.js';
+import { FastStore, MemoryEntry } from '@inno-optimize/agentdb';
 
 export class ReasoningBank {
   private config: ReasoningBankConfig;
@@ -52,10 +52,29 @@ export class ReasoningBank {
       rerank: this.config.rerankEnabled
     });
     
+    const patterns = results.map(r => this.memoryEntryToPattern(r));
+    
     return {
-      patterns: results,
+      patterns,
       scores: results.map(r => r.reward),
       queryEmbedding: queryVector
+    };
+  }
+  
+  private memoryEntryToPattern(entry: any): ReasoningPattern {
+    return {
+      id: entry.id,
+      title: entry.metadata?.domain || 'Unknown',
+      description: entry.content,
+      content: entry.content,
+      reward: entry.reward ?? 0,
+      mode: entry.metadata?.mode || 'systems',
+      verdict: entry.verdict ?? 'success',
+      loraWeights: entry.loraWeights ?? { rank: 0, alpha: 0, weightsA: [], weightsB: [], scales: [], metadata: { patternId: '', mode: '', timestamp: 0, reward: 0 } },
+      consolidated: entry.consolidated ?? false,
+      createdAt: entry.createdAt,
+      ewcImportance: entry.ewcImportance,
+      metadata: entry.metadata
     };
   }
   
@@ -99,6 +118,11 @@ export class ReasoningBank {
     }
     
     const topPattern = patterns[0];
+    if (!topPattern) {
+      return success
+        ? 'No similar patterns found. Novel approach succeeded.'
+        : 'No similar patterns found. Novel approach failed.';
+    }
     return success
       ? `Similar to "${topPattern.title}" (similarity: ${similarity.toFixed(2)}). Applied learned pattern successfully.`
       : `Similar to "${topPattern.title}" (similarity: ${similarity.toFixed(2)}). Pattern application failed - may need adaptation.`;
@@ -196,18 +220,62 @@ export class ReasoningBank {
   async consolidate(pattern: ReasoningPattern): Promise<ConsolidateResult> {
     // Compute Fisher Information for EWC++
     const importance = await this.computeFisherImportance(pattern);
+    const consolidatedAt = new Date();
     
-    // Store in memory with EWC++ metadata
-    await this.memory.update(pattern.id, {
-      ewcImportance: importance,
-      consolidated: true,
-      consolidatedAt: new Date()
-    });
+    // Store in memory with EWC++ metadata (upsert: distill creates the pattern
+    // object but may not have persisted it yet)
+    const existing = await this.memory.getById(pattern.id);
+    if (existing) {
+      await this.memory.update(pattern.id, {
+        ewcImportance: importance,
+        consolidated: true,
+        consolidatedAt
+      });
+    } else {
+      await this.memory.insert([await this.patternToMemoryEntry(pattern, importance)]);
+    }
+    
+    pattern.consolidated = true;
+    pattern.ewcImportance = importance;
     
     return {
       patternId: pattern.id,
       ewcImportance: importance,
-      consolidatedAt: new Date()
+      consolidatedAt
+    };
+  }
+  
+  private async patternToMemoryEntry(pattern: ReasoningPattern, importance: number[]): Promise<MemoryEntry> {
+    const embedding = await this.embedder.embed(pattern.content);
+    
+    return {
+      id: pattern.id,
+      type: 'semantic',
+      tier: 3,
+      content: pattern.content,
+      embedding,
+      metadata: {
+        domain: pattern.metadata?.domain ?? 'general',
+        taskType: 'reasoning-pattern',
+        mode: pattern.mode,
+        context: pattern.description,
+        tags: ['reasoning-bank', pattern.verdict]
+      },
+      provenance: {
+        agentId: 'reasoning-bank',
+        sessionId: 'reasoning-bank',
+        source: 'distillation',
+        timestamp: new Date()
+      },
+      reward: pattern.reward,
+      verdict: pattern.verdict,
+      loraWeights: pattern.loraWeights,
+      ewcImportance: importance,
+      consolidated: true,
+      consolidatedAt: new Date(),
+      accessCount: 0,
+      lastAccessed: new Date(),
+      createdAt: pattern.createdAt
     };
   }
   
@@ -216,8 +284,8 @@ export class ReasoningBank {
     // Based on gradient of loss w.r.t parameters
     
     const lora = pattern.loraWeights;
-    const paramCount = lora.weightsA.length * lora.weightsA[0].length + 
-                       lora.weightsB.length * lora.weightsB[0].length;
+    const paramCount = lora.weightsA.length * (lora.weightsA[0]?.length ?? 0) + 
+                       lora.weightsB.length * (lora.weightsB[0]?.length ?? 0);
     
     const importance = new Array(paramCount).fill(0);
     
@@ -255,7 +323,8 @@ export class ReasoningBank {
     });
     
     let transferred = 0;
-    for (const pattern of sourcePatterns) {
+    for (const entry of sourcePatterns) {
+      const pattern = this.memoryEntryToPattern(entry);
       const adapted = await this.adaptPattern(pattern, targetDomain);
       await this.memory.insert([adapted]);
       transferred++;
@@ -272,7 +341,7 @@ export class ReasoningBank {
       metadata: {
         ...pattern.metadata,
         domain: targetDomain,
-        transferredFrom: pattern.metadata.domain,
+        transferredFrom: pattern.metadata?.domain,
         transferredAt: new Date()
       },
       consolidated: false

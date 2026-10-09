@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { SwarmConfig, SwarmStatus, TaskOutcome, AgentSpawnConfig } from './types.js';
+import { SwarmConfig, SwarmStatus, TaskOutcome, AgentSpawnConfig, ConsensusProposal } from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 export declare class HiveMindSwarm extends EventEmitter {
     private config;
@@ -15,6 +15,7 @@ export declare class HiveMindSwarm extends EventEmitter {
     constructor(config: SwarmConfig, memory: FastStore);
     initialize(): Promise<void>;
     spawnAgent(agentConfig: AgentSpawnConfig): Promise<string>;
+    private generateAgentId;
     terminateAgent(agentId: string): Promise<void>;
     assignTask(taskId: string, agentId: string): Promise<boolean>;
     completeTask(taskId: string, outcome: TaskOutcome): Promise<void>;

@@ -1,3 +1,4 @@
+import { tmpdir } from 'os';
 import { VectorDb } from 'ruvector';
 import { HNSWIndex, Quantizer, cosineSimilarity } from '../hnsw/index.js';
 export class WorkingMemoryCache {
@@ -58,11 +59,25 @@ export class FastStore {
     config;
     constructor(config) {
         this.config = config;
-        // Initialize VectorDb
+        // Initialize VectorDb.
+        // The native binding treats storagePath=':memory:' as a literal file name
+        // AND ignores hnswConfig for it, pre-allocating a fixed 10M-element index
+        // (4.44 GB of virtual allocations per instance — measured, see AGENTS.md
+        // session notes). Map ':memory:' to a unique temp file and always pass an
+        // explicit hnswConfig so capacity scales with config.hnsw.maxElements.
+        const storagePath = config.path && config.path !== ':memory:'
+            ? config.path
+            : `${tmpdir()}/inno-faststore-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}.db`;
         this.db = new VectorDb({
-            path: config.path,
+            path: storagePath,
             dimensions: config.dimensions,
-            distanceMetric: 'cosine'
+            distanceMetric: 'cosine',
+            hnswConfig: {
+                m: config.hnsw.M,
+                efConstruction: config.hnsw.efConstruction,
+                efSearch: config.hnsw.efSearch,
+                maxElements: config.hnsw.maxElements ?? 1000000
+            }
         });
         // Initialize HNSW
         this.quantizer = new Quantizer({
@@ -79,7 +94,8 @@ export class FastStore {
             M: config.hnsw.M,
             efConstruction: config.hnsw.efConstruction,
             efSearch: config.hnsw.efSearch,
-            dimensions: config.dimensions
+            dimensions: config.dimensions,
+            maxElements: config.hnsw.maxElements
         }, this.quantizer);
         // Initialize cache
         this.cache = new WorkingMemoryCache({
@@ -103,6 +119,8 @@ export class FastStore {
             loraWeights: entry.loraWeights,
             ewcImportance: entry.ewcImportance,
             consolidated: entry.consolidated,
+            type: entry.type,
+            tier: entry.tier,
             accessCount: entry.accessCount,
             lastAccessed: entry.lastAccessed.toISOString(),
             createdAt: entry.createdAt.toISOString()

@@ -6,14 +6,14 @@ import {
   Quantizer,
   cosineSimilarity,
   MemoryEntry 
-} from '../src';
+} from '../index.js';
 
 describe('AgentDB - FastStore', () => {
   let store: FastStore;
   const config = {
     path: ':memory:',
     dimensions: 384,
-    hnsw: { M: 16, efConstruction: 200, efSearch: 100 },
+    hnsw: { M: 16, efConstruction: 200, efSearch: 100, maxElements: 10000 },
     quantization: { defaultLevel: 'pq8' as const },
     cache: { maxSize: 100, ttlMs: 60000 }
   };
@@ -81,7 +81,8 @@ describe('AgentDB - FastStore', () => {
         M: 16,
         efConstruction: 200,
         efSearch: 100,
-        dimensions: 384
+        dimensions: 384,
+        maxElements: 10000
       }, quantizer);
     });
 

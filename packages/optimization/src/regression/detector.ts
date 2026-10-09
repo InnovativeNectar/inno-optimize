@@ -3,7 +3,7 @@ import {
   RegressionConfig, 
   RegressionMetric,
   RegressionAlert as RegressionAlertType
-} from '../types';
+} from '../types.js';
 import { FastStore } from '@inno-optimize/agentdb';
 
 export class RegressionDetector {
@@ -234,8 +234,8 @@ export class RegressionDetector {
       tier: 3,
       content: JSON.stringify(metric),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'regression', taskType: 'baseline' },
-      provenance: { agentId: 'regression-detector', sessionId: 'regression', source: 'system', timestamp: new Date() },
+      metadata: { domain: 'regression', taskType: 'baseline', mode: 'systems', context: 'regression-baseline', tags: ['regression', 'optimization'] },
+      provenance: { agentId: 'regression-detector', sessionId: 'regression', source: 'agent', timestamp: new Date() },
       reward: 1,
       consolidated: true,
       accessCount: 0,
@@ -251,8 +251,8 @@ export class RegressionDetector {
       tier: 2,
       content: JSON.stringify(alert),
       embedding: new Array(384).fill(0.1),
-      metadata: { domain: 'regression', taskType: 'alert' },
-      provenance: { agentId: 'regression-detector', sessionId: 'regression', source: 'system', timestamp: new Date() },
+      metadata: { domain: 'regression', taskType: 'alert', mode: 'systems', context: 'regression-alert', tags: ['regression', 'optimization'] },
+      provenance: { agentId: 'regression-detector', sessionId: 'regression', source: 'agent', timestamp: new Date() },
       reward: 0,
       consolidated: false,
       accessCount: 0,

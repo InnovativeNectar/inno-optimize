@@ -4,6 +4,7 @@ export interface HNSWConfig {
     efSearch: number;
     dimensions: number;
     space?: 'cosine' | 'l2' | 'ip';
+    maxElements?: number | undefined;
 }
 export interface QuantizationConfig {
     defaultLevel: 'none' | 'pq8' | 'pq4' | 'binary' | 'rabitq';

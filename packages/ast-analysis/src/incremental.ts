@@ -243,8 +243,8 @@ export class FileWatcher {
 
 // Utility for computing file diffs
 export function computeDiff(oldContent: string, newContent: string): IncrementalChange {
-  const oldLines = oldContent.split('\n');
-  const newLines = newContent.split('\n');
+  const oldLines = oldContent === '' ? [] : oldContent.split('\n');
+  const newLines = newContent === '' ? [] : newContent.split('\n');
   
   // Simple line-based diff
   let start = 0;
