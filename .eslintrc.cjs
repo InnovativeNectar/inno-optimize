@@ -48,7 +48,8 @@ module.exports = {
         'packages/optimization/src/abtesting/framework.ts',
         'packages/optimization/src/flywheel/evaluator.ts',
         'packages/optimization/src/regression/detector.ts',
-        'packages/intelligence/src/ewc/consolidator.ts'
+        'packages/intelligence/src/ewc/consolidator.ts',
+        'packages/ast-analysis/src/incremental.ts'
       ],
       rules: { 'no-console': 'off' }
     }

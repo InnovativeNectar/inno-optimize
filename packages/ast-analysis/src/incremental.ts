@@ -216,7 +216,6 @@ export class FileWatcher {
   
   watch(directory: string, _callback: (analysis: DeltaAnalysis) => void): void {
     // In production, use chokidar or fs.watch
-    // eslint-disable-next-line no-console
     console.log(`Watching ${directory} for changes...`);
   }
   

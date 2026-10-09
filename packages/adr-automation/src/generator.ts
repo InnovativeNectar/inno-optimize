@@ -189,7 +189,6 @@ ${this.getImplementationApproach(change)}
           relevance: await this.computeRelevance(change, snippet)
         });
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.warn(`Failed to create anchor for ${file}:`, e);
       }
     }

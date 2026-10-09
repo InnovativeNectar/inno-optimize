@@ -232,7 +232,6 @@ export class SemanticAnchors {
             relevance: await this.computeRelevance(adr.decision, snippet)
           });
         } catch (e) {
-          // eslint-disable-next-line no-console
           console.warn(`Failed to create anchor for ${file}:`, e);
         }
       }
