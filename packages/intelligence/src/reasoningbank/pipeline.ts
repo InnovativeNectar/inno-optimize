@@ -1,4 +1,4 @@
-import { 
+import type { 
   ReasoningBankConfig, 
   ReasoningPattern, 
   Trajectory, 
@@ -8,7 +8,7 @@ import {
   ConsolidateResult,
   LoRAWeights
 } from '../types.js';
-import { FastStore, MemoryEntry } from '@inno-optimize/agentdb';
+import type { FastStore, MemoryEntry } from '@inno-optimize/agentdb';
 
 export class ReasoningBank {
   private config: ReasoningBankConfig;

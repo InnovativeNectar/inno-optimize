@@ -1,13 +1,15 @@
-import { 
+import type { 
   ABTest, 
-  ABVariant, 
   ABMetric, 
   ABTestConfig,
-  ABTestStatus,
   ABVariantConfig
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { AgenticowClient } from './agenticow.js';
+import { 
+  ABVariant,
+  ABTestStatus
+} from '../types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { AgenticowClient } from './agenticow.js';
 
 export class ABTestingFramework {
   private memory: FastStore;

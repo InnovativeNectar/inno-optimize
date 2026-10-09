@@ -1,6 +1,5 @@
-import { FastStore } from '../src/stores/fast-store.js';
-import { HNSWIndex, Quantizer } from '../src/hnsw/index.js';
-import { MemoryEntry } from '../src/types.js';
+import { writeFileSync } from 'node:fs';
+import { FastStore, HNSWIndex, Quantizer, type MemoryEntry } from '@inno-optimize/agentdb';
 
 interface BenchmarkResult {
   name: string;
@@ -80,7 +79,29 @@ async function runBenchmarks(): Promise<void> {
     const passed = t.metric <= t.target;
     console.log(`  ${passed ? '✅' : '❌'} ${t.name}: ${t.metric.toFixed(2)}${t.unit} (target: <${t.target}${t.unit})`);
   }
-  
+
+  writeFileSync(
+    'benchmark-results.json',
+    JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        node: process.version,
+        platform: `${process.platform}-${process.arch}`,
+        results,
+        targets: targets.map((t) => ({
+          name: t.name,
+          metric: t.metric,
+          target: t.target,
+          unit: t.unit,
+          passed: t.metric <= t.target
+        }))
+      },
+      null,
+      2
+    ) + '\n'
+  );
+  console.log('\n📄 Wrote benchmark-results.json');
+
   await store.close();
 }
 

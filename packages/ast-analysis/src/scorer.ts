@@ -1,4 +1,4 @@
-import { 
+import type { 
   ParseResult, 
   ArchitectureScore, 
   DimensionScore, 
@@ -7,10 +7,12 @@ import {
   Issue,
   ScoreTrend,
   Recommendation,
-  AntiPattern,
   DependencyGraph,
   DependencyNode,
   DependencyEdge
+} from './types.js';
+import {
+  AntiPattern
 } from './types.js';
 
 export class ArchitectureScorer {

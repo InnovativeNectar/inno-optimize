@@ -1,21 +1,23 @@
-import { 
+import type { 
   FlywheelEvaluation, 
   FlywheelCandidate, 
   EvaluationResult, 
   FlywheelReceipt,
   FlywheelConfig,
-  FlywheelCandidate as CandidateType,
-  Evidence,
   BenchmarkResult,
   TestResult,
   AuditResult,
   EvaluationCriterion,
   ReceiptSignature
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { OAPELEngine } from '../oapel/engine.js';
-import { RegressionDetector } from '../regression/detector.js';
-import { ABTestingFramework } from '../abtesting/framework.js';
+import {
+  FlywheelCandidate as CandidateType,
+  Evidence
+} from '../types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { OAPELEngine } from '../oapel/engine.js';
+import type { RegressionDetector } from '../regression/detector.js';
+import type { ABTestingFramework } from '../abtesting/framework.js';
 import { createHash } from 'node:crypto';
 
 export class FlywheelEvaluator {

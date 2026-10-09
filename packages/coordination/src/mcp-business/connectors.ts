@@ -1,4 +1,4 @@
-import { BusinessConnector, ConnectorOperation } from '../types.js';
+import type { BusinessConnector, ConnectorOperation } from '../types.js';
 
 export class MockOrdersConnector implements BusinessConnector {
   id = 'business-orders';

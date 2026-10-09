@@ -11,11 +11,11 @@ import { ABTestingFramework, AgenticowClient, createDefaultABTestConfig } from '
 import { RegressionDetector, createDefaultRegressionConfig } from './regression/detector.js';
 import { FlywheelEvaluator, createDefaultFlywheelConfig } from './flywheel/evaluator.js';
 import { TemplateManager } from './templates/manager.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { IntelligenceLayer } from '@inno-optimize/intelligence';
-import { CoordinationLayer } from '@inno-optimize/coordination';
-import { ArchitectureScorer } from '@inno-optimize/ast-analysis';
-import { OAPELConfig, ABTestConfig, RegressionConfig, FlywheelConfig } from './types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { IntelligenceLayer } from '@inno-optimize/intelligence';
+import type { CoordinationLayer } from '@inno-optimize/coordination';
+import type { ArchitectureScorer } from '@inno-optimize/ast-analysis';
+import type { OAPELConfig, ABTestConfig, RegressionConfig, FlywheelConfig } from './types.js';
 
 export interface OptimizationLayerConfig {
   oapel: OAPELConfig;

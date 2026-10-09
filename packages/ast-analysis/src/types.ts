@@ -2,6 +2,7 @@ export interface LanguageConfig {
   name: string;
   extensions: string[];
   parser: any; // Tree-sitter parser
+  language: any; // Tree-sitter language (query target)
   queries: {
     imports: string;
     exports: string;

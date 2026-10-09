@@ -1,10 +1,11 @@
-import { 
+import type { 
   RegressionAlert, 
   RegressionConfig, 
-  RegressionMetric,
+  RegressionMetric} from '../types.js';
+import {
   RegressionAlert as RegressionAlertType
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
+import type { FastStore } from '@inno-optimize/agentdb';
 
 export class RegressionDetector {
   private memory: FastStore;

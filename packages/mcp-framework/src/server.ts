@@ -170,7 +170,7 @@ export class MCPServerRegistry extends EventEmitter {
       case 'websocket':
         return new WebSocketConnection(server);
       default:
-        throw new Error(`Unsupported transport: ${server.transport}`);
+        throw new Error('Unsupported transport: ' + String(server.transport));
     }
   }
   

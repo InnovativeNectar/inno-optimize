@@ -1,4 +1,4 @@
-import { ParseResult, IncrementalChange, DeltaAnalysis, Issue, AntiPattern } from './types.js';
+import type { ParseResult, IncrementalChange, DeltaAnalysis, Issue, AntiPattern } from './types.js';
 import { MultiLanguageParser } from './parser.js';
 import { ArchitectureScorer } from './scorer.js';
 import { AntiPatternDetector } from './patterns.js';

@@ -1,4 +1,4 @@
-import { BusinessAgentTemplate } from '../../templates/manager.js';
+import type { BusinessAgentTemplate } from '../../templates/manager.js';
 
 export const dataScientistTemplate: BusinessAgentTemplate = {
   id: 'data-scientist',

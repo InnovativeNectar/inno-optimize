@@ -34,7 +34,11 @@ export default defineConfig({
       '@inno-optimize/agentdb': path.resolve(__dirname, 'packages/agentdb/src'),
       '@inno-optimize/mcp-framework': path.resolve(__dirname, 'packages/mcp-framework/src'),
       '@inno-optimize/adr-automation': path.resolve(__dirname, 'packages/adr-automation/src'),
-      '@inno-optimize/ast-analysis': path.resolve(__dirname, 'packages/ast-analysis/src')
+      '@inno-optimize/ast-analysis': path.resolve(__dirname, 'packages/ast-analysis/src'),
+      '@inno-optimize/intelligence': path.resolve(__dirname, 'packages/intelligence/src'),
+      '@inno-optimize/coordination': path.resolve(__dirname, 'packages/coordination/src'),
+      '@inno-optimize/optimization': path.resolve(__dirname, 'packages/optimization/src'),
+      '@inno-optimize/business-agent-factory': path.resolve(__dirname, 'packages/business-agent-factory/src')
     }
   }
 });

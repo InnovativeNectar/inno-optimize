@@ -9,8 +9,8 @@ import { SONAAdapter, createDefaultSONAConfig } from './sona/adapter.js';
 import { ReasoningBank, createDefaultReasoningBankConfig } from './reasoningbank/pipeline.js';
 import { MoERouter, createDefaultMoEConfig } from './moe/router.js';
 import { EWCConsolidator, createDefaultEWCConfig } from './ewc/consolidator.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { Trajectory, TaskContext, ReasoningPattern } from './types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { Trajectory, TaskContext, ReasoningPattern } from './types.js';
 
 export interface IntelligenceLayerConfig {
   sona: ReturnType<typeof createDefaultSONAConfig>;

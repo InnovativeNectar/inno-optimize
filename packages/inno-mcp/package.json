@@ -1,0 +1,64 @@
+{
+  "type": "module",
+  "name": "inno-optimize-mcp",
+  "version": "0.1.0",
+  "description": "MCP stdio server exposing the inno-optimize platform: vector memory, intelligence routing, AST analysis, ADR automation, business agents, coordination and optimization templates.",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "inno-optimize-mcp": "./dist/bin/inno-mcp.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InnovativeNectar/inno-optimize.git",
+    "directory": "packages/inno-mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "vector-memory",
+    "ast-analysis",
+    "adr"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "dev": "tsc -w",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@inno-optimize/agentdb": "*",
+    "@inno-optimize/adr-automation": "*",
+    "@inno-optimize/ast-analysis": "*",
+    "@inno-optimize/coordination": "*",
+    "@inno-optimize/business-agent-factory": "*",
+    "@inno-optimize/intelligence": "*",
+    "@inno-optimize/optimization": "*",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "@types/node": "^20.10.0"
+  },
+  "homepage": "https://github.com/InnovativeNectar/inno-optimize#readme",
+  "bugs": {
+    "url": "https://github.com/InnovativeNectar/inno-optimize/issues"
+  }
+}

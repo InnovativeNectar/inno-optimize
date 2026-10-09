@@ -1,10 +1,11 @@
-import { 
+import type { 
   Template, 
-  TemplateVariable, 
-  TemplateInstance,
+  TemplateInstance} from '../types.js';
+import { 
+  TemplateVariable,
   TemplateMetadata
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
+import type { FastStore } from '@inno-optimize/agentdb';
 
 export class TemplateManager {
   private templates = new Map<string, Template>();

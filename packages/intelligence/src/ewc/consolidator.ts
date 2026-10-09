@@ -1,12 +1,12 @@
-import { 
+import type { 
   EWCConfig, 
   FisherInfo, 
   ConsolidationTask,
   ReasoningPattern,
   LoRAWeights
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { MemoryEntry } from '@inno-optimize/agentdb';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { MemoryEntry } from '@inno-optimize/agentdb';
 
 export class EWCConsolidator {
   private config: EWCConfig;
@@ -40,7 +40,7 @@ export class EWCConsolidator {
 
   // Main consolidation entry point
   async consolidate(pattern: ReasoningPattern | MemoryEntry): Promise<void> {
-    const patternObj = 'loraWeights' in pattern ? pattern as ReasoningPattern : this.memoryEntryToPattern(pattern as MemoryEntry);
+    const patternObj = 'loraWeights' in pattern ? pattern as ReasoningPattern : this.memoryEntryToPattern(pattern);
     const paramKey = `pattern:${patternObj.id}`;
     
     // 1. Compute Fisher Information (diagonal approximation)

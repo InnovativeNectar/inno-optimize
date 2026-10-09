@@ -1,4 +1,5 @@
-import { ADR, ArchitecturalChange, SemanticAnchor, Consequence, ImpactAnalysis } from '@inno-optimize/agentdb';
+import type { ADR, ArchitecturalChange, SemanticAnchor} from '@inno-optimize/agentdb';
+import { Consequence, ImpactAnalysis } from '@inno-optimize/agentdb';
 
 export interface ADRTrackerConfig {
   storagePath: string;

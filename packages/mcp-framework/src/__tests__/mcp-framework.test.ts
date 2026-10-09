@@ -1,11 +1,12 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type {
+  ToolDescriptor} from '../index.js';
 import { 
   MCPServerRegistry, 
   ToolRouter, 
   CodemodRegistry, 
   PatternMemory,
   createBuiltinCodemods,
-  ToolDescriptor,
   ToolResult
 } from '../index.js';
 

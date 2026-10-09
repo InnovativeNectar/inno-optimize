@@ -28,7 +28,8 @@
     { "path": "./packages/intelligence" },
     { "path": "./packages/coordination" },
     { "path": "./packages/optimization" },
-    { "path": "./packages/business-agent-factory" }
+    { "path": "./packages/business-agent-factory" },
+    { "path": "./packages/inno-mcp" }
   ],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

@@ -1,4 +1,5 @@
-import { ToolDescriptor, ToolResult } from '../server.js';
+import type { ToolDescriptor} from '../server.js';
+import { ToolResult } from '../server.js';
 
 export interface TaskContext {
   id: string;

@@ -1,7 +1,7 @@
 import { tmpdir } from 'os';
 import { VectorDb } from 'ruvector';
 import { HNSWIndex, Quantizer, cosineSimilarity } from '../hnsw/index.js';
-import { MemoryEntry, SearchQuery, FastStoreConfig } from '../types.js';
+import type { MemoryEntry, SearchQuery, FastStoreConfig } from '../types.js';
 
 export class WorkingMemoryCache {
   private cache = new Map<string, MemoryEntry>();

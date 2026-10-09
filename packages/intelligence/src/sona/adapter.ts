@@ -1,4 +1,4 @@
-import { 
+import type { 
   SONAConfig, 
   LoRAWeights, 
   SONAAdaptation, 
@@ -6,7 +6,7 @@ import {
   TaskContext,
   ModeConfig 
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
+import type { FastStore } from '@inno-optimize/agentdb';
 
 export class SONAAdapter {
   private config: SONAConfig;

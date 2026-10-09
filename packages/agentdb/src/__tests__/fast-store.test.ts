@@ -1,11 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type {
+  MemoryEntry 
+} from '../index.js';
 import { 
   FastStore, 
   WorkingMemoryCache, 
   HNSWIndex, 
   Quantizer,
-  cosineSimilarity,
-  MemoryEntry 
+  cosineSimilarity 
 } from '../index.js';
 
 describe('AgentDB - FastStore', () => {

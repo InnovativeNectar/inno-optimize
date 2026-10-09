@@ -1,5 +1,6 @@
+import type { 
+  BusinessMCPServer} from '../types.js';
 import { 
-  BusinessMCPServer, 
   ToolDescriptor, 
   ResourceDescriptor, 
   PromptDescriptor,

@@ -10,8 +10,8 @@ import { HiveMindSwarm } from './swarm/hive-mind.js';
 import { SagaOrchestrator } from './saga/orchestrator.js';
 import { PheromoneScheduler, createDefaultPheromoneConfig } from './pheromone/scheduler.js';
 import { businessServers } from './mcp-business/servers.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { SwarmConfig, SagaDefinition, SagaContext, TaskOutcome, PheromoneConfig } from './types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { SwarmConfig, SagaDefinition, SagaContext, TaskOutcome, PheromoneConfig } from './types.js';
 
 export interface CoordinationLayerConfig {
   swarm: SwarmConfig;

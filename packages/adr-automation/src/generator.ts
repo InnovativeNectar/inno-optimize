@@ -1,4 +1,4 @@
-import { ArchitecturalChange, ADR, SemanticAnchor, Consequence } from '@inno-optimize/agentdb';
+import type { ArchitecturalChange, ADR, SemanticAnchor, Consequence } from '@inno-optimize/agentdb';
 
 export class ADRGenerator {
   private memory: MemoryInterface;

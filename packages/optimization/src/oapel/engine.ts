@@ -1,4 +1,4 @@
-import { 
+import type { 
   OAPELCycle, 
   Observation, 
   AnalysisResult, 
@@ -6,27 +6,29 @@ import {
   ExecutionResult, 
   LearningResult,
   OAPELConfig,
-  Observation as ObservationType,
   Bottleneck,
   DebtItem,
   DiscoveredPattern,
   Anomaly,
   Recommendation,
-  ExecutionPlan as ExecutionPlanType,
   PlanTask,
   TaskDependency,
   RollbackStep,
-  ExecutionResult as ExecutionResultType,
   TaskResult,
   ExecutionError,
-  ExecutionMetrics,
-  LearningResult as LearningResultType,
   Insight
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
-import { ArchitectureScorer } from '@inno-optimize/ast-analysis';
-import { IntelligenceLayer } from '@inno-optimize/intelligence';
-import { CoordinationLayer } from '@inno-optimize/coordination';
+import {
+  Observation as ObservationType,
+  ExecutionPlan as ExecutionPlanType,
+  ExecutionResult as ExecutionResultType,
+  ExecutionMetrics,
+  LearningResult as LearningResultType
+} from '../types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
+import type { ArchitectureScorer } from '@inno-optimize/ast-analysis';
+import type { IntelligenceLayer } from '@inno-optimize/intelligence';
+import type { CoordinationLayer } from '@inno-optimize/coordination';
 
 export class OAPELEngine {
   private memory: FastStore;

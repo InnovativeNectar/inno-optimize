@@ -1,4 +1,4 @@
-import { BusinessAgentTemplate, TemplateManager } from '../templates/manager.js';
+import type { BusinessAgentTemplate, TemplateManager } from '../templates/manager.js';
 
 export interface AgentConfig {
   templateId: string;

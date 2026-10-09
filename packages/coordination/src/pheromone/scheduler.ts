@@ -1,5 +1,5 @@
-import { PheromoneConfig, AgentPheromone, PheromoneMetrics, TaskOutcome, PheromoneUpdate } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
+import type { PheromoneConfig, AgentPheromone, PheromoneMetrics, TaskOutcome, PheromoneUpdate } from '../types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
 
 export class PheromoneScheduler {
   private config: PheromoneConfig;

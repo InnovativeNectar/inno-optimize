@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import type {
+  ParseResult} from '../index.js';
 import { 
   MultiLanguageParser, 
   ArchitectureScorer, 
   AntiPatternDetector,
   IncrementalAnalyzer,
-  ParseResult,
   IncrementalChange,
   computeDiff 
 } from '../index.js';
@@ -50,6 +51,77 @@ describe('AST Analysis', () => {
       expect(langs).toContain('rust');
       expect(langs).toContain('ruby');
       expect(langs).toContain('php');
+    });
+
+    it('should parse a TypeScript file with imports, exports, functions and classes', async () => {
+      const content = [
+        "import fs from 'fs';",
+        'export function add(a: number, b: number): number { return a + b; }',
+        "export class Greeter { greet(n: string): string { return 'hi ' + n; } }",
+        'interface Shape { area(): number; }',
+        'type Num = number;',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/example.ts', content);
+
+      expect(result.language).toBe('typescript');
+      expect(result.errors).toHaveLength(0);
+      expect(result.imports).toHaveLength(1);
+      expect(result.imports[0]?.source).toBe('fs');
+      expect(result.exports.length).toBeGreaterThanOrEqual(2);
+      expect(result.functions).toHaveLength(1);
+      expect(result.classes).toHaveLength(1);
+      expect(result.interfaces).toHaveLength(1);
+      expect(result.types).toHaveLength(1);
+      expect(result.metrics.linesOfCode).toBeGreaterThan(0);
+      expect(result.metrics.linesOfComments + result.metrics.blankLines).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should parse files in every supported language without errors', async () => {
+      const samples: Record<string, string> = {
+        'a.ts': "import fs from 'fs';\nexport function add() {}\n",
+        'b.py': 'import os\ndef hello():\n    pass\n',
+        'c.go': 'package main\nimport "fmt"\nfunc Run() {}\n',
+        'd.java': 'import java.util.List;\nclass Main { void run() {} }\n',
+        'e.rs': 'use std::io;\nfn main() {}\n',
+        'f.rb': "require 'json'\ndef bar\nend\n",
+        'g.php': "<?php\nuse Foo\\Bar;\nfunction hi() { return 1; }\n",
+      };
+
+      for (const [file, content] of Object.entries(samples)) {
+        const result = await parser.parseFile(file, content);
+        expect(result.errors, `parse errors in ${file}`).toHaveLength(0);
+        expect(result.functions.length, `no functions found in ${file}`).toBeGreaterThanOrEqual(1);
+        expect(result.imports.length, `no imports found in ${file}`).toBeGreaterThanOrEqual(1);
+      }
+    });
+
+    it('should throw for unsupported file extensions', async () => {
+      await expect(parser.parseFile('file.xyz', 'some content')).rejects.toThrow(
+        'Unsupported language for file: file.xyz'
+      );
+    });
+
+    it('should run the anti-pattern detector on parsed output', async () => {
+      const content = [
+        'function process() {',
+        '  var unused = 1;',
+        '  var unused2 = 2;',
+        '  console.log(unused);',
+        '}',
+        '',
+      ].join('\n');
+
+      const result = await parser.parseFile('src/process.ts', content);
+      const issues = detector.detect(result);
+
+      expect(Array.isArray(issues)).toBe(true);
+      for (const issue of issues) {
+        expect(issue.type).toBeTruthy();
+        expect(['low', 'medium', 'high', 'critical']).toContain(issue.severity);
+        expect(issue.location.file).toBe('src/process.ts');
+      }
     });
   });
 

@@ -1,4 +1,5 @@
-import { ParseResult, AntiPattern, AntiPatternType, DetectionRule, RefactoringSuggestion, Issue } from './types.js';
+import type { ParseResult, AntiPattern, Issue } from './types.js';
+import { AntiPatternType, DetectionRule, RefactoringSuggestion } from './types.js';
 
 export class AntiPatternDetector {
   private patterns: AntiPattern[] = this.initializePatterns();

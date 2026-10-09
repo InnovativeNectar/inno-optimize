@@ -7,7 +7,7 @@ import Rust from 'tree-sitter-rust';
 import Ruby from 'tree-sitter-ruby';
 import PHP from 'tree-sitter-php';
 
-import { 
+import type { 
   LanguageConfig, 
   ParseResult, 
   ImportInfo, 
@@ -45,6 +45,7 @@ export class MultiLanguageParser {
       name: 'TypeScript',
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       parser: tsParser,
+      language: TypeScript.typescript,
       queries: this.getTSQueries()
     });
     
@@ -56,6 +57,7 @@ export class MultiLanguageParser {
       name: 'Python',
       extensions: ['.py'],
       parser: pyParser,
+      language: Python,
       queries: this.getPythonQueries()
     });
     
@@ -67,6 +69,7 @@ export class MultiLanguageParser {
       name: 'Go',
       extensions: ['.go'],
       parser: goParser,
+      language: Go,
       queries: this.getGoQueries()
     });
     
@@ -78,6 +81,7 @@ export class MultiLanguageParser {
       name: 'Java',
       extensions: ['.java'],
       parser: javaParser,
+      language: Java,
       queries: this.getJavaQueries()
     });
     
@@ -89,6 +93,7 @@ export class MultiLanguageParser {
       name: 'Rust',
       extensions: ['.rs'],
       parser: rustParser,
+      language: Rust,
       queries: this.getRustQueries()
     });
     
@@ -100,6 +105,7 @@ export class MultiLanguageParser {
       name: 'Ruby',
       extensions: ['.rb'],
       parser: rubyParser,
+      language: Ruby,
       queries: this.getRubyQueries()
     });
     
@@ -111,6 +117,7 @@ export class MultiLanguageParser {
       name: 'PHP',
       extensions: ['.php'],
       parser: phpParser,
+      language: PHP.php,
       queries: this.getPHPQueries()
     });
   }
@@ -173,12 +180,12 @@ export class MultiLanguageParser {
   
   private extractImports(tree: any, content: string, config: LanguageConfig): ImportInfo[] {
     const imports: ImportInfo[] = [];
-    const query = config.parser.query(config.queries.imports);
+    const query = new Parser.Query(config.language, config.queries.imports);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
       const node = capture.node;
-      const text = node.text();
+      const text = node.text;
       
       // Simplified extraction - in production, parse each language specifically
       imports.push({
@@ -195,7 +202,7 @@ export class MultiLanguageParser {
   
   private extractExports(tree: any, content: string, config: LanguageConfig): ExportInfo[] {
     const exports: ExportInfo[] = [];
-    const query = config.parser.query(config.queries.exports);
+    const query = new Parser.Query(config.language, config.queries.exports);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
@@ -204,7 +211,7 @@ export class MultiLanguageParser {
         name: this.extractExportName(node, content),
         type: this.inferExportType(node),
         line: node.startPosition.row + 1,
-        isDefault: node.text().includes('default')
+        isDefault: node.text.includes('default')
       });
     }
     
@@ -213,7 +220,7 @@ export class MultiLanguageParser {
   
   private extractClasses(tree: any, content: string, config: LanguageConfig): ClassInfo[] {
     const classes: ClassInfo[] = [];
-    const query = config.parser.query(config.queries.classes);
+    const query = new Parser.Query(config.language, config.queries.classes);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
@@ -249,7 +256,7 @@ export class MultiLanguageParser {
   
   private extractFunctions(tree: any, content: string, config: LanguageConfig): FunctionInfo[] {
     const functions: FunctionInfo[] = [];
-    const query = config.parser.query(config.queries.functions);
+    const query = new Parser.Query(config.language, config.queries.functions);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
@@ -285,7 +292,7 @@ export class MultiLanguageParser {
   
   private extractInterfaces(tree: any, content: string, config: LanguageConfig): InterfaceInfo[] {
     const interfaces: InterfaceInfo[] = [];
-    const query = config.parser.query(config.queries.interfaces);
+    const query = new Parser.Query(config.language, config.queries.interfaces);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
@@ -304,7 +311,7 @@ export class MultiLanguageParser {
   
   private extractTypes(tree: any, content: string, config: LanguageConfig): TypeInfo[] {
     const types: TypeInfo[] = [];
-    const query = config.parser.query(config.queries.types);
+    const query = new Parser.Query(config.language, config.queries.types);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
@@ -312,7 +319,7 @@ export class MultiLanguageParser {
       types.push({
         name: this.extractTypeName(node, content),
         kind: this.inferTypeKind(node),
-        definition: node.text(),
+        definition: node.text,
         line: node.startPosition.row + 1
       });
     }
@@ -322,7 +329,7 @@ export class MultiLanguageParser {
   
   private extractCalls(tree: any, content: string, config: LanguageConfig): CallInfo[] {
     const calls: CallInfo[] = [];
-    const query = config.parser.query(config.queries.calls);
+    const query = new Parser.Query(config.language, config.queries.calls);
     const captures = query.captures(tree.rootNode);
     
     for (const capture of captures) {
@@ -388,7 +395,15 @@ export class MultiLanguageParser {
   }
   
   // Helper methods (simplified - production would be language-specific)
-  private extractImportSource(node: any, content: string): string { return node.text(); }
+  private extractImportSource(node: any, content: string): string {
+    if (typeof node.descendantsOfType === 'function') {
+      const strings = node.descendantsOfType(['string']);
+      if (strings.length > 0) {
+        return String(strings[0].text).replace(/^['"]|['"]$/g, '');
+      }
+    }
+    return String(node.text).split('\n')[0] ?? '';
+  }
   private extractImportSpecifiers(node: any, content: string): string[] { return []; }
   private extractExportName(node: any, content: string): string { return 'export'; }
   private inferExportType(node: any): any { return 'function'; }
@@ -432,85 +447,85 @@ export class MultiLanguageParser {
       interfaces: `(interface_declaration) @interface`,
       types: `(type_alias_declaration) @type`,
       calls: `(call_expression) @call`,
-      complexity: `(if_statement) (for_statement) (while_statement) (catch_clause) @complexity`
+      complexity: `(if_statement) @complexity (for_statement) @complexity (while_statement) @complexity (catch_clause) @complexity`
     };
   }
-  
+
   private getPythonQueries() {
     return {
-      imports: `(import_statement) (import_from_statement) @import`,
-      exports: `(expression_statement (assignment (left (identifier) @export)))`,
+      imports: `(import_statement) @import (import_from_statement) @import`,
+      exports: `(module (expression_statement (assignment left: (identifier) @export)))`,
       classes: `(class_definition) @class`,
       functions: `(function_definition) @function`,
-      interfaces: `() @interface`, // Python uses abstract base classes
-      types: `(type_alias) @type`,
+      interfaces: ``, // Python has no interfaces (abstract base classes are runtime constructs)
+      types: `(type) @type`,
       calls: `(call) @call`,
-      complexity: `(if_statement) (for_statement) (while_statement) (except_clause) @complexity`
+      complexity: `(if_statement) @complexity (for_statement) @complexity (while_statement) @complexity (except_clause) @complexity`
     };
   }
-  
+
   private getGoQueries() {
     return {
       imports: `(import_declaration) @import`,
-      exports: `(func_declaration (receiver) @export)`,
+      exports: `(function_declaration name: (identifier) @export)`,
       classes: `(type_declaration (type_spec (type_identifier) @class))`,
-      functions: `(func_declaration) @function`,
+      functions: `(function_declaration) @function`,
       interfaces: `(interface_type) @interface`,
       types: `(type_declaration) @type`,
       calls: `(call_expression) @call`,
-      complexity: `(if_statement) (for_statement) (switch_statement) @complexity`
+      complexity: `(if_statement) @complexity (for_statement) @complexity (expression_switch_statement) @complexity (type_switch_statement) @complexity`
     };
   }
-  
+
   private getJavaQueries() {
     return {
       imports: `(import_declaration) @import`,
-      exports: `(class_declaration (modifiers (modifier) @export))`,
+      exports: `(class_declaration (modifiers) @export)`,
       classes: `(class_declaration) @class`,
-      functions: `(method_declaration) @function`,
+      functions: `(method_declaration) @function (constructor_declaration) @function`,
       interfaces: `(interface_declaration) @interface`,
-      types: `(type_declaration) @type`,
+      types: `(enum_declaration) @type (record_declaration) @type (annotation_type_declaration) @type`,
       calls: `(method_invocation) @call`,
-      complexity: `(if_statement) (for_statement) (while_statement) (catch_clause) @complexity`
+      complexity: `(if_statement) @complexity (for_statement) @complexity (while_statement) @complexity (catch_clause) @complexity`
     };
   }
-  
+
   private getRustQueries() {
     return {
       imports: `(use_declaration) @import`,
-      exports: `(pub_mod) (pub_fn) @export`,
-      classes: `(struct_expression) (enum_expression) @class`,
+      exports: `(function_item (visibility_modifier) @export) (struct_item (visibility_modifier) @export) (enum_item (visibility_modifier) @export) (mod_item (visibility_modifier) @export)`,
+      classes: `(struct_item) @class (enum_item) @class`,
       functions: `(function_item) @function`,
-      interfaces: `(trait_declaration) @interface`,
+      interfaces: `(trait_item) @interface`,
       types: `(type_item) @type`,
       calls: `(call_expression) @call`,
-      complexity: `(if_expression) (loop_expression) (match_expression) @complexity`
+      complexity: `(if_expression) @complexity (loop_expression) @complexity (match_expression) @complexity`
     };
   }
-  
+
   private getRubyQueries() {
     return {
-      imports: `(require) (require_relative) @import`,
-      exports: `(method_definition (identifier) @export)`,
-      classes: `(class_definition) @class`,
-      functions: `(method_definition) @function`,
-      interfaces: `() @interface`, // Ruby uses modules
+      imports: `(call method: (identifier) @import)`,
+      exports: ``, // Ruby has no module-level exports
+      classes: `(class) @class`,
+      functions: `(method) @function`,
+      interfaces: ``, // Ruby uses modules instead of interfaces
       types: `(constant) @type`,
       calls: `(call) @call`,
-      complexity: `(if) (while) (until) (for) (rescue) @complexity`
+      complexity: `(if) @complexity (while) @complexity (until) @complexity (for) @complexity`
     };
   }
-  
+
   private getPHPQueries() {
     return {
-      imports: `(use_declaration) @import`,
-      exports: `(function_definition (modifiers (visibility_modifier) @export))`,
+      imports: `(namespace_use_declaration) @import`,
+      exports: `(method_declaration (visibility_modifier) @export)`,
       classes: `(class_declaration) @class`,
       functions: `(function_definition) @function`,
       interfaces: `(interface_declaration) @interface`,
-      types: `(type_declaration) @type`,
+      types: ``, // PHP has no type declaration nodes
       calls: `(function_call_expression) @call`,
-      complexity: `(if_statement) (for_statement) (while_statement) (catch_clause) @complexity`
+      complexity: `(if_statement) @complexity (for_statement) @complexity (while_statement) @complexity (catch_clause) @complexity`
     };
   }
 }

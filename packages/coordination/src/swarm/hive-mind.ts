@@ -1,18 +1,21 @@
 import { EventEmitter } from 'events';
-import { 
+import type { 
   SwarmConfig, 
   SwarmStatus, 
   AgentPheromone, 
   TaskAssignment, 
   TaskOutcome,
-  PheromoneConfig,
   AgentInfo,
   AgentSpawnConfig,
   ConsensusProposal,
   ProposalInfo,
   NodeInfo
 } from '../types.js';
-import { FastStore, MemoryEntry } from '@inno-optimize/agentdb';
+import {
+  PheromoneConfig
+} from '../types.js';
+import type { FastStore} from '@inno-optimize/agentdb';
+import { MemoryEntry } from '@inno-optimize/agentdb';
 
 export class HiveMindSwarm extends EventEmitter {
   private config: SwarmConfig;

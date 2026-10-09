@@ -1,9 +1,8 @@
-import { 
+import type { 
   SagaDefinition, 
   SagaContext, 
   SagaResult, 
-  SagaStep, 
-  CompensationAction,
+  SagaStep,
   RetryPolicy,
   SagaExecution,
   CompletedStep,
@@ -11,7 +10,10 @@ import {
   ConnectorRegistry,
   ConnectorRegistry as ConnectorRegistryType
 } from '../types.js';
-import { FastStore } from '@inno-optimize/agentdb';
+import { 
+  CompensationAction
+} from '../types.js';
+import type { FastStore } from '@inno-optimize/agentdb';
 
 export class SagaOrchestrator {
   private memory: FastStore;
@@ -196,7 +198,7 @@ export class SagaOrchestrator {
     }
   }
   
-  private async checkIdempotency(key: string): Promise<any | null> {
+  private async checkIdempotency(key: string): Promise<unknown> {
     const result = await this.memory.getById(`idempotency:${key}`);
     return result ? JSON.parse(result.content) : null;
   }

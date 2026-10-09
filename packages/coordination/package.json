@@ -18,5 +18,25 @@
     "typescript": "^5.3.0",
     "vitest": "^1.0.0",
     "@types/node": "^20.10.0"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InnovativeNectar/inno-optimize.git",
+    "directory": "packages/coordination"
+  },
+  "homepage": "https://github.com/InnovativeNectar/inno-optimize#readme",
+  "bugs": {
+    "url": "https://github.com/InnovativeNectar/inno-optimize/issues"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

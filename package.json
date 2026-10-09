@@ -11,10 +11,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint packages/**/*.ts",
+    "lint": "eslint \"packages/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "dev": "npm run dev --workspaces",
-    "benchmark": "node packages/agentdb/benchmarks/index.js",
+    "benchmark": "tsc -p packages/agentdb/benchmarks/tsconfig.json && node packages/agentdb/benchmarks/dist/index.js",
     "adr:check": "node packages/adr-automation/dist/ci-integration.js check-pr",
     "adr:generate": "node packages/adr-automation/dist/ci-integration.js generate",
     "clean": "rm -rf packages/*/dist coverage .turbo",
@@ -32,5 +32,15 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "packageManager": "npm@10.2.0"
+  "packageManager": "npm@10.2.0",
+  "license": "Apache-2.0",
+  "lint": "eslint \"packages/**/*.ts\"",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InnovativeNectar/inno-optimize.git"
+  },
+  "homepage": "https://github.com/InnovativeNectar/inno-optimize#readme",
+  "bugs": {
+    "url": "https://github.com/InnovativeNectar/inno-optimize/issues"
+  }
 }
