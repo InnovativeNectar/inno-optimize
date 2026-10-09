@@ -178,7 +178,7 @@ export class MultiLanguageParser {
     return results;
   }
   
-  private extractImports(tree: any, content: string, config: LanguageConfig): ImportInfo[] {
+  private extractImports(tree: Parser.Tree, content: string, config: LanguageConfig): ImportInfo[] {
     const imports: ImportInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.imports);
     const captures = query.captures(tree.rootNode);
@@ -200,7 +200,7 @@ export class MultiLanguageParser {
     return imports;
   }
   
-  private extractExports(tree: any, content: string, config: LanguageConfig): ExportInfo[] {
+  private extractExports(tree: Parser.Tree, content: string, config: LanguageConfig): ExportInfo[] {
     const exports: ExportInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.exports);
     const captures = query.captures(tree.rootNode);
@@ -218,7 +218,7 @@ export class MultiLanguageParser {
     return exports;
   }
   
-  private extractClasses(tree: any, content: string, config: LanguageConfig): ClassInfo[] {
+  private extractClasses(tree: Parser.Tree, content: string, config: LanguageConfig): ClassInfo[] {
     const classes: ClassInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.classes);
     const captures = query.captures(tree.rootNode);
@@ -254,7 +254,7 @@ export class MultiLanguageParser {
     return classes;
   }
   
-  private extractFunctions(tree: any, content: string, config: LanguageConfig): FunctionInfo[] {
+  private extractFunctions(tree: Parser.Tree, content: string, config: LanguageConfig): FunctionInfo[] {
     const functions: FunctionInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.functions);
     const captures = query.captures(tree.rootNode);
@@ -290,7 +290,7 @@ export class MultiLanguageParser {
     return functions;
   }
   
-  private extractInterfaces(tree: any, content: string, config: LanguageConfig): InterfaceInfo[] {
+  private extractInterfaces(tree: Parser.Tree, content: string, config: LanguageConfig): InterfaceInfo[] {
     const interfaces: InterfaceInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.interfaces);
     const captures = query.captures(tree.rootNode);
@@ -309,7 +309,7 @@ export class MultiLanguageParser {
     return interfaces;
   }
   
-  private extractTypes(tree: any, content: string, config: LanguageConfig): TypeInfo[] {
+  private extractTypes(tree: Parser.Tree, content: string, config: LanguageConfig): TypeInfo[] {
     const types: TypeInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.types);
     const captures = query.captures(tree.rootNode);
@@ -327,7 +327,7 @@ export class MultiLanguageParser {
     return types;
   }
   
-  private extractCalls(tree: any, content: string, config: LanguageConfig): CallInfo[] {
+  private extractCalls(tree: Parser.Tree, content: string, config: LanguageConfig): CallInfo[] {
     const calls: CallInfo[] = [];
     const query = new Parser.Query(config.language, config.queries.calls);
     const captures = query.captures(tree.rootNode);
@@ -346,7 +346,7 @@ export class MultiLanguageParser {
     return calls;
   }
   
-  private computeMetrics(tree: any, content: string, config: LanguageConfig): FileMetrics {
+  private computeMetrics(tree: Parser.Tree, content: string, config: LanguageConfig): FileMetrics {
     const lines = content.split('\n');
     const linesOfCode = lines.filter(l => l.trim() && !l.trim().startsWith('//') && !l.trim().startsWith('/*')).length;
     const linesOfComments = lines.filter(l => l.trim().startsWith('//') || l.trim().startsWith('/*')).length;
@@ -374,13 +374,13 @@ export class MultiLanguageParser {
     };
   }
   
-  private extractErrors(tree: any, content: string): ParseError[] {
+  private extractErrors(tree: Parser.Tree, content: string): ParseError[] {
     const errors: ParseError[] = [];
     this.traverseForErrors(tree.rootNode, errors, content);
     return errors;
   }
   
-  private traverseForErrors(node: any, errors: ParseError[], content: string): void {
+  private traverseForErrors(node: Parser.SyntaxNode, errors: ParseError[], content: string): void {
     if (node.type === 'ERROR' || node.type === 'MISSING') {
       errors.push({
         message: `Parse error at ${node.type}`,
@@ -395,44 +395,44 @@ export class MultiLanguageParser {
   }
   
   // Helper methods (simplified - production would be language-specific)
-  private extractImportSource(node: any, content: string): string {
+  private extractImportSource(node: Parser.SyntaxNode, _content: string): string {
     if (typeof node.descendantsOfType === 'function') {
       const strings = node.descendantsOfType(['string']);
       if (strings.length > 0) {
-        return String(strings[0].text).replace(/^['"]|['"]$/g, '');
+        return String(strings[0]!.text).replace(/^['"]|['"]$/g, '');
       }
     }
     return String(node.text).split('\n')[0] ?? '';
   }
-  private extractImportSpecifiers(node: any, content: string): string[] { return []; }
-  private extractExportName(node: any, content: string): string { return 'export'; }
-  private inferExportType(node: any): any { return 'function'; }
-  private extractClassName(node: any, content: string): string { return 'Class'; }
-  private extractExtends(node: any, content: string): string | undefined { return undefined; }
-  private extractImplements(node: any, content: string): string[] { return []; }
-  private extractMethods(node: any, content: string, config: LanguageConfig): MethodInfo[] { return []; }
-  private extractProperties(node: any, content: string, config: LanguageConfig): PropertyInfo[] { return []; }
-  private computeClassComplexity(node: any, config: LanguageConfig): number { return 1; }
-  private extractFunctionName(node: any, content: string): string { return 'function'; }
-  private extractParameters(node: any, content: string, config: LanguageConfig): ParameterInfo[] { return []; }
-  private extractReturnType(node: any, content: string): string | undefined { return undefined; }
-  private isAsync(node: any, content: string): boolean { return false; }
-  private isGenerator(node: any, content: string): boolean { return false; }
-  private computeFunctionComplexity(node: any, config: LanguageConfig): number { return 1; }
-  private extractInterfaceName(node: any, content: string): string { return 'Interface'; }
-  private extractInterfaceExtends(node: any, content: string): string[] { return []; }
-  private extractInterfaceProperties(node: any, content: string, config: LanguageConfig): PropertyInfo[] { return []; }
-  private extractInterfaceMethods(node: any, content: string, config: LanguageConfig): MethodInfo[] { return []; }
-  private extractTypeName(node: any, content: string): string { return 'Type'; }
-  private inferTypeKind(node: any): any { return 'type'; }
-  private extractCallee(node: any, content: string): string { return 'callee'; }
-  private extractCaller(node: any, content: string): string { return 'caller'; }
-  private isMethodCall(node: any): boolean { return false; }
-  private countArguments(node: any): number { return 0; }
-  private computeCyclomaticComplexity(tree: any, config: LanguageConfig): number { return 1; }
-  private computeCognitiveComplexity(tree: any, config: LanguageConfig): number { return 1; }
-  private computeNestingDepth(tree: any): number { return 1; }
-  private computeHalsteadVolume(tree: any, content: string): number { return 0; }
+  private extractImportSpecifiers(_node: Parser.SyntaxNode, _content: string): string[] { return []; }
+  private extractExportName(_node: Parser.SyntaxNode, _content: string): string { return 'export'; }
+  private inferExportType(_node: Parser.SyntaxNode): ExportInfo['type'] { return 'function'; }
+  private extractClassName(_node: Parser.SyntaxNode, _content: string): string { return 'Class'; }
+  private extractExtends(_node: Parser.SyntaxNode, _content: string): string | undefined { return undefined; }
+  private extractImplements(_node: Parser.SyntaxNode, _content: string): string[] { return []; }
+  private extractMethods(_node: Parser.SyntaxNode, _content: string, _config: LanguageConfig): MethodInfo[] { return []; }
+  private extractProperties(_node: Parser.SyntaxNode, _content: string, _config: LanguageConfig): PropertyInfo[] { return []; }
+  private computeClassComplexity(_node: Parser.SyntaxNode, _config: LanguageConfig): number { return 1; }
+  private extractFunctionName(_node: Parser.SyntaxNode, _content: string): string { return 'function'; }
+  private extractParameters(_node: Parser.SyntaxNode, _content: string, _config: LanguageConfig): ParameterInfo[] { return []; }
+  private extractReturnType(_node: Parser.SyntaxNode, _content: string): string | undefined { return undefined; }
+  private isAsync(_node: Parser.SyntaxNode, _content: string): boolean { return false; }
+  private isGenerator(_node: Parser.SyntaxNode, _content: string): boolean { return false; }
+  private computeFunctionComplexity(_node: Parser.SyntaxNode, _config: LanguageConfig): number { return 1; }
+  private extractInterfaceName(_node: Parser.SyntaxNode, _content: string): string { return 'Interface'; }
+  private extractInterfaceExtends(_node: Parser.SyntaxNode, _content: string): string[] { return []; }
+  private extractInterfaceProperties(_node: Parser.SyntaxNode, _content: string, _config: LanguageConfig): PropertyInfo[] { return []; }
+  private extractInterfaceMethods(_node: Parser.SyntaxNode, _content: string, _config: LanguageConfig): MethodInfo[] { return []; }
+  private extractTypeName(_node: Parser.SyntaxNode, _content: string): string { return 'Type'; }
+  private inferTypeKind(_node: Parser.SyntaxNode): TypeInfo['kind'] { return 'type'; }
+  private extractCallee(_node: Parser.SyntaxNode, _content: string): string { return 'callee'; }
+  private extractCaller(_node: Parser.SyntaxNode, _content: string): string { return 'caller'; }
+  private isMethodCall(_node: Parser.SyntaxNode): boolean { return false; }
+  private countArguments(_node: Parser.SyntaxNode): number { return 0; }
+  private computeCyclomaticComplexity(_tree: Parser.Tree, _config: LanguageConfig): number { return 1; }
+  private computeCognitiveComplexity(_tree: Parser.Tree, _config: LanguageConfig): number { return 1; }
+  private computeNestingDepth(_tree: Parser.Tree): number { return 1; }
+  private computeHalsteadVolume(_tree: Parser.Tree, _content: string): number { return 0; }
   private computeMaintainabilityIndex(loc: number, cc: number, hv: number): number {
     return Math.max(0, 171 - 5.2 * Math.log(hv) - 0.23 * cc - 16.2 * Math.log(loc));
   }

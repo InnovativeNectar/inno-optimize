@@ -54,7 +54,7 @@ export class AgentFactory {
 
 export class BusinessAgentInstance {
   private template: BusinessAgentTemplate;
-  private memory: Map<string, any> = new Map();
+  private memory: Map<string, unknown> = new Map();
   
   constructor(template: BusinessAgentTemplate) {
     this.template = template;
@@ -64,7 +64,7 @@ export class BusinessAgentInstance {
     return { ...this.template };
   }
   
-  async execute(task: string, context?: any): Promise<any> {
+  async execute(task: string, _context?: unknown): Promise<AgentExecutionResult> {
     // In production, this would use the LLM with the template's prompt
     return {
       agentId: this.template.id,
@@ -74,15 +74,22 @@ export class BusinessAgentInstance {
     };
   }
   
-  remember(key: string, value: any): void {
+  remember(key: string, value: unknown): void {
     this.memory.set(key, value);
   }
   
-  recall(key: string): any {
+  recall(key: string): unknown {
     return this.memory.get(key);
   }
   
   getCapabilities(): string[] {
     return this.template.capabilities;
   }
+}
+
+export interface AgentExecutionResult {
+  agentId: string;
+  task: string;
+  result: string;
+  timestamp: Date;
 }

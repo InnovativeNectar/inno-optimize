@@ -95,7 +95,7 @@ export class ADRGenerator {
     `.trim();
   }
   
-  private generateDecision(change: ArchitecturalChange, patterns: any[]): string {
+  private generateDecision(change: ArchitecturalChange, patterns: RetrievedPattern[]): string {
     const patternRefs = patterns.length > 0 
       ? `\n\n**Based on patterns:** ${patterns.map(p => p.title).join(', ')}`
       : '';
@@ -122,7 +122,7 @@ ${this.getImplementationApproach(change)}
     return templates[type as keyof typeof templates] || 'Apply the necessary changes.';
   }
   
-  private getImplementationApproach(change: ArchitecturalChange): string {
+  private getImplementationApproach(_change: ArchitecturalChange): string {
     return `
 1. Create feature branch
 2. Implement changes incrementally
@@ -226,12 +226,12 @@ ${this.getImplementationApproach(change)}
     return parts[parts.length - 2] || 'root';
   }
   
-  private async extractDependencies(file: string): Promise<string[]> {
+  private async extractDependencies(_file: string): Promise<string[]> {
     // In production, parse actual imports
     return [];
   }
   
-  private async readFile(file: string): Promise<string> {
+  private async readFile(_file: string): Promise<string> {
     // In production, read from filesystem
     return '';
   }
@@ -244,8 +244,18 @@ export interface ImpactAnalysis {
   estimatedEffort: string;
 }
 
+export interface MemoryQuery {
+  query: string;
+  type: string;
+  topK: number;
+}
+
+export interface RetrievedPattern {
+  title: string;
+}
+
 export interface MemoryInterface {
-  query(query: any): Promise<any[]>;
+  query(query: MemoryQuery): Promise<RetrievedPattern[]>;
 }
 
 export interface Embedder {

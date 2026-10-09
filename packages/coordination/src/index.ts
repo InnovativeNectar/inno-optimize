@@ -11,14 +11,15 @@ import { SagaOrchestrator } from './saga/orchestrator.js';
 import { PheromoneScheduler, createDefaultPheromoneConfig } from './pheromone/scheduler.js';
 import { businessServers } from './mcp-business/servers.js';
 import type { FastStore } from '@inno-optimize/agentdb';
-import type { SwarmConfig, SagaDefinition, SagaContext, TaskOutcome, PheromoneConfig } from './types.js';
+import type { SwarmConfig, SagaDefinition, SagaContext, TaskOutcome, PheromoneConfig, RetryPolicy, BusinessConnector, AgentSpawnConfig } from './types.js';
+import { connectorRegistry } from './mcp-business/connectors.js';
 
 export interface CoordinationLayerConfig {
   swarm: SwarmConfig;
   pheromone: PheromoneConfig;
   saga: {
     maxConcurrent: number;
-    defaultRetryPolicy: any;
+    defaultRetryPolicy: Partial<RetryPolicy>;
   };
 }
 
@@ -34,11 +35,12 @@ export class CoordinationLayer {
     this.swarm = new HiveMindSwarm(config.swarm, memory);
     this.pheromoneScheduler = new PheromoneScheduler(config.pheromone, memory);
     this.sagaOrchestrator = new SagaOrchestrator(memory, {
-      getConnector: (id: string) => this.getBusinessConnector(id)
-    } as any);
+      getConnector: (id: string): BusinessConnector | undefined => this.getBusinessConnector(id),
+      register: (connector: BusinessConnector): void => { connectorRegistry.register(connector); }
+    });
     
     // Register business MCP servers
-    for (const server of businessServers) {
+    for (const _server of businessServers) {
       // Register with MCP framework
     }
   }
@@ -50,7 +52,7 @@ export class CoordinationLayer {
   }
   
   // Spawn agent in swarm
-  async spawnAgent(agentConfig: any): Promise<string> {
+  async spawnAgent(agentConfig: AgentSpawnConfig): Promise<string> {
     const agentId = await this.swarm.spawnAgent(agentConfig);
     // Keep the layer's pheromone scheduler in sync with the swarm so
     // getEligibleAgents() sees newly spawned agents.
@@ -90,9 +92,9 @@ export class CoordinationLayer {
     await this.swarm.shutdown();
   }
   
-  private getBusinessConnector(id: string) {
+  private getBusinessConnector(_id: string): BusinessConnector | undefined {
     // Return business connector by ID
-    return null;
+    return undefined;
   }
 }
 

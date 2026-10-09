@@ -1,12 +1,17 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import type Parser from 'tree-sitter';
 import type {
-  ParseResult} from '../index.js';
+  ParseResult,
+  ClassInfo,
+  FunctionInfo,
+  MethodInfo,
+  ParameterInfo,
+  PropertyInfo
+} from '../index.js';
 import { 
   MultiLanguageParser, 
   ArchitectureScorer, 
   AntiPatternDetector,
-  IncrementalAnalyzer,
-  IncrementalChange,
   computeDiff 
 } from '../index.js';
 
@@ -14,13 +19,11 @@ describe('AST Analysis', () => {
   let parser: MultiLanguageParser;
   let scorer: ArchitectureScorer;
   let detector: AntiPatternDetector;
-  let analyzer: IncrementalAnalyzer;
 
   beforeEach(() => {
     parser = new MultiLanguageParser();
     scorer = new ArchitectureScorer();
     detector = new AntiPatternDetector();
-    analyzer = new IncrementalAnalyzer();
   });
 
   describe('MultiLanguageParser', () => {
@@ -147,7 +150,7 @@ describe('AST Analysis', () => {
     it('should detect god class', () => {
       const mockResults: ParseResult[] = [
         createMockResult('src/GodClass.ts', 'typescript', 200, 10, 50, [
-          { name: 'GodClass', methods: Array(25).fill({}), properties: Array(20).fill({}) }
+          { name: 'GodClass', methods: Array.from({ length: 25 }, createMockMethod), properties: Array.from({ length: 20 }, createMockProperty) }
         ])
       ];
 
@@ -159,19 +162,19 @@ describe('AST Analysis', () => {
   describe('AntiPatternDetector', () => {
     it('should detect god class', () => {
       const result = createMockResult('test.ts', 'typescript', 100, 5, 70, [
-        { name: 'BigClass', methods: Array(25).fill({}), properties: [] }
+        { name: 'BigClass', methods: Array.from({ length: 25 }, createMockMethod), properties: [] }
       ]);
 
       const issues = detector.detect(result);
       const godClassIssues = issues.filter(i => i.ruleId === 'AP-GOD_CLASS');
       
       expect(godClassIssues.length).toBeGreaterThan(0);
-      expect(godClassIssues[0].severity).toBe('high');
+      expect(godClassIssues[0]!.severity).toBe('high');
     });
 
     it('should detect long parameter list', () => {
       const result = createMockResult('test.ts', 'typescript', 50, 5, 80, [], [
-        { name: 'func', params: Array(7).fill({ name: 'p', type: 'string', optional: false }) }
+        { name: 'func', params: Array.from({ length: 7 }, createMockParameter) }
       ]);
 
       const issues = detector.detect(result);
@@ -214,24 +217,35 @@ describe('AST Analysis', () => {
   });
 });
 
+function createMockMethod(): MethodInfo {
+  return { name: 'method', params: [], isAsync: false, isStatic: false, isPrivate: false, line: 1, endLine: 2, complexity: 0 };
+}
+
+function createMockProperty(): PropertyInfo {
+  return { name: 'property', isStatic: false, isPrivate: false, isReadonly: false, line: 1 };
+}
+
+function createMockParameter(): ParameterInfo {
+  return { name: 'p', type: 'string', optional: false };
+}
+
 function createMockResult(
   file: string, 
   language: string, 
   loc: number, 
   complexity: number, 
   mi: number,
-  classes: any[] = [],
-  functions: any[] = []
+  classes: Array<Pick<ClassInfo, 'name' | 'methods' | 'properties'>> = [],
+  functions: Array<Pick<FunctionInfo, 'name' | 'params'>> = []
 ): ParseResult {
   return {
     file,
     language,
-    ast: null,
+    ast: null as unknown as Parser.Tree,
     imports: [],
     exports: [],
     classes: classes.map(c => ({
       name: c.name,
-      extends: undefined,
       implements: [],
       methods: c.methods || [],
       properties: c.properties || [],
@@ -242,7 +256,6 @@ function createMockResult(
     functions: functions.map(f => ({
       name: f.name,
       params: f.params || [],
-      returnType: undefined,
       isAsync: false,
       isGenerator: false,
       line: 1,

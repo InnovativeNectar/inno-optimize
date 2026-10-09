@@ -7,7 +7,7 @@ const DIMS = 384;
 
 const testEmbedder: Embedder = {
   async embed(text: string): Promise<number[]> {
-    const v: number[] = new Array(DIMS).fill(0);
+    const v: number[] = new Array<number>(DIMS).fill(0);
     for (const tok of text.toLowerCase().split(/\W+/).filter(Boolean)) {
       let h = 0;
       for (let i = 0; i < tok.length; i++) h = (h * 31 + tok.charCodeAt(i)) >>> 0;
@@ -24,7 +24,7 @@ const testEmbedder: Embedder = {
 };
 
 const emptyMemory: MemoryInterface = {
-  async query(): Promise<any[]> {
+  async query() {
     return [];
   }
 };
@@ -112,7 +112,7 @@ describe('adr-automation', () => {
 
     it('passes retrieved patterns into the decision', async () => {
       const memory: MemoryInterface = {
-        async query(): Promise<any[]> {
+        async query() {
           return [{ title: 'Layered storage pattern' }];
         }
       };

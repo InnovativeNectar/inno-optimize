@@ -3,6 +3,22 @@ import { VectorDb } from 'ruvector';
 import { HNSWIndex, Quantizer, cosineSimilarity } from '../hnsw/index.js';
 import type { MemoryEntry, SearchQuery, FastStoreConfig } from '../types.js';
 
+type SerializedMetadata = {
+  type: MemoryEntry['type'];
+  tier: MemoryEntry['tier'];
+  content: string;
+  metadata: MemoryEntry['metadata'];
+  provenance: MemoryEntry['provenance'];
+  reward: number;
+  verdict?: MemoryEntry['verdict'];
+  loraWeights?: MemoryEntry['loraWeights'];
+  ewcImportance?: MemoryEntry['ewcImportance'];
+  consolidated: boolean;
+  accessCount: number;
+  lastAccessed: string;
+  createdAt: string;
+};
+
 export class WorkingMemoryCache {
   private cache = new Map<string, MemoryEntry>();
   private accessOrder = new Set<string>();
@@ -128,7 +144,7 @@ export class FastStore {
     // For now, skip loading existing vectors into HNSW
   }
   
-  private serializeMetadata(entry: MemoryEntry): Record<string, any> {
+  private serializeMetadata(entry: MemoryEntry): Record<string, unknown> {
     return {
       content: entry.content,
       metadata: entry.metadata,
@@ -146,8 +162,8 @@ export class FastStore {
     };
   }
   
-  private deserializeMetadata(id: string, metadata: Record<string, any>): MemoryEntry {
-    const data = metadata;
+  private deserializeMetadata(id: string, metadata: Record<string, unknown>): MemoryEntry {
+    const data = metadata as SerializedMetadata;
     return {
       id,
       type: data.type || 'working',
@@ -164,7 +180,7 @@ export class FastStore {
       accessCount: data.accessCount ?? 0,
       lastAccessed: data.lastAccessed ? new Date(data.lastAccessed) : new Date(),
       createdAt: data.createdAt ? new Date(data.createdAt) : new Date()
-    };
+    } as MemoryEntry;
   }
   
   private toNumberArray(arr: Float32Array | number[]): number[] {
@@ -225,7 +241,7 @@ export class FastStore {
     if (hnswResults.length === 0) return [];
     
     // 3. Fetch full entries from VectorDb using search (not get) for better performance
-    const searchOptions: { vector: number[] | Float32Array; k: number; filter?: Record<string, any>; efSearch?: number } = {
+    const searchOptions: { vector: number[] | Float32Array; k: number; filter?: Record<string, unknown>; efSearch?: number } = {
       vector: query.vector,
       k: query.k || 10
     };

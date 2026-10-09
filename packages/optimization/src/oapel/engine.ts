@@ -16,19 +16,56 @@ import type {
   RollbackStep,
   TaskResult,
   ExecutionError,
-  Insight
-} from '../types.js';
-import {
-  Observation as ObservationType,
-  ExecutionPlan as ExecutionPlanType,
-  ExecutionResult as ExecutionResultType,
   ExecutionMetrics,
-  LearningResult as LearningResultType
+  Insight
 } from '../types.js';
 import type { FastStore } from '@inno-optimize/agentdb';
 import type { ArchitectureScorer } from '@inno-optimize/ast-analysis';
 import type { IntelligenceLayer } from '@inno-optimize/intelligence';
 import type { CoordinationLayer } from '@inno-optimize/coordination';
+
+interface ArchitectureMetrics {
+  overall: number;
+  dimensions: { maintainability: number; scalability: number; security: number; performance: number };
+  fileCount: number;
+  totalLines: number;
+}
+
+interface PerformanceMetrics {
+  hnwsSearchP99: number;
+  batchInsert: number;
+  mcpResponseP95: number;
+  swarmConsensus: number;
+  sonaAdaptation: number;
+}
+
+interface SwarmMetrics {
+  agentCount: number;
+  eligibleAgents: number;
+  globalEMA: number;
+  threshold: number;
+  consensusLatency: number;
+}
+
+interface IntelligenceMetrics {
+  sona: unknown;
+  reasoningBank: unknown;
+  moe: unknown;
+  ewc: unknown;
+}
+
+interface LearningTrajectory {
+  id: string;
+  agentId: string;
+  sessionId: string;
+  task: { id: string; type: string; description: string; constraints: string[]; acceptanceCriteria: string[]; mode: string };
+  steps: Array<{ action: string; result: string; reward: number; timestamp: Date }>;
+  outcome: { success: boolean; output: unknown; metrics: ExecutionMetrics };
+  reward: number;
+  mode: string;
+  startedAt: Date;
+  endedAt: Date;
+}
 
 export class OAPELEngine {
   private memory: FastStore;
@@ -151,8 +188,10 @@ export class OAPELEngine {
     
     this.currentCycle = null;
     
-    // Persist cycle
-    this.persistCycle(cycle);
+    // Persist cycle (fire-and-forget; failures must not fail the cycle)
+    void this.persistCycle(cycle).catch((err: unknown) => {
+      console.error('Failed to persist OAPEL cycle:', err);
+    });
     
     return cycle;
   }
@@ -339,7 +378,7 @@ export class OAPELEngine {
     execution: ExecutionResult
   ): Promise<LearningResult> {
     // Create trajectory for intelligence layer
-    const trajectory = await this.createLearningTrajectory(observations, analysis, plan, execution);
+    const _trajectory = await this.createLearningTrajectory(observations, analysis, plan, execution);
     
     // Process through intelligence layer
     const pattern = await this.intelligence.processTask({
@@ -367,7 +406,7 @@ export class OAPELEngine {
   }
   
   // Helper methods
-  private async collectArchitectureMetrics(): Promise<any> {
+  private async collectArchitectureMetrics(): Promise<ArchitectureMetrics> {
     // Would analyze codebase using ArchitectureScorer
     return {
       overall: 75,
@@ -382,7 +421,7 @@ export class OAPELEngine {
     };
   }
   
-  private async collectPerformanceMetrics(): Promise<any> {
+  private async collectPerformanceMetrics(): Promise<PerformanceMetrics> {
     return {
       hnwsSearchP99: 0.8, // ms
       batchInsert: 1.2,   // ms
@@ -392,7 +431,7 @@ export class OAPELEngine {
     };
   }
   
-  private async collectSwarmMetrics(): Promise<any> {
+  private async collectSwarmMetrics(): Promise<SwarmMetrics> {
     const status = this.coordination.getSwarmStatus();
     const pheromoneMetrics = this.coordination.getPheromoneMetrics();
     
@@ -405,53 +444,53 @@ export class OAPELEngine {
     };
   }
   
-  private async collectIntelligenceMetrics(): Promise<any> {
+  private async collectIntelligenceMetrics(): Promise<IntelligenceMetrics> {
     return this.intelligence.getStats();
   }
   
-  private determineSeverity(data: any): 'info' | 'warning' | 'critical' {
+  private determineSeverity(_data: unknown): 'info' | 'warning' | 'critical' {
     // Determine severity based on data
     return 'info';
   }
   
-  private async detectAnomalies(): Promise<any[]> {
+  private async detectAnomalies(): Promise<Anomaly[]> {
     // Statistical anomaly detection
     return [];
   }
   
-  private async detectPatterns(): Promise<any[]> {
+  private async detectPatterns(): Promise<DiscoveredPattern[]> {
     // Pattern detection from observations
     return [];
   }
   
-  private identifyBottlenecks(observations: Observation[]): Bottleneck[] {
+  private identifyBottlenecks(_observations: Observation[]): Bottleneck[] {
     return [];
   }
   
-  private identifyDebt(observations: Observation[]): DebtItem[] {
+  private identifyDebt(_observations: Observation[]): DebtItem[] {
     return [];
   }
   
-  private extractPatterns(observations: Observation[]): DiscoveredPattern[] {
+  private extractPatterns(_observations: Observation[]): DiscoveredPattern[] {
     return [];
   }
   
   private filterAnomalies(observations: Observation[]): Anomaly[] {
     return observations
       .filter(o => o.type === 'anomaly')
-      .map(o => o.data);
+      .map(o => o.data as Anomaly);
   }
   
   private generateRecommendations(
-    bottlenecks: Bottleneck[],
-    debtItems: DebtItem[],
-    patterns: DiscoveredPattern[],
-    anomalies: Anomaly[]
+    _bottlenecks: Bottleneck[],
+    _debtItems: DebtItem[],
+    _patterns: DiscoveredPattern[],
+    _anomalies: Anomaly[]
   ): Recommendation[] {
     return [];
   }
   
-  private calculateAnalysisConfidence(observations: Observation[]): number {
+  private calculateAnalysisConfidence(_observations: Observation[]): number {
     return 0.8;
   }
   
@@ -490,7 +529,7 @@ export class OAPELEngine {
     return durations[type] || 180000;
   }
   
-  private resolveDependencies(tasks: PlanTask[]): TaskDependency[] {
+  private resolveDependencies(_tasks: PlanTask[]): TaskDependency[] {
     return [];
   }
   
@@ -530,7 +569,7 @@ export class OAPELEngine {
     analysis: AnalysisResult,
     plan: ExecutionPlan,
     execution: ExecutionResult
-  ): Promise<any> {
+  ): Promise<LearningTrajectory> {
     return {
       id: `traj-learn-${Date.now()}`,
       agentId: 'oapel-engine',
@@ -562,9 +601,9 @@ export class OAPELEngine {
   }
   
   private extractInsights(
-    observations: Observation[],
-    analysis: AnalysisResult,
-    execution: ExecutionResult
+    _observations: Observation[],
+    _analysis: AnalysisResult,
+    _execution: ExecutionResult
   ): Insight[] {
     return [];
   }

@@ -11,11 +11,7 @@ import type {
   ProposalInfo,
   NodeInfo
 } from '../types.js';
-import {
-  PheromoneConfig
-} from '../types.js';
 import type { FastStore} from '@inno-optimize/agentdb';
-import { MemoryEntry } from '@inno-optimize/agentdb';
 
 export class HiveMindSwarm extends EventEmitter {
   private config: SwarmConfig;

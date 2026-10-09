@@ -23,7 +23,7 @@ export interface QuantizationConfig {
 }
 
 export class HNSWIndex {
-  private index: any;
+  private index: InstanceType<typeof HNSWLib>;
   private config: HNSWConfig;
   private quantizer: Quantizer;
   private idMap = new Map<number, string>();
@@ -100,8 +100,6 @@ export class Quantizer {
   }
   
   quantizeSync(vector: number[], level: keyof QuantizationConfig['levels']): Float32Array {
-    const quantized = new Float32Array(vector.length);
-    
     switch (level) {
       case 'none':
         return new Float32Array(vector);

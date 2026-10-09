@@ -4,10 +4,6 @@ import type {
   ABTestConfig,
   ABVariantConfig
 } from '../types.js';
-import { 
-  ABVariant,
-  ABTestStatus
-} from '../types.js';
 import type { FastStore } from '@inno-optimize/agentdb';
 import type { AgenticowClient } from './agenticow.js';
 
@@ -30,7 +26,7 @@ export class ABTestingFramework {
     hypothesis: string,
     variants: ABVariantConfig[],
     metrics: ABMetric[],
-    customConfig?: Partial<ABTestConfig>
+    _customConfig?: Partial<ABTestConfig>
   ): Promise<ABTest> {
     const testId = `abtest-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     
@@ -271,7 +267,7 @@ export class ABTestingFramework {
   }
   
   // Monitor running test
-  private monitorTest(testId: string): void {
+  private monitorTest(_testId: string): void {
     // Would set up periodic checks
   }
   

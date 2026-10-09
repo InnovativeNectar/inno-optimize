@@ -66,7 +66,7 @@ export interface TaskAssignment {
 
 export interface TaskOutcome {
   success: boolean;
-  output: any;
+  output: unknown;
   metrics: {
     latencyMs: number;
     toolCalls: number;
@@ -87,7 +87,7 @@ export interface SagaDefinition {
   idempotencyKeys: string[];
 }
 
-export interface SagaStep<TInput = any, TOutput = any> {
+export interface SagaStep<TInput = unknown, TOutput = unknown> {
   id: string;
   name: string;
   connector: string;
@@ -104,7 +104,12 @@ export interface CompensationAction {
   stepId: string;
   connector: string;
   operation: string;
-  inputMapper: (context: SagaContext, stepOutput: any) => any;
+  inputMapper: (context: SagaContext, stepOutput: unknown) => unknown;
+}
+
+export interface CompensationData {
+  compensation: CompensationAction;
+  stepOutput: unknown;
 }
 
 export interface CompensationPlan {
@@ -123,8 +128,8 @@ export interface RetryPolicy {
 export interface SagaContext {
   sagaId: string;
   executionId: string;
-  stepOutputs: Map<string, any>;
-  compensationData: Map<string, any>;
+  stepOutputs: Map<string, unknown>;
+  compensationData: Map<string, CompensationData>;
   startedAt: Date;
   currentStep?: string;
   status: 'running' | 'completed' | 'compensating' | 'failed';
@@ -140,7 +145,7 @@ export interface SagaResult {
 
 export interface CompletedStep {
   step: SagaStep;
-  result: any;
+  result: unknown;
   timestamp: Date;
   durationMs: number;
 }
@@ -163,12 +168,12 @@ export interface BusinessConnector {
   operations: ConnectorOperation[];
   syncConfig?: SyncConfig;
   webhooks?: WebhookConfig[];
-  execute(operation: string, input: any): Promise<any>;
+  execute(operation: string, input: unknown): Promise<unknown>;
 }
 
 export interface ConnectorAuth {
   type: 'oauth2' | 'api_key' | 'basic' | 'jwt' | 'mtls';
-  config: Record<string, any>;
+  config: Record<string, unknown>;
   tokenRefresh?: TokenRefreshConfig;
 }
 
@@ -215,8 +220,8 @@ export interface JSONSchema {
   properties?: Record<string, JSONSchema>;
   items?: JSONSchema;
   required?: string[];
-  enum?: any[];
-  default?: any;
+  enum?: unknown[];
+  default?: unknown;
   minimum?: number;
   maximum?: number;
   format?: string;
@@ -357,7 +362,7 @@ export interface NodeInfo {
 export interface ConsensusProposal {
   id: string;
   type: string;
-  data: any;
+  data: unknown;
   proposer: string;
   timestamp: Date;
 }
@@ -365,7 +370,7 @@ export interface ConsensusProposal {
 export interface ConsensusProposal {
   id: string;
   type: string;
-  data: any;
+  data: unknown;
   proposer: string;
   timestamp: Date;
 }
@@ -373,7 +378,7 @@ export interface ConsensusProposal {
 export interface ProposalInfo {
   id: string;
   type: string;
-  data: any;
+  data: unknown;
   proposer: string;
   status: 'pending' | 'accepted' | 'rejected';
   votes: Map<string, boolean>;
@@ -385,13 +390,26 @@ export interface MessageBus {
   shutdown(): Promise<void>;
 }
 
+export interface ConsensusMetrics {
+  lastTerm: number;
+  committedEntries: number;
+  leaderId: string;
+  activeProposals: number;
+}
+
+export interface ConsensusHealth {
+  healthy: boolean;
+  nodeCount: number;
+  quorum: number;
+}
+
 export interface ConsensusEngine {
   initialize(swarmId: string, maxNodes: number): Promise<void>;
   join(nodeId: string): Promise<void>;
   leave(nodeId: string): Promise<void>;
   propose(proposal: ConsensusProposal): Promise<string>;
   vote(proposalId: string, voterId: string, vote: boolean): Promise<void>;
-  getMetrics(): any;
-  getHealth(): any;
+  getMetrics(): ConsensusMetrics;
+  getHealth(): ConsensusHealth;
   shutdown(): Promise<void>;
 }

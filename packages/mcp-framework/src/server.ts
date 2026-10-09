@@ -64,19 +64,24 @@ export interface JSONSchema {
   properties?: Record<string, JSONSchema>;
   items?: JSONSchema;
   required?: string[];
-  enum?: any[];
-  default?: any;
+  enum?: unknown[];
+  default?: unknown;
 }
 
 export interface ToolResult {
   success: boolean;
-  data?: any;
+  data?: unknown;
   error?: string;
   metadata?: {
     latencyMs: number;
     serverId: string;
     toolName: string;
   };
+}
+
+interface JsonRpcResponse {
+  id?: string;
+  result?: ToolResult;
 }
 
 export interface SearchQuery {
@@ -200,11 +205,11 @@ export abstract class MCPConnection extends EventEmitter {
   
   abstract connect(): Promise<void>;
   abstract close(): void;
-  abstract callTool(name: string, args: any): Promise<ToolResult>;
+  abstract callTool(name: string, args: unknown): Promise<ToolResult>;
   abstract listTools(): Promise<ToolDescriptor[]>;
   abstract listResources(): Promise<ResourceDescriptor[]>;
   abstract listPrompts(): Promise<PromptDescriptor[]>;
-  abstract readResource(uri: string): Promise<any>;
+  abstract readResource(uri: string): Promise<unknown>;
   
   isConnected(): boolean {
     return this.connected;
@@ -212,7 +217,7 @@ export abstract class MCPConnection extends EventEmitter {
 }
 
 class StdioConnection extends MCPConnection {
-  private process: any;
+  private process?: { kill(): void };
   
   async connect(): Promise<void> {
     // Spawn stdio process
@@ -224,7 +229,7 @@ class StdioConnection extends MCPConnection {
     this.connected = false;
   }
   
-  async callTool(name: string, args: any): Promise<ToolResult> {
+  async callTool(_name: string, _args: unknown): Promise<ToolResult> {
     // Send JSON-RPC request via stdin
     return { success: true, data: {} };
   }
@@ -241,7 +246,7 @@ class StdioConnection extends MCPConnection {
     return this.server.prompts;
   }
   
-  async readResource(uri: string): Promise<any> {
+  async readResource(_uri: string): Promise<unknown> {
     return { contents: [] };
   }
 }
@@ -255,7 +260,7 @@ class HttpConnection extends MCPConnection {
     this.connected = false;
   }
   
-  async callTool(name: string, args: any): Promise<ToolResult> {
+  async callTool(name: string, args: unknown): Promise<ToolResult> {
     const response = await fetch(`${this.server.url}/tools/call`, {
       method: 'POST',
       headers: {
@@ -265,32 +270,32 @@ class HttpConnection extends MCPConnection {
       body: JSON.stringify({ name, arguments: args })
     });
     
-    return response.json();
+    return (await response.json()) as ToolResult;
   }
   
   async listTools(): Promise<ToolDescriptor[]> {
     const response = await fetch(`${this.server.url}/tools/list`, {
       headers: this.server.headers ?? {}
     });
-    return response.json();
+    return (await response.json()) as ToolDescriptor[];
   }
   
   async listResources(): Promise<ResourceDescriptor[]> {
     const response = await fetch(`${this.server.url}/resources/list`, {
       headers: this.server.headers ?? {}
     });
-    return response.json();
+    return (await response.json()) as ResourceDescriptor[];
   }
   
   async listPrompts(): Promise<PromptDescriptor[]> {
     return this.server.prompts;
   }
   
-  async readResource(uri: string): Promise<any> {
+  async readResource(uri: string): Promise<unknown> {
     const response = await fetch(`${this.server.url}/resources/read?uri=${encodeURIComponent(uri)}`, {
       headers: this.server.headers ?? {}
     });
-    return response.json();
+    return (await response.json()) as unknown;
   }
 }
 
@@ -299,7 +304,7 @@ class SSEConnection extends MCPConnection {
   
   async connect(): Promise<void> {
     this.eventSource = new EventSource(this.server.url!);
-    this.eventSource.onmessage = (event) => {
+    this.eventSource.onmessage = (event: MessageEvent<string>) => {
       this.emit('message', JSON.parse(event.data));
     };
     this.connected = true;
@@ -310,7 +315,7 @@ class SSEConnection extends MCPConnection {
     this.connected = false;
   }
   
-  async callTool(name: string, args: any): Promise<ToolResult> {
+  async callTool(_name: string, _args: unknown): Promise<ToolResult> {
     // SSE is typically for streaming, use HTTP for calls
     return { success: false, error: 'Use HTTP for tool calls' };
   }
@@ -327,7 +332,7 @@ class SSEConnection extends MCPConnection {
     return this.server.prompts;
   }
   
-  async readResource(uri: string): Promise<any> {
+  async readResource(_uri: string): Promise<unknown> {
     return { contents: [] };
   }
 }
@@ -337,7 +342,7 @@ class WebSocketConnection extends MCPConnection {
   
   async connect(): Promise<void> {
     this.ws = new WebSocket(this.server.url!);
-    this.ws.onmessage = (event) => {
+    this.ws.onmessage = (event: MessageEvent<string>) => {
       this.emit('message', JSON.parse(event.data));
     };
     await new Promise((resolve, reject) => {
@@ -352,16 +357,16 @@ class WebSocketConnection extends MCPConnection {
     this.connected = false;
   }
   
-  async callTool(name: string, args: any): Promise<ToolResult> {
+  async callTool(name: string, args: unknown): Promise<ToolResult> {
     return new Promise((resolve) => {
       const id = Math.random().toString(36).slice(2);
       this.ws!.send(JSON.stringify({ id, method: 'tools/call', params: { name, arguments: args } }));
       
-      const handler = (event: MessageEvent) => {
-        const msg = JSON.parse(event.data);
+      const handler = (event: MessageEvent<string>) => {
+        const msg = JSON.parse(event.data) as JsonRpcResponse;
         if (msg.id === id) {
           this.ws!.removeEventListener('message', handler);
-          resolve(msg.result);
+          resolve(msg.result as ToolResult);
         }
       };
       this.ws!.addEventListener('message', handler);
@@ -380,7 +385,7 @@ class WebSocketConnection extends MCPConnection {
     return this.server.prompts;
   }
   
-  async readResource(uri: string): Promise<any> {
+  async readResource(_uri: string): Promise<unknown> {
     return { contents: [] };
   }
 }

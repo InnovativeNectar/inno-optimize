@@ -6,7 +6,7 @@ import type {
   TaskContext,
   ModeConfig 
 } from '../types.js';
-import type { FastStore } from '@inno-optimize/agentdb';
+import type { FastStore, MemoryEntry } from '@inno-optimize/agentdb';
 
 export class SONAAdapter {
   private config: SONAConfig;
@@ -44,7 +44,7 @@ export class SONAAdapter {
     }
     
     // 2. Select best matching pattern
-    const bestPattern = patterns[0];
+    const bestPattern = patterns[0]!;
     
     // 3. Extract LoRA weights from pattern
     const loraWeights = await this.extractLoRA(bestPattern, taskContext);
@@ -70,7 +70,7 @@ export class SONAAdapter {
     return adaptation;
   }
   
-  private async retrievePatterns(taskContext: TaskContext): Promise<any[]> {
+  private async retrievePatterns(taskContext: TaskContext): Promise<MemoryEntry[]> {
     const queryVector = await this.embedTaskContext(taskContext);
     
     const results = await this.memory.search({
@@ -116,7 +116,7 @@ export class SONAAdapter {
     return Array.from(vector);
   }
   
-  private async extractLoRA(pattern: any, taskContext: TaskContext): Promise<LoRAWeights> {
+  private async extractLoRA(pattern: MemoryEntry, taskContext: TaskContext): Promise<LoRAWeights> {
     // Check cache first
     const cacheKey = `${pattern.id}:${taskContext.mode}`;
     if (this.patternCache.has(cacheKey)) {
@@ -131,7 +131,7 @@ export class SONAAdapter {
     return lora;
   }
   
-  private generateLoRA(pattern: any, taskContext: TaskContext): LoRAWeights {
+  private generateLoRA(pattern: { id: string; reward: number }, taskContext: TaskContext): LoRAWeights {
     const rank = this.config.loraRank;
     const alpha = this.config.loraAlpha;
     const inputDim = 384;  // embedding dimension
@@ -225,7 +225,7 @@ export class SONAAdapter {
   private async trackTrajectory(
     taskContext: TaskContext, 
     adaptation: SONAAdaptation, 
-    patterns: any[]
+    patterns: MemoryEntry[]
   ): Promise<void> {
     const trajectory: Trajectory = {
       id: `traj-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,

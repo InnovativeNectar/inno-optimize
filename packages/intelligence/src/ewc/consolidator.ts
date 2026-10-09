@@ -223,18 +223,22 @@ export class EWCConsolidator {
   
   // Scheduled consolidation
   startConsolidationScheduler(): void {
-    setInterval(async () => {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      
-      try {
-        await this.processQueue();
-      } catch (e) {
-        console.error('Consolidation error:', e);
-      } finally {
-        this.isProcessing = false;
-      }
+    setInterval(() => {
+      void this.runScheduledConsolidation();
     }, this.config.consolidationInterval);
+  }
+  
+  private async runScheduledConsolidation(): Promise<void> {
+    if (this.isProcessing) return;
+    this.isProcessing = true;
+    
+    try {
+      await this.processQueue();
+    } catch (e) {
+      console.error('Consolidation error:', e);
+    } finally {
+      this.isProcessing = false;
+    }
   }
   
   private async processQueue(): Promise<void> {
@@ -285,7 +289,7 @@ export class EWCConsolidator {
     return transferred;
   }
   
-  private async adaptPattern(pattern: ReasoningPattern, targetDomain: string): Promise<any> {
+  private async adaptPattern(pattern: ReasoningPattern, targetDomain: string): Promise<MemoryEntry> {
     // Generate new embedding for target domain
     const newEmbedding = await this.embedDomain(targetDomain);
     
@@ -301,7 +305,7 @@ export class EWCConsolidator {
       },
       consolidated: false,
       ewcImportance: undefined
-    };
+    } as unknown as MemoryEntry;
   }
   
   private async embedDomain(domain: string): Promise<number[]> {

@@ -180,7 +180,7 @@ export class IncrementalAnalyzer {
     return newIssues;
   }
   
-  private findResolvedIssues(changed: ParseResult[]): Issue[] {
+  private findResolvedIssues(_changed: ParseResult[]): Issue[] {
     // In production, would compare with previous issues
     return [];
   }
@@ -207,14 +207,14 @@ export class IncrementalAnalyzer {
 // File watcher for real-time incremental analysis
 export class FileWatcher {
   private analyzer: IncrementalAnalyzer;
-  private watchers = new Map<string, any>();
+  private watchers = new Map<string, { close(): void }>();
   private debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
   
   constructor(analyzer: IncrementalAnalyzer) {
     this.analyzer = analyzer;
   }
   
-  watch(directory: string, callback: (analysis: DeltaAnalysis) => void): void {
+  watch(directory: string, _callback: (analysis: DeltaAnalysis) => void): void {
     // In production, use chokidar or fs.watch
     // eslint-disable-next-line no-console
     console.log(`Watching ${directory} for changes...`);

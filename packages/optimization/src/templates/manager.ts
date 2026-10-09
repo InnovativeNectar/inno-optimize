@@ -1,10 +1,6 @@
 import type { 
   Template, 
   TemplateInstance} from '../types.js';
-import { 
-  TemplateVariable,
-  TemplateMetadata
-} from '../types.js';
 import type { FastStore } from '@inno-optimize/agentdb';
 
 export class TemplateManager {
@@ -645,7 +641,7 @@ idempotencyKeys: [order-processing]`,
   }
   
   // Instantiate template with values
-  instantiateTemplate(templateId: string, values: Record<string, any>): TemplateInstance {
+  instantiateTemplate(templateId: string, values: Record<string, unknown>): TemplateInstance {
     const template = this.templates.get(templateId);
     if (!template) throw new Error(`Template not found: ${templateId}`);
     
@@ -699,7 +695,7 @@ idempotencyKeys: [order-processing]`,
   }
   
   // Render template to string
-  renderTemplate(templateId: string, values: Record<string, any>): string {
+  renderTemplate(templateId: string, values: Record<string, unknown>): string {
     const template = this.templates.get(templateId);
     if (!template) throw new Error(`Template not found: ${templateId}`);
     

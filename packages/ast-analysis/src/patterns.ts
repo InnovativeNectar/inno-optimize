@@ -1,5 +1,4 @@
-import type { ParseResult, AntiPattern, Issue } from './types.js';
-import { AntiPatternType, DetectionRule, RefactoringSuggestion } from './types.js';
+import type { ParseResult, AntiPattern, Issue, ClassInfo, FunctionInfo, MethodInfo } from './types.js';
 
 export class AntiPatternDetector {
   private patterns: AntiPattern[] = this.initializePatterns();
@@ -94,7 +93,7 @@ export class AntiPatternDetector {
         description: 'Two or more modules depend on each other directly or indirectly',
         severity: 'critical',
         detection: {
-          custom: (result) => false // Detected at project level via dependency graph
+          custom: () => false // Detected at project level via dependency graph
         },
         refactoring: {
           pattern: 'Break Circular Dependency',
@@ -141,7 +140,7 @@ export class AntiPatternDetector {
         severity: 'medium',
         detection: {
           threshold: { filesPerChange: 5 },
-          custom: (result) => false // Requires change history analysis
+          custom: () => false // Requires change history analysis
         },
         refactoring: {
           pattern: 'Consolidate Related Logic',
@@ -260,7 +259,7 @@ export class AntiPatternDetector {
         severity: 'medium',
         detection: {
           threshold: { similarity: 0.8, minLines: 6 },
-          custom: (result) => false // Requires cross-file comparison
+          custom: () => false // Requires cross-file comparison
         },
         refactoring: {
           pattern: 'Extract Common Code',
@@ -464,7 +463,7 @@ export class AntiPatternDetector {
     };
   }
   
-  private createClassIssue(result: ParseResult, cls: any, pattern: AntiPattern, message: string): Issue {
+  private createClassIssue(result: ParseResult, cls: ClassInfo, pattern: AntiPattern, message: string): Issue {
     return {
       type: 'anti_pattern',
       severity: pattern.severity,
@@ -475,7 +474,7 @@ export class AntiPatternDetector {
     };
   }
   
-  private createFunctionIssue(result: ParseResult, func: any, pattern: AntiPattern, message: string): Issue {
+  private createFunctionIssue(result: ParseResult, func: FunctionInfo, pattern: AntiPattern, message: string): Issue {
     return {
       type: 'anti_pattern',
       severity: pattern.severity,
@@ -486,7 +485,7 @@ export class AntiPatternDetector {
     };
   }
   
-  private createMethodIssue(result: ParseResult, cls: any, method: any, pattern: AntiPattern, message: string): Issue {
+  private createMethodIssue(result: ParseResult, cls: ClassInfo, method: MethodInfo, pattern: AntiPattern, message: string): Issue {
     return {
       type: 'anti_pattern',
       severity: pattern.severity,
@@ -559,7 +558,7 @@ export class AntiPatternDetector {
     return false;
   }
   
-  private detectInappropriateIntimacy(result: ParseResult): boolean {
+  private detectInappropriateIntimacy(_result: ParseResult): boolean {
     // Check for direct access to private fields of other classes
     return false; // Requires cross-class analysis
   }
@@ -568,7 +567,7 @@ export class AntiPatternDetector {
     for (const cls of result.classes) {
       if (cls.extends) {
         // Check how many parent methods are overridden vs used
-        const overridden = cls.methods.filter(m => 
+        const overridden = cls.methods.filter(() => 
           // Would need parent class info
           false
         ).length;
@@ -580,7 +579,7 @@ export class AntiPatternDetector {
   
   private detectSpeculativeGenerality(result: ParseResult): boolean {
     // Look for unused generic parameters, single-implementation interfaces
-    for (const iface of result.interfaces) {
+    for (const _iface of result.interfaces) {
       // Would need project-wide analysis
     }
     return false;
@@ -589,7 +588,7 @@ export class AntiPatternDetector {
   private detectTemporaryField(result: ParseResult): boolean {
     // Fields only set in some methods, not in constructor
     for (const cls of result.classes) {
-      const initializedInConstructor = cls.properties.filter(p => 
+      const initializedInConstructor = cls.properties.filter(() => 
         // Would need constructor analysis
         false
       ).length;
@@ -607,7 +606,7 @@ export class AntiPatternDetector {
     return switchMatches.length > 2;
   }
   
-  private getContent(result: ParseResult): string {
+  private getContent(_result: ParseResult): string {
     // In production, read from file
     return '';
   }

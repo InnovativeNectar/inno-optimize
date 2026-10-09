@@ -1,11 +1,4 @@
-import type { 
-  BusinessMCPServer} from '../types.js';
-import { 
-  ToolDescriptor, 
-  ResourceDescriptor, 
-  PromptDescriptor,
-  JSONSchema 
-} from '../types.js';
+import type { BusinessMCPServer } from '../types.js';
 
 export const businessServers: BusinessMCPServer[] = [
   // Orders Server

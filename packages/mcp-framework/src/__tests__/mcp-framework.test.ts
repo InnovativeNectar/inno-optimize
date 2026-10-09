@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import type {
   ToolDescriptor} from '../index.js';
 import { 
@@ -6,8 +6,7 @@ import {
   ToolRouter, 
   CodemodRegistry, 
   PatternMemory,
-  createBuiltinCodemods,
-  ToolResult
+  createBuiltinCodemods
 } from '../index.js';
 
 describe('MCP Framework', () => {

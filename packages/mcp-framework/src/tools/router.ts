@@ -1,5 +1,4 @@
 import type { ToolDescriptor} from '../server.js';
-import { ToolResult } from '../server.js';
 
 export interface TaskContext {
   id: string;
@@ -101,7 +100,7 @@ export interface ReasoningPattern {
   reward: number;
   mode: string;
   verdict: 'success' | 'failure';
-  loraWeights: any;
+  loraWeights: unknown;
   consolidated: boolean;
   createdAt: Date;
 }

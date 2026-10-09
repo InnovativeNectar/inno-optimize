@@ -2,9 +2,6 @@ import type {
   RegressionAlert, 
   RegressionConfig, 
   RegressionMetric} from '../types.js';
-import {
-  RegressionAlert as RegressionAlertType
-} from '../types.js';
 import type { FastStore } from '@inno-optimize/agentdb';
 
 export class RegressionDetector {
@@ -208,7 +205,7 @@ export class RegressionDetector {
     return mapping[metricName] || ['unknown'];
   }
   
-  private generateSuggestedAction(metric: RegressionMetric, deltaPercent: number): string {
+  private generateSuggestedAction(metric: RegressionMetric, _deltaPercent: number): string {
     const actions: Record<string, string> = {
       'hnsw_search_latency': 'Check HNSW index fragmentation, consider reindexing or increasing efSearch',
       'batch_insert_latency': 'Review quantization level, consider batch size optimization',

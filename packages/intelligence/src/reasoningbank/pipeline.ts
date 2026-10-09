@@ -61,7 +61,7 @@ export class ReasoningBank {
     };
   }
   
-  private memoryEntryToPattern(entry: any): ReasoningPattern {
+  private memoryEntryToPattern(entry: MemoryEntry): ReasoningPattern {
     return {
       id: entry.id,
       title: entry.metadata?.domain || 'Unknown',
@@ -129,7 +129,7 @@ export class ReasoningBank {
   }
   
   // STAGE 3: DISTILL - Extract structured pattern from trajectory
-  async distill(trajectory: Trajectory, verdict: Verdict, patterns: ReasoningPattern[]): Promise<DistillResult> {
+  async distill(trajectory: Trajectory, verdict: Verdict, _patterns: ReasoningPattern[]): Promise<DistillResult> {
     const startTime = performance.now();
     
     // Extract structured steps from trajectory
@@ -210,7 +210,7 @@ export class ReasoningBank {
     return `${uniqueActions.join(' + ')} Strategy`;
   }
   
-  private generateDescription(trajectory: Trajectory, steps: any[]): string {
+  private generateDescription(trajectory: Trajectory, steps: Array<{ action: string; result: string; reward: number }>): string {
     return `When ${trajectory.task.description.toLowerCase()}, ` +
       `follow these steps: ${steps.map(s => s.action).join(' → ')}. ` +
       `Mode: ${trajectory.mode}. Expected reward: ${trajectory.reward.toFixed(2)}.`;
@@ -287,7 +287,7 @@ export class ReasoningBank {
     const paramCount = lora.weightsA.length * (lora.weightsA[0]?.length ?? 0) + 
                        lora.weightsB.length * (lora.weightsB[0]?.length ?? 0);
     
-    const importance = new Array(paramCount).fill(0);
+    const importance = new Array<number>(paramCount).fill(0);
     
     // In production, compute actual gradients
     // Here we approximate based on pattern reward and usage
@@ -333,7 +333,7 @@ export class ReasoningBank {
     return transferred;
   }
   
-  private async adaptPattern(pattern: ReasoningPattern, targetDomain: string): Promise<any> {
+  private async adaptPattern(pattern: ReasoningPattern, targetDomain: string): Promise<MemoryEntry> {
     // Adapt pattern to target domain
     return {
       ...pattern,
@@ -345,7 +345,7 @@ export class ReasoningBank {
         transferredAt: new Date()
       },
       consolidated: false
-    };
+    } as unknown as MemoryEntry;
   }
   
   // Utility methods

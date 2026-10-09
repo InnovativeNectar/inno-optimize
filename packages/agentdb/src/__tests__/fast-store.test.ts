@@ -1,9 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import type {
   MemoryEntry 
 } from '../index.js';
 import { 
-  FastStore, 
   WorkingMemoryCache, 
   HNSWIndex, 
   Quantizer,
@@ -11,19 +10,6 @@ import {
 } from '../index.js';
 
 describe('AgentDB - FastStore', () => {
-  let store: FastStore;
-  const config = {
-    path: ':memory:',
-    dimensions: 384,
-    hnsw: { M: 16, efConstruction: 200, efSearch: 100, maxElements: 10000 },
-    quantization: { defaultLevel: 'pq8' as const },
-    cache: { maxSize: 100, ttlMs: 60000 }
-  };
-
-  beforeEach(() => {
-    store = new FastStore(config);
-  });
-
   describe('WorkingMemoryCache', () => {
     it('should store and retrieve entries', () => {
       const cache = new WorkingMemoryCache({ maxSize: 10, ttlMs: 60000 });

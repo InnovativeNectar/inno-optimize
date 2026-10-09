@@ -1,10 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { 
   HiveMindSwarm, 
-  SagaOrchestrator, 
   PheromoneScheduler, 
   createDefaultPheromoneConfig,
-  CoordinationLayer,
   createDefaultCoordinationConfig,
   businessServers
 } from '../index.js';
@@ -62,8 +60,8 @@ describe('Coordination Layer', () => {
         role: 'worker'
       });
       
-      const pheromone = swarm.getPheromone?.(agentId);
-      // Pheromone should be initialized
+      const eligible = await swarm.getEligibleAgents('worker');
+      expect(eligible).toContain(agentId);
     });
 
     it('should get swarm status', () => {

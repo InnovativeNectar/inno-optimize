@@ -1,8 +1,16 @@
+import type Parser from 'tree-sitter';
+
+export interface TreeSitterLanguage {
+  name: string;
+  language: unknown;
+  nodeTypeInfo: unknown[];
+}
+
 export interface LanguageConfig {
   name: string;
   extensions: string[];
-  parser: any; // Tree-sitter parser
-  language: any; // Tree-sitter language (query target)
+  parser: Parser; // Tree-sitter parser
+  language: TreeSitterLanguage; // Tree-sitter language (query target)
   queries: {
     imports: string;
     exports: string;
@@ -18,7 +26,7 @@ export interface LanguageConfig {
 export interface ParseResult {
   file: string;
   language: string;
-  ast: any; // Tree-sitter Tree
+  ast: Parser.Tree; // Tree-sitter Tree
   imports: ImportInfo[];
   exports: ExportInfo[];
   classes: ClassInfo[];

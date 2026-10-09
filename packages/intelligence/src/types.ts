@@ -79,7 +79,7 @@ export interface TrajectoryStep {
 
 export interface TaskOutcome {
   success: boolean;
-  output: any;
+  output: unknown;
   metrics: {
     latencyMs: number;
     toolCalls: number;
@@ -98,8 +98,17 @@ export interface ReasoningPattern {
   loraWeights: LoRAWeights;
   consolidated: boolean;
   createdAt: Date;
-  ewcImportance?: number[];
-  metadata?: Record<string, any>;
+  ewcImportance?: number[] | undefined;
+  metadata?: PatternMetadata;
+}
+
+export interface PatternMetadata {
+  domain?: string;
+  taskType?: string;
+  mode?: string;
+  context?: string;
+  tags?: string[];
+  [key: string]: unknown;
 }
 
 export interface Verdict {
@@ -190,7 +199,7 @@ export interface SearchQuery {
   vector: number[];
   textQuery?: string;
   k?: number;
-  filter?: Record<string, any>;
+  filter?: Record<string, unknown>;
   useCache?: boolean;
   vectorHash?: string;
   rerank?: boolean;

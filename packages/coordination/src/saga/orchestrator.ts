@@ -10,9 +10,6 @@ import type {
   ConnectorRegistry,
   ConnectorRegistry as ConnectorRegistryType
 } from '../types.js';
-import { 
-  CompensationAction
-} from '../types.js';
 import type { FastStore } from '@inno-optimize/agentdb';
 
 export class SagaOrchestrator {
@@ -121,7 +118,7 @@ export class SagaOrchestrator {
     step: SagaStep, 
     context: SagaContext, 
     definition: SagaDefinition
-  ): Promise<any> {
+  ): Promise<unknown> {
     const connector = this.connectorRegistry.getConnector(step.connector);
     if (!connector) {
       throw new Error(`Connector not found: ${step.connector}`);
@@ -200,10 +197,12 @@ export class SagaOrchestrator {
   
   private async checkIdempotency(key: string): Promise<unknown> {
     const result = await this.memory.getById(`idempotency:${key}`);
-    return result ? JSON.parse(result.content) : null;
+    if (!result) return null;
+    const parsed: unknown = JSON.parse(result.content);
+    return parsed;
   }
   
-  private async storeIdempotency(key: string, result: any): Promise<void> {
+  private async storeIdempotency(key: string, result: unknown): Promise<void> {
     await this.memory.insert([{
       id: `idempotency:${key}`,
       type: 'episodic',

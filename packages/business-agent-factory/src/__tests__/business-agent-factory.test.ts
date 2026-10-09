@@ -172,7 +172,6 @@ describe('business-agent-factory', () => {
     });
 
     it('every configured department template exists in the registry', () => {
-      const manager = createDefaultTemplateManager();
       const ids = new Set(DEFAULT_TEMPLATES.map(t => t.id));
 
       for (const dept of DEFAULT_DEPARTMENTS) {

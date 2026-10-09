@@ -2,13 +2,30 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { 
   CoordinationLayer, 
   createDefaultCoordinationConfig,
-  HiveMindSwarm,
-  SagaOrchestrator,
-  PheromoneScheduler,
-  createDefaultPheromoneConfig,
   businessServers
 } from '../index.js';
 import { FastStore } from '@inno-optimize/agentdb';
+
+interface OrderItemFixture {
+  productId: string;
+}
+
+interface OrderFixture {
+  items: OrderItemFixture[];
+  total: number;
+  paymentMethod: string;
+}
+
+interface SagaContextFixture {
+  orderId: string;
+  order: OrderFixture;
+}
+
+interface StepResultFixture {
+  orderId?: string;
+  paymentId?: string;
+  available?: boolean;
+}
 
 describe('Coordination Layer Integration', () => {
   let memory: FastStore;
@@ -142,8 +159,8 @@ describe('Coordination Layer Integration', () => {
             name: 'Check Inventory',
             connector: 'business-inventory',
             operation: 'check_stock',
-            inputMapper: (ctx: any) => ({ productIds: ctx.order.items.map((i: any) => i.productId) }),
-            outputMapper: (result: any, ctx: any) => ({ inventoryAvailable: result.available }),
+            inputMapper: (ctx: SagaContextFixture) => ({ productIds: ctx.order.items.map((i) => i.productId) }),
+            outputMapper: (result: StepResultFixture) => ({ inventoryAvailable: result.available }),
             timeout: 5000
           },
           {
@@ -151,8 +168,8 @@ describe('Coordination Layer Integration', () => {
             name: 'Process Payment',
             connector: 'business-payments',
             operation: 'process_payment',
-            inputMapper: (ctx: any) => ({ orderId: ctx.orderId, amount: ctx.order.total, paymentMethod: ctx.order.paymentMethod }),
-            outputMapper: (result: any, ctx: any) => ({ paymentId: result.paymentId }),
+            inputMapper: (ctx: SagaContextFixture) => ({ orderId: ctx.orderId, amount: ctx.order.total, paymentMethod: ctx.order.paymentMethod }),
+            outputMapper: (result: StepResultFixture) => ({ paymentId: result.paymentId }),
             timeout: 30000
           },
           {
@@ -160,17 +177,17 @@ describe('Coordination Layer Integration', () => {
             name: 'Create Order',
             connector: 'business-orders',
             operation: 'create_order',
-            inputMapper: (ctx: any) => ctx.order,
-            outputMapper: (result: any, ctx: any) => ({ orderId: result.orderId }),
+            inputMapper: (ctx: SagaContextFixture) => ctx.order,
+            outputMapper: (result: StepResultFixture) => ({ orderId: result.orderId }),
             timeout: 10000
           }
         ],
         compensation: {
           strategy: 'backward',
           steps: [
-            { stepId: 'create-order', connector: 'business-orders', operation: 'cancel_order', inputMapper: (ctx: any, out: any) => ({ orderId: out.orderId }) },
-            { stepId: 'process-payment', connector: 'business-payments', operation: 'refund_payment', inputMapper: (ctx: any, out: any) => ({ paymentId: out.paymentId }) },
-            { stepId: 'check-inventory', connector: 'business-inventory', operation: 'release_stock', inputMapper: (ctx: any, out: any) => ({ items: ctx.order.items }) }
+            { stepId: 'create-order', connector: 'business-orders', operation: 'cancel_order', inputMapper: (out: StepResultFixture) => ({ orderId: out.orderId }) },
+            { stepId: 'process-payment', connector: 'business-payments', operation: 'refund_payment', inputMapper: (out: StepResultFixture) => ({ paymentId: out.paymentId }) },
+            { stepId: 'check-inventory', connector: 'business-inventory', operation: 'release_stock', inputMapper: (ctx: SagaContextFixture) => ({ items: ctx.order.items }) }
           ]
         },
         timeout: 60000,

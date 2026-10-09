@@ -14,6 +14,9 @@ import {
   createDefaultOptimizationConfig
 } from '../index.js';
 import { FastStore } from '@inno-optimize/agentdb';
+import type { IntelligenceLayer } from '@inno-optimize/intelligence';
+import type { CoordinationLayer } from '@inno-optimize/coordination';
+import type { ArchitectureScorer } from '@inno-optimize/ast-analysis';
 
 describe('Optimization Layer', () => {
   let memory: FastStore;
@@ -50,9 +53,9 @@ describe('Optimization Layer', () => {
       
       oapel = new OAPELEngine(
         memory,
-        mockIntelligence as any,
-        mockCoordination as any,
-        mockScorer as any,
+        mockIntelligence as unknown as IntelligenceLayer,
+        mockCoordination as unknown as CoordinationLayer,
+        mockScorer as unknown as ArchitectureScorer,
         createDefaultOAPELConfig()
       );
     });
@@ -213,9 +216,9 @@ describe('Optimization Layer', () => {
 
   describe('Flywheel Evaluator', () => {
     let flywheel: FlywheelEvaluator;
-    let mockOapel: any;
-    let mockRegression: any;
-    let mockAbtest: any;
+    let mockOapel: unknown;
+    let mockRegression: unknown;
+    let mockAbtest: unknown;
 
     beforeEach(() => {
       mockOapel = { runCycle: vi.fn() };
@@ -224,9 +227,9 @@ describe('Optimization Layer', () => {
       
       flywheel = new FlywheelEvaluator(
         memory,
-        mockOapel,
-        mockRegression,
-        mockAbtest,
+        mockOapel as OAPELEngine,
+        mockRegression as RegressionDetector,
+        mockAbtest as ABTestingFramework,
         createDefaultFlywheelConfig()
       );
     });
@@ -319,9 +322,9 @@ describe('Optimization Layer', () => {
 
   describe('Optimization Layer (Integrated)', () => {
     let optimization: OptimizationLayer;
-    let mockIntelligence: any;
-    let mockCoordination: any;
-    let mockScorer: any;
+    let mockIntelligence: unknown;
+    let mockCoordination: unknown;
+    let mockScorer: unknown;
 
     beforeEach(() => {
       mockIntelligence = {
@@ -340,9 +343,9 @@ describe('Optimization Layer', () => {
       
       optimization = new OptimizationLayer(
         memory,
-        mockIntelligence,
-        mockCoordination,
-        mockScorer,
+        mockIntelligence as IntelligenceLayer,
+        mockCoordination as CoordinationLayer,
+        mockScorer as ArchitectureScorer,
         createDefaultOptimizationConfig()
       );
     });

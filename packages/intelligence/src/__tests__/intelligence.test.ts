@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { 
   SONAAdapter, 
   createDefaultSONAConfig,
@@ -8,7 +8,6 @@ import {
   createDefaultMoEConfig,
   EWCConsolidator,
   createDefaultEWCConfig,
-  IntelligenceLayer,
   createIntelligenceLayer
 } from '../index.js';
 import { FastStore } from '@inno-optimize/agentdb';
@@ -87,7 +86,7 @@ describe('Intelligence Layer', () => {
       
       // Trajectory should be stored in memory
       const results = await memory.search({
-        vector: new Array(384).fill(0.1),
+        vector: new Array<number>(384).fill(0.1),
         k: 10,
         filter: { type: 'episodic' }
       });
@@ -103,7 +102,7 @@ describe('Intelligence Layer', () => {
       reasoningBank = new ReasoningBank(
         createDefaultReasoningBankConfig(),
         memory,
-        { embed: async (text: string) => new Array(384).fill(0.1) }
+        { embed: async () => new Array<number>(384).fill(0.1) }
       );
     });
 
@@ -269,7 +268,7 @@ describe('Intelligence Layer', () => {
         createdAt: new Date()
       };
 
-      await ewc.consolidate(pattern as any);
+      await ewc.consolidate(pattern);
       
       // Check Fisher info was stored
       const stats = ewc.getStats();
@@ -298,11 +297,11 @@ describe('Intelligence Layer', () => {
         createdAt: new Date()
       };
 
-      await ewc.consolidate(pattern as any);
+      await ewc.consolidate(pattern);
       
-      const currentParams = new Map();
+      const currentParams = new Map<string, number[]>();
       currentParams.set('pattern:pattern-ewc-2', 
-        Array(4 * 10 + 10 * 4 + 10).fill(0.01));
+        new Array<number>(4 * 10 + 10 * 4 + 10).fill(0.01));
       
       const loss = ewc.computeEWCLoss(currentParams);
       expect(loss).toBeGreaterThanOrEqual(0);

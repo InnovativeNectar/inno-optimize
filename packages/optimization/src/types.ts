@@ -18,7 +18,7 @@ export interface Observation {
   type: 'metric' | 'log' | 'event' | 'pattern' | 'anomaly';
   source: string;
   timestamp: Date;
-  data: any;
+  data: unknown;
   severity: 'info' | 'warning' | 'critical';
 }
 
@@ -128,7 +128,7 @@ export interface ExecutionResult {
 export interface TaskResult {
   taskId: string;
   success: boolean;
-  output: any;
+  output: { error?: string; [key: string]: unknown };
   durationMs: number;
   agentId: string;
   artifacts: string[];
@@ -184,10 +184,10 @@ export interface ABVariantConfig {
   id: string;
   name: string;
   description: string;
-  config: any;
+  config: unknown;
   weight?: number;
   cowBranch?: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, unknown>;
 }
 
 export interface ABTest {
@@ -208,10 +208,10 @@ export interface ABVariant {
   id: string;
   name: string;
   description: string;
-  config: any;           // Variant-specific configuration
+  config: unknown;       // Variant-specific configuration
   weight: number;        // Traffic allocation (0-1)
   cowBranch?: string | undefined;   // Agenticow COW branch path
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
 }
 
 export interface ABMetric {
@@ -300,7 +300,7 @@ export interface CandidateChange {
 export interface Evidence {
   type: 'benchmark' | 'test' | 'simulation' | 'production' | 'audit' | 'abtest' | 'regression';
   source: string;
-  data: any;
+  data: unknown;
   timestamp: Date;
   verified: boolean;
 }
@@ -403,7 +403,7 @@ export interface TemplateVariable {
   type: 'string' | 'number' | 'boolean' | 'array' | 'object';
   description: string;
   required: boolean;
-  default?: any;
+  default?: unknown;
   validation?: string;
 }
 
@@ -421,7 +421,7 @@ export interface TemplateMetadata {
 export interface TemplateInstance {
   id: string;
   templateId: string;
-  values: Record<string, any>;
+  values: Record<string, unknown>;
   generatedAt: Date;
   outputPath: string;
   status: 'generated' | 'validated' | 'deployed';

@@ -44,19 +44,25 @@ export class PheromoneScheduler {
     });
     
     if (!this.processing) {
-      this.processUpdates();
+      void this.processUpdates();
     }
   }
   
   private async processUpdates(): Promise<void> {
     this.processing = true;
     
-    while (this.updateQueue.length > 0) {
-      const update = this.updateQueue.shift()!;
-      await this.applyUpdate(update);
+    try {
+      while (this.updateQueue.length > 0) {
+        const update = this.updateQueue.shift()!;
+        try {
+          await this.applyUpdate(update);
+        } catch (err) {
+          console.error('Pheromone update failed:', err);
+        }
+      }
+    } finally {
+      this.processing = false;
     }
-    
-    this.processing = false;
   }
   
   private async applyUpdate(update: PheromoneUpdate): Promise<void> {
@@ -175,10 +181,10 @@ export class PheromoneScheduler {
     
     // Score distribution (buckets)
     const buckets = 10;
-    const distribution = new Array(buckets).fill(0);
+    const distribution = new Array<number>(buckets).fill(0);
     for (const score of allScores) {
       const bucket = Math.min(Math.floor(score * buckets), buckets - 1);
-      distribution[bucket]++;
+      distribution[bucket] = (distribution[bucket] ?? 0) + 1;
     }
     
     return {

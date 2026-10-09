@@ -49,7 +49,7 @@ async function runBenchmarks(): Promise<void> {
   
   // Benchmark 4: Quantization Levels
   console.log('\n🗜️ Benchmark 4: Quantization Comparison');
-  await benchmarkQuantization(config);
+  await benchmarkQuantization();
   
   // Benchmark 5: Hybrid Search
   console.log('\n🔀 Benchmark 5: Hybrid Search (Cosine + BM25 + MMR)');
@@ -165,16 +165,17 @@ async function benchmarkHybridSearch(store: FastStore, count: number): Promise<B
   return calculateStats('Hybrid Search', count, latencies);
 }
 
-async function benchmarkQuantization(config: any): Promise<void> {
+async function benchmarkQuantization(): Promise<void> {
+  const levelsConfig = {
+    none: { bits: 32, compression: 1 },
+    pq8: { bits: 8, compression: 4, subvectors: 16 },
+    pq4: { bits: 4, compression: 8, subvectors: 16 },
+    binary: { bits: 1, compression: 32 },
+    rabitq: { bits: 1, compression: 32, codebookSize: 256 }
+  } as const;
   const quantizer = new Quantizer({
     defaultLevel: 'pq8',
-    levels: {
-      none: { bits: 32, compression: 1 },
-      pq8: { bits: 8, compression: 4, subvectors: 16 },
-      pq4: { bits: 4, compression: 8, subvectors: 16 },
-      binary: { bits: 1, compression: 32 },
-      rabitq: { bits: 1, compression: 32, codebookSize: 256 }
-    }
+    levels: levelsConfig
   });
   
   const vectors = Array.from({ length: 1000 }, () => createRandomVector(384));
@@ -198,15 +199,9 @@ async function benchmarkQuantization(config: any): Promise<void> {
     
     // Search
     const query = createRandomVector(384);
-    const searchStart = performance.now();
-    const results = index.search(query, 10);
-    const searchTime = performance.now() - searchStart;
+    index.search(query, 10);
     
-    // Estimate memory
-    const bytesPerVector = 384 * (level === 'none' ? 4 : level === 'pq8' ? 1 : level === 'pq4' ? 0.5 : 0.125);
-    const totalMB = (bytesPerVector * 1_000_000) / (1024 * 1024);
-    
-    console.log(`  ${level.padEnd(18)} | ${quantizer['config'].levels[level].compression}x`.padEnd(13) + 
+    console.log(`  ${level.padEnd(18)} | ${levelsConfig[level].compression}x`.padEnd(13) + 
       ` | ${quantizeTime.toFixed(1)}ms`.padEnd(25) + 
       ` | ~${(level === 'none' ? 0.99 : level === 'pq8' ? 0.98 : level === 'pq4' ? 0.96 : 0.92).toFixed(2)}`);
   }

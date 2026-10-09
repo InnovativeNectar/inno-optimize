@@ -52,7 +52,7 @@ export interface SearchQuery {
   vector: number[];
   textQuery?: string;
   k?: number;
-  filter?: Record<string, any>;
+  filter?: Record<string, unknown>;
   useCache?: boolean;
   vectorHash?: string;
   rerank?: boolean;
@@ -153,7 +153,7 @@ export interface TrajectoryStep {
 
 export interface TaskOutcome {
   success: boolean;
-  output: any;
+  output: unknown;
   metrics: {
     latencyMs: number;
     toolCalls: number;

@@ -13,7 +13,7 @@
     }
   },
   "bin": {
-    "inno-optimize-mcp": "./dist/bin/inno-mcp.js"
+    "inno-optimize-mcp": "dist/bin/inno-mcp.js"
   },
   "files": [
     "dist",

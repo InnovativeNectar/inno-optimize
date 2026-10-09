@@ -5,7 +5,6 @@ import type { ArchitecturalChange } from '@inno-optimize/agentdb';
 import { ADRGenerator, type MemoryInterface } from '@inno-optimize/adr-automation';
 import {
   AntiPatternDetector,
-  ArchitectureScorer,
   MultiLanguageParser,
   computeDiff,
 } from '@inno-optimize/ast-analysis';
@@ -81,7 +80,6 @@ function summarizeRouting(routing: RoutingDecision): Record<string, unknown> {
 export function registerInnoTools(server: McpServer, memory: MemoryService): void {
   const parser = new MultiLanguageParser();
   const detector = new AntiPatternDetector();
-  const scorer = new ArchitectureScorer();
   const intelligence = new IntelligenceLayer(memory.store);
 
   const templateManager = createDefaultTemplateManager();
@@ -92,7 +90,7 @@ export function registerInnoTools(server: McpServer, memory: MemoryService): voi
   const optimizationTemplates = new OptimizationTemplateManager(memory.store);
 
   const adrMemory: MemoryInterface = {
-    query: async (q: { query?: string; topK?: number } = {}): Promise<unknown[]> => {
+    query: async (q: { query?: string; topK?: number } = {}) => {
       const hits = await memory.search(q.query ?? '', q.topK ?? 5);
       return hits.map((hit) => ({
         title: hit.content.slice(0, 140),

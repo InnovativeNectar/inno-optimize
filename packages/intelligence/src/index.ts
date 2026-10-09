@@ -10,7 +10,7 @@ import { ReasoningBank, createDefaultReasoningBankConfig } from './reasoningbank
 import { MoERouter, createDefaultMoEConfig } from './moe/router.js';
 import { EWCConsolidator, createDefaultEWCConfig } from './ewc/consolidator.js';
 import type { FastStore } from '@inno-optimize/agentdb';
-import type { Trajectory, TaskContext, ReasoningPattern } from './types.js';
+import type { Trajectory, TaskContext, ReasoningPattern, SONAAdaptation, RoutingDecision } from './types.js';
 
 export interface IntelligenceLayerConfig {
   sona: ReturnType<typeof createDefaultSONAConfig>;
@@ -51,8 +51,8 @@ export class IntelligenceLayer {
   
   // Complete intelligence pipeline for a task
   async processTask(taskContext: TaskContext): Promise<{
-    sonaAdaptation: any;
-    routing: any;
+    sonaAdaptation: SONAAdaptation;
+    routing: RoutingDecision;
     pattern: ReasoningPattern | undefined;
   }> {
     // 1. SONA instant adaptation
@@ -78,8 +78,8 @@ export class IntelligenceLayer {
   
   private async createTrajectory(
     taskContext: TaskContext, 
-    sonaAdaptation: any, 
-    routing: any
+    sonaAdaptation: SONAAdaptation, 
+    routing: RoutingDecision
   ): Promise<Trajectory> {
     return {
       id: `traj-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
@@ -124,10 +124,10 @@ export class IntelligenceLayer {
   
   // Get system statistics
   getStats(): {
-    sona: any;
-    reasoningBank: any;
-    moe: any;
-    ewc: any;
+    sona: { patternCacheSize: number };
+    reasoningBank: { config: string };
+    moe: ReturnType<MoERouter['getExpertStats']>;
+    ewc: ReturnType<EWCConsolidator['getStats']>;
   } {
     return {
       sona: { patternCacheSize: 0 }, // Would expose from SONA

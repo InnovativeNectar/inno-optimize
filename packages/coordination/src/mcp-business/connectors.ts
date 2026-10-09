@@ -1,5 +1,36 @@
 import type { BusinessConnector, ConnectorOperation } from '../types.js';
 
+interface OrderItemInput {
+  quantity: number;
+  unitPrice: number;
+}
+
+interface CreateOrderInput {
+  items: OrderItemInput[];
+}
+
+interface OrderLookupInput {
+  orderId: string;
+  customerId?: string;
+}
+
+interface OrderStatusInput {
+  orderId: string;
+  status: string;
+}
+
+interface StockCheckInput {
+  productIds: string[];
+}
+
+interface RefundInput {
+  amount: number;
+}
+
+interface ContactLookupInput {
+  contactId: string;
+}
+
 export class MockOrdersConnector implements BusinessConnector {
   id = 'business-orders';
   name = 'Mock Orders Connector';
@@ -37,25 +68,31 @@ export class MockOrdersConnector implements BusinessConnector {
     }
   ];
   
-  async execute(operation: string, input: any): Promise<any> {
+  async execute(operation: string, input: unknown): Promise<unknown> {
     switch (operation) {
-      case 'create_order':
+      case 'create_order': {
+        const { items } = input as CreateOrderInput;
         return {
           orderId: `order-${Date.now()}`,
           status: 'confirmed',
-          total: input.items.reduce((sum: number, item: any) => sum + item.quantity * item.unitPrice, 0),
+          total: items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0),
           createdAt: new Date().toISOString()
         };
-      case 'get_order':
+      }
+      case 'get_order': {
+        const { orderId, customerId } = input as OrderLookupInput;
         return {
-          orderId: input.orderId,
-          customerId: input.customerId,
+          orderId,
+          customerId,
           status: 'confirmed',
           total: 100,
           createdAt: new Date().toISOString()
         };
-      case 'update_order_status':
-        return { success: true, orderId: input.orderId, status: input.status };
+      }
+      case 'update_order_status': {
+        const { orderId, status } = input as OrderStatusInput;
+        return { success: true, orderId, status };
+      }
       default:
         throw new Error(`Unknown operation: ${operation}`);
     }
@@ -99,10 +136,12 @@ export class MockInventoryConnector implements BusinessConnector {
     }
   ];
   
-  async execute(operation: string, input: any): Promise<any> {
+  async execute(operation: string, input: unknown): Promise<unknown> {
     switch (operation) {
-      case 'check_stock':
-        return { available: true, stock: input.productIds.map((id: string) => ({ productId: id, quantity: 100 })) };
+      case 'check_stock': {
+        const { productIds } = input as StockCheckInput;
+        return { available: true, stock: productIds.map((id) => ({ productId: id, quantity: 100 })) };
+      }
       case 'reserve_stock':
         return { reservationId: `res-${Date.now()}`, reserved: true, expiresAt: new Date(Date.now() + 3600000).toISOString() };
       case 'release_stock':
@@ -141,7 +180,7 @@ export class MockPaymentsConnector implements BusinessConnector {
     }
   ];
   
-  async execute(operation: string, input: any): Promise<any> {
+  async execute(operation: string, input: unknown): Promise<unknown> {
     switch (operation) {
       case 'process_payment':
         return {
@@ -150,8 +189,10 @@ export class MockPaymentsConnector implements BusinessConnector {
           transactionId: `txn-${Date.now()}`,
           processedAt: new Date().toISOString()
         };
-      case 'refund_payment':
-        return { refundId: `ref-${Date.now()}`, status: 'completed', amount: input.amount };
+      case 'refund_payment': {
+        const { amount } = input as RefundInput;
+        return { refundId: `ref-${Date.now()}`, status: 'completed', amount };
+      }
       default:
         throw new Error(`Unknown operation: ${operation}`);
     }
@@ -186,12 +227,14 @@ export class MockCRMConnector implements BusinessConnector {
     }
   ];
   
-  async execute(operation: string, input: any): Promise<any> {
+  async execute(operation: string, input: unknown): Promise<unknown> {
     switch (operation) {
       case 'create_lead':
         return { leadId: `lead-${Date.now()}`, status: 'new' };
-      case 'get_contact':
-        return { contactId: input.contactId, email: 'test@example.com', firstName: 'Test', lastName: 'User' };
+      case 'get_contact': {
+        const { contactId } = input as ContactLookupInput;
+        return { contactId, email: 'test@example.com', firstName: 'Test', lastName: 'User' };
+      }
       default:
         throw new Error(`Unknown operation: ${operation}`);
     }

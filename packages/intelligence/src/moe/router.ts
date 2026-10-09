@@ -251,7 +251,7 @@ export class MoERouter {
     };
   }
   
-  private peftRouting(scores: number[], task: TaskContext): { expertId: string; confidence: number } {
+  private peftRouting(scores: number[], _task: TaskContext): { expertId: string; confidence: number } {
     // Parameter-Efficient Fine-Tuning routing
     // Prefers experts with compatible LoRA weights
     
@@ -281,8 +281,6 @@ export class MoERouter {
   
   // Load balancing
   rebalance(): void {
-    const avgLoad = this.experts.reduce((sum, e) => sum + e.currentLoad, 0) / this.experts.length;
-    
     for (const expert of this.experts) {
       // Decay load over time
       expert.currentLoad = Math.max(0, expert.currentLoad - 1);
@@ -377,7 +375,7 @@ class LoadBalancer {
   
   constructor(numExperts: number) {
     this.numExperts = numExperts;
-    this.targetLoads = new Array(numExperts).fill(0);
+    this.targetLoads = new Array<number>(numExperts).fill(0);
   }
   
   updateLoad(expertId: string, load: number): void {

@@ -1,5 +1,4 @@
 import type { ADR, ArchitecturalChange, SemanticAnchor} from '@inno-optimize/agentdb';
-import { Consequence, ImpactAnalysis } from '@inno-optimize/agentdb';
 
 export interface ADRTrackerConfig {
   storagePath: string;
@@ -158,7 +157,7 @@ export class CIIntegration {
     return adrs;
   }
   
-  private async analyzePRChanges(pr: PullRequest): Promise<ArchitecturalChange[]> {
+  private async analyzePRChanges(_pr: PullRequest): Promise<ArchitecturalChange[]> {
     // In production, analyze actual PR diff
     return [];
   }
@@ -243,7 +242,7 @@ export class SemanticAnchors {
   }
   
   async searchByCode(query: string, topK: number = 5): Promise<Array<{ adr: ADR; anchor: SemanticAnchor; score: number }>> {
-    const queryEmbedding = await this.embedder.embed(query);
+    const _queryEmbedding = await this.embedder.embed(query);
     const results: Array<{ adr: ADR; anchor: SemanticAnchor; score: number }> = [];
     
     // In production, query vector database
@@ -252,7 +251,7 @@ export class SemanticAnchors {
     return results.slice(0, topK);
   }
   
-  async findRelatedADRs(codeLocation: string): Promise<ADR[]> {
+  async findRelatedADRs(_codeLocation: string): Promise<ADR[]> {
     // Search ADRs anchored to this file
     return [];
   }
@@ -263,7 +262,7 @@ export class SemanticAnchors {
     return cosineSimilarity(decisionEmbedding, snippetEmbedding);
   }
   
-  private async readFile(file: string): Promise<string> {
+  private async readFile(_file: string): Promise<string> {
     // In production, read from filesystem
     return '';
   }
@@ -289,7 +288,7 @@ function cosineSimilarity(a: number[], b: number[]): number {
 
 // Placeholder for ADRGenerator import
 class ADRGenerator {
-  async generateFromChange(change: ArchitecturalChange): Promise<ADR> {
+  async generateFromChange(_change: ArchitecturalChange): Promise<ADR> {
     return {
       id: '',
       title: '',

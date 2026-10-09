@@ -9,10 +9,8 @@ import type {
   Recommendation,
   DependencyGraph,
   DependencyNode,
-  DependencyEdge
-} from './types.js';
-import {
-  AntiPattern
+  DependencyEdge,
+  FunctionInfo
 } from './types.js';
 
 export class ArchitectureScorer {
@@ -347,7 +345,7 @@ export class ArchitectureScorer {
   private scoreSecurity(
     results: ParseResult[], 
     fileScores: FileScore[], 
-    graph: DependencyGraph
+    _graph: DependencyGraph
   ): DimensionScore {
     const factors: FactorScore[] = [];
     
@@ -403,8 +401,8 @@ export class ArchitectureScorer {
   
   private scorePerformance(
     results: ParseResult[], 
-    fileScores: FileScore[], 
-    graph: DependencyGraph
+    _fileScores: FileScore[], 
+    _graph: DependencyGraph
   ): DimensionScore {
     const factors: FactorScore[] = [];
     
@@ -646,7 +644,7 @@ export class ArchitectureScorer {
     return Math.min(100, score);
   }
   
-  private detectAuthCoverage(results: ParseResult[]): number {
+  private detectAuthCoverage(_results: ParseResult[]): number {
     // Placeholder - would check for auth middleware, guards, decorators
     return 0.7;
   }
@@ -691,7 +689,7 @@ export class ArchitectureScorer {
     return Math.max(0, Math.min(100, score));
   }
   
-  private detectHotPaths(results: ParseResult[]): number {
+  private detectHotPaths(_results: ParseResult[]): number {
     // Placeholder - would use profiling data
     return 70;
   }
@@ -726,17 +724,17 @@ export class ArchitectureScorer {
     return Math.min(100, score);
   }
   
-  private getFileContent(result: ParseResult): string {
+  private getFileContent(_result: ParseResult): string {
     // In production, would read from file system or cache
     return '';
   }
   
-  private hasSyncIO(func: any): boolean {
+  private hasSyncIO(_func: FunctionInfo): boolean {
     // Check for synchronous I/O operations
     return false; // Placeholder
   }
   
-  private computeMaxCallDepth(result: ParseResult): number {
+  private computeMaxCallDepth(_result: ParseResult): number {
     // Build call graph and find max depth
     return 5; // Placeholder
   }
@@ -762,7 +760,7 @@ export class ArchitectureScorer {
   private generateRecommendations(
     dimensions: Record<string, DimensionScore>, 
     fileScores: FileScore[],
-    results: ParseResult[]
+    _results: ParseResult[]
   ): Recommendation[] {
     const recommendations: Recommendation[] = [];
     
@@ -800,7 +798,7 @@ export class ArchitectureScorer {
     return recommendations;
   }
   
-  private detectFileIssues(result: ParseResult, dimensionScores: Record<string, number>): Issue[] {
+  private detectFileIssues(result: ParseResult, _dimensionScores: Record<string, number>): Issue[] {
     const issues: Issue[] = [];
     
     // Complexity issues

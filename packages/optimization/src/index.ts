@@ -15,7 +15,16 @@ import type { FastStore } from '@inno-optimize/agentdb';
 import type { IntelligenceLayer } from '@inno-optimize/intelligence';
 import type { CoordinationLayer } from '@inno-optimize/coordination';
 import type { ArchitectureScorer } from '@inno-optimize/ast-analysis';
-import type { OAPELConfig, ABTestConfig, RegressionConfig, FlywheelConfig } from './types.js';
+import type {
+  OAPELConfig,
+  ABTestConfig,
+  RegressionConfig,
+  FlywheelConfig,
+  ABVariantConfig,
+  ABMetric,
+  RegressionMetric,
+  FlywheelCandidate
+} from './types.js';
 
 export interface OptimizationLayerConfig {
   oapel: OAPELConfig;
@@ -87,19 +96,19 @@ export class OptimizationLayer {
   async createABTest(
     name: string,
     hypothesis: string,
-    variants: any[],
-    metrics: any[]
+    variants: ABVariantConfig[],
+    metrics: ABMetric[]
   ) {
     return this.abtest.createTest(name, hypothesis, variants, metrics);
   }
   
   // Record metric for regression detection
-  async recordMetric(metric: any) {
+  async recordMetric(metric: RegressionMetric) {
     return this.regression.recordMetric(metric);
   }
   
   // Submit candidate for flywheel evaluation
-  async submitCandidate(candidate: any) {
+  async submitCandidate(candidate: FlywheelCandidate) {
     return this.flywheel.submitCandidate(candidate);
   }
   
@@ -109,12 +118,12 @@ export class OptimizationLayer {
   }
   
   // Instantiate template
-  instantiateTemplate(templateId: string, values: Record<string, any>) {
+  instantiateTemplate(templateId: string, values: Record<string, unknown>) {
     return this.templates.instantiateTemplate(templateId, values);
   }
   
   // Render template
-  renderTemplate(templateId: string, values: Record<string, any>) {
+  renderTemplate(templateId: string, values: Record<string, unknown>) {
     return this.templates.renderTemplate(templateId, values);
   }
   

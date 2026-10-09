@@ -8,11 +8,9 @@ import type {
   TestResult,
   AuditResult,
   EvaluationCriterion,
-  ReceiptSignature
-} from '../types.js';
-import {
-  FlywheelCandidate as CandidateType,
-  Evidence
+  ReceiptSignature,
+  ABTest,
+  RegressionAlert
 } from '../types.js';
 import type { FastStore } from '@inno-optimize/agentdb';
 import type { OAPELEngine } from '../oapel/engine.js';
@@ -133,7 +131,7 @@ export class FlywheelEvaluator {
   }
   
   // Run benchmarks for candidate
-  private async runBenchmarks(candidate: FlywheelCandidate): Promise<BenchmarkResult[]> {
+  private async runBenchmarks(_candidate: FlywheelCandidate): Promise<BenchmarkResult[]> {
     const benchmarks: BenchmarkResult[] = [];
     
     // Simulate benchmark runs for each benchmark type
@@ -166,7 +164,7 @@ export class FlywheelEvaluator {
     return benchmarks;
   }
   
-  private async runTests(candidate: FlywheelCandidate): Promise<TestResult[]> {
+  private async runTests(_candidate: FlywheelCandidate): Promise<TestResult[]> {
     // Would run actual test suites
     return [
       { suite: 'unit', passed: 145, failed: 0, coverage: 0.87, durationMs: 12000 },
@@ -175,7 +173,7 @@ export class FlywheelEvaluator {
     ];
   }
   
-  private async runAudits(candidate: FlywheelCandidate): Promise<AuditResult[]> {
+  private async runAudits(_candidate: FlywheelCandidate): Promise<AuditResult[]> {
     return [
       {
         type: 'security',
@@ -269,7 +267,7 @@ export class FlywheelEvaluator {
     return receipt;
   }
   
-  private async verifyClearance(evaluationId: string, promoter: string): Promise<boolean> {
+  private async verifyClearance(_evaluationId: string, _promoter: string): Promise<boolean> {
     // Would check clearance signatures
     return true; // Simplified
   }
@@ -307,7 +305,7 @@ export class FlywheelEvaluator {
     return 'anchor-hash-placeholder';
   }
   
-  private async signReceipt(receipt: FlywheelReceipt): Promise<ReceiptSignature[]> {
+  private async signReceipt(_receipt: FlywheelReceipt): Promise<ReceiptSignature[]> {
     // Would sign with private keys
     return [{
       signer: 'flywheel-evaluator',
@@ -327,7 +325,7 @@ export class FlywheelEvaluator {
   }
   
   // Reject candidate
-  async rejectCandidate(evaluationId: string, reason: string): Promise<void> {
+  async rejectCandidate(evaluationId: string, _reason: string): Promise<void> {
     const evaluation = this.evaluations.get(evaluationId);
     if (!evaluation) throw new Error(`Evaluation not found: ${evaluationId}`);
     
@@ -377,12 +375,12 @@ export class FlywheelEvaluator {
     }
   }
   
-  private getCompletedABTests(): any[] {
+  private getCompletedABTests(): ABTest[] {
     // Would get from ABTestingFramework
     return [];
   }
   
-  private createCandidateFromABTest(test: any): FlywheelCandidate {
+  private createCandidateFromABTest(test: ABTest): FlywheelCandidate {
     return {
       id: `candidate-ab-${test.id}`,
       version: `ab-${test.id}`,
@@ -408,7 +406,7 @@ export class FlywheelEvaluator {
     };
   }
   
-  private createCandidateFromRegressionFix(alert: any): FlywheelCandidate {
+  private createCandidateFromRegressionFix(alert: RegressionAlert): FlywheelCandidate {
     return {
       id: `candidate-fix-${alert.id}`,
       version: `fix-${Date.now()}`,
